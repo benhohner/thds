@@ -26,6 +26,18 @@ Can be used to change:
 
 
 */
+
+/* Dev Styles ================================*/
+body {
+  background-image: linear-gradient(180deg, #db5353 1.56%, #ffffff 1.56%, #ffffff 12.50%, #f7d6aa 12.50%, #f7d6aa 14.06%, #fff 14.06%, #fff 25%, #b0ffbb 25%, #b0ffbb 26.56%, #fff 26.56%, #fff 37.50%, #cfcbfa 37.50%, #cfcbfa 39.06%, #fff 39.06%, #fff 50%, #db5353 50%, #db5353 51.56%, #ffffff 51.56%, #ffffff 62.50%, #f7d6aa 62.50%, #f7d6aa 64.06%, #fff 64.06%, #fff 75%, #b0ffbb 75%, #b0ffbb 76.56%, #fff 76.56%, #fff 87.50%, #cfcbfa 87.50%, #cfcbfa 89.06%, #fff 89.06%, #fff 100%);
+  background-size: 64.00px 64.00px;
+}
+
+* {
+  outline: 1px solid blue;
+}
+
+
 /* SASS ======================================*/
 @function strip-unit($number) {
   @if type-of($number) == 'number' and not unitless($number) {
@@ -43,7 +55,22 @@ Can be used to change:
   @return ($rem / 1rem) * $base-font-size;
 }
 
-
+//  #1 12px
+//  #2 14px
+//  #3 16px
+//  #4 18px
+//  #5 20px
+//  #6 24px
+//  #7 28px
+//  #8 32px
+//  #9 36px
+//  #10 42px
+//  #11 48px
+//  #12 54px
+//  #13 60px
+//  #14 68px
+//  #15 76px
+//  #16 84px
 @function get-type-size($step, $ratio: 1) {
   @if $step == 0 {
     @return 12px;
@@ -57,21 +84,18 @@ Can be used to change:
 }
 
 
+  $font-scale-5xl: get-type-size(16); // type-display-2xl
+  $font-scale-4xl: get-type-size(14); // type-display-xl
+  $font-scale-3xl: get-type-size(12); // type-display-l
+  $font-scale-2xl: get-type-size(8); // type-display-m
+  $font-scale-xl:  get-type-size(7); // type-display-s, type-body-xl
+  $font-scale-l:   get-type-size(6); // type-body-l
+  $font-scale-m:   get-type-size(4); // type-body, type-subheading, type-heading
+  $font-scale-s:   get-type-size(2); // type-body-s
 
 
 /* Global Variables ==========================*/
-
-body {
-  background-image: linear-gradient(180deg, #db5353 1.56%, #ffffff 1.56%, #ffffff 12.50%, #f7d6aa 12.50%, #f7d6aa 14.06%, #fff 14.06%, #fff 25%, #b0ffbb 25%, #b0ffbb 26.56%, #fff 26.56%, #fff 37.50%, #cfcbfa 37.50%, #cfcbfa 39.06%, #fff 39.06%, #fff 50%, #db5353 50%, #db5353 51.56%, #ffffff 51.56%, #ffffff 62.50%, #f7d6aa 62.50%, #f7d6aa 64.06%, #fff 64.06%, #fff 75%, #b0ffbb 75%, #b0ffbb 76.56%, #fff 76.56%, #fff 87.50%, #cfcbfa 87.50%, #cfcbfa 89.06%, #fff 89.06%, #fff 100%);
-  background-size: 64.00px 64.00px;
-}
-
-* {
-  outline: 1px solid teal;
-}
-
 :root {
-  
   /* Colours ========================================================
   */
   --c-primary: #1C2440; /* Dark Blue */
@@ -92,7 +116,7 @@ body {
   --c-ui-3: #F3F2F2; /* Off-white */
   --c-ui-4: #fff; /* White */
 
-  
+
   /* Spacing ========================================================
   */
   --layout-page-width: 870px;
@@ -100,49 +124,22 @@ body {
   --layout-header-height: 74px;
 
   /* Font Scales ====================================================
-     Unit: rem
   */
-  --font-html-size: 62.5%; /* 10px */
-  --font-base-size: 1.8; /* 18px */
-  --line-height-ratio: 1.7777777777;
-  --line-height:  calc(var(--font-base-size) * var(--line-height-ratio) * 1rem); /* 3.2 in rem. all other spacing is a multiple of line-height to maintain vertical rhythm */
-  --scale-factor: 1; /* to be used for font scaling */
+  --font-html-size: 100%; /* 10px */
+  --line-height: #{get-line-height(get-type-size(4))};
 
-  /*
-   6xl  10.4
-   5xl   8.4    type-display-2xl
-   4xl   6.8    type-display-xl
-   3xl   5.4    type-display-l
-   2xl   3.2    type-display-m
-   xl    2.8    type-display-s, type-body-xl
-   l     2.4    type-body-l,
-  Rm     1.8    type-body, type-subheading, type-heading
-   s     1.4    type-body-s
-  */
-  --font-scale-6xl: 10.4rem;
-  --font-scale-5xl: 8.4rem;
-  --font-scale-4xl: 6.8rem;
-  --font-scale-3xl: 5.4rem;
-  --font-scale-2xl: 3.2rem;
-  --font-scale-xl: 2.8rem;
-  --font-scale-l: 2.4rem;
-  --font-scale-m: calc(1rem * var(--font-base-size) * var(--scale-factor));
-  --font-scale-s: 1.4rem;
 
 
 
   /* Spacing Scales ===================================================
-
-  Fibbonacci multiplication (e.g. n2 = n * 1.618): 2.7507 4.4507 7.2013 11.6520 18.8533 30.5053 49.3586 79.8638 129.2224 209.0862 338.3085
-  =>Fibbonacci sequence multiplication (e.g. n2 = n * (1,2,3,5,8,13)): 1/5:0.5501 1/3:0.9169 1/2:1.3753 1:2.7507 2:5.5013 3:8.2520 5:13.7533 8:22.0053 13:35.7586 21:57.7638 34:93.5224 55:151.2862 89:244.8085
   */
-  --spacing-base-size: var(--line-height);
+  --spacing-base-size: #{get-line-height(get-type-size(4)) * px-to-rem(get-type-size(4))};
 
   --spacing-component-3xl: calc(var(--spacing-component-m) * 3); /* 8.2520rem */
   --spacing-component-2xl: calc(var(--spacing-component-m) * 2.5); /* 6.8766rem */
   --spacing-component-xl: calc(var(--spacing-component-m) * 2); /* 5.5013rem */
   --spacing-component-l: calc(var(--spacing-component-m) * 1.5); /* 4.1260rem */
-  --spacing-component-m: var(--spacing-base-size); /* 2.7507rem */
+  --spacing-component-m: calc(var(--spacing-base-size)); /* 2.7507rem */
   --spacing-component-s: calc(var(--spacing-component-m) * 0.75); /* 2.0630rem */
   --spacing-component-xs: calc(var(--spacing-component-m) * 0.5); /* 1.3753rem */
   --spacing-component-2xs: calc(var(--spacing-component-m) * 0.25); /* 0.6877rem */
@@ -154,7 +151,7 @@ body {
   --spacing-layout-l: calc(var(--spacing-layout-xs) * 4); /* 11.0026rem */
   --spacing-layout-m: calc(var(--spacing-layout-xs) * 3); /* 8.2520rem */
   --spacing-layout-s: calc(var(--spacing-layout-xs) * 2); /* 5.5013rem */
-  --spacing-layout-xs: var(--spacing-base-size); /* 2.7507rem */
+  --spacing-layout-xs: calc(var(--spacing-base-size) * 1); /* 2.7507rem */
   --spacing-layout-2xs: calc(var(--spacing-base-size) / 2); /* 1.3753rem */
   
   /* Font theming ====================================
@@ -218,7 +215,7 @@ h6,
 p,
 ul,
 ol {
-  line-height: var(--line-height-ratio);
+  line-height: var(--line-height);
   margin: 0;
   padding: 0;
 }
@@ -321,11 +318,11 @@ html {
 
 @mixin type-display-2xl {
   @include type-base-display;
-  font-size: var(--font-scale-5xl);
-  line-height: calc(var(--line-height) * 3);
+  font-size: $font-scale-5xl;
+  line-height: get-line-height($font-scale-5xl, 1.15);
   margin-top: var(--spacing-layout-m);
   margin-bottom: var(--spacing-layout-s);
-  letter-spacing: -0.1rem;
+  letter-spacing: -1px;
   font-weight: 700;
 }
 
@@ -336,11 +333,11 @@ html {
 
 @mixin type-display-xl {
   @include type-base-display;
-  font-size: var(--font-scale-4xl);
-  line-height: calc(var(--line-height) * 3);
+  font-size: $font-scale-4xl;
+  line-height: get-line-height($font-scale-4xl, 1.2);
   margin-top: var(--spacing-layout-s);
   margin-bottom: var(--spacing-layout-xs);
-  letter-spacing: -0.1rem;
+  letter-spacing: -1px;
 }
 
 .type-display-xl {
@@ -350,8 +347,8 @@ html {
 
 @mixin type-display-l {
   @include type-base-display;
-  font-size: var(--font-scale-3xl);
-  line-height: calc(var(--line-height) * 2.5);
+  font-size: $font-scale-3xl;
+  line-height: get-line-height($font-scale-3xl, 1.2);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 
@@ -364,8 +361,8 @@ html {
 
 @mixin type-display-m {
   @include type-base-display;
-  font-size: var(--font-scale-2xl);
-  line-height: calc(var(--line-height) * 1.25);
+  font-size: $font-scale-2xl;
+  line-height: get-line-height($font-scale-2xl, 1.5);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 }
@@ -377,8 +374,8 @@ html {
 
 @mixin type-display-s {
   @include type-base-display;
-  font-size: var(--font-scale-xl);
-  line-height: calc(var(--line-height) * 1.25);
+  font-size: $font-scale-xl;
+  line-height: get-line-height($font-scale-xl);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 }
@@ -390,12 +387,12 @@ html {
 
 @mixin type-heading {
   @include type-base-display;
-  font-size: var(--font-scale-m);
-  line-height: var(--line-height);
+  font-size: $font-scale-l;
+  line-height: get-line-height($font-scale-l, 1.4);
   margin-top: 0;
   margin-bottom: 0;
   text-transform: uppercase;
-  letter-spacing: 0.04rem;
+  letter-spacing: 0.4px;
   font-weight: 700;
   color: var(--c-tertiary);
 }
@@ -407,8 +404,8 @@ html {
 
 @mixin type-subheading {
   @include type-base-display;
-  font-size: var(--font-scale-m);
-  line-height: var(--line-height);
+  font-size: $font-scale-m;
+  line-height: get-line-height($font-scale-m, 1.6);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: 0;
   font-weight: 700;
@@ -422,8 +419,8 @@ html {
 
 @mixin type-body-xl {
   @include type-base-body;
-  font-size: var(--font-scale-xl);
-  line-height: calc(var(--line-height) * 1.5);
+  font-size: $font-scale-xl;
+  line-height: get-line-height($font-scale-xl);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 }
@@ -435,8 +432,8 @@ html {
 
 @mixin type-body-l {
   @include type-base-body;
-  font-size: var(--font-scale-l);
-  line-height: calc(var(--line-height) * 1.25);
+  font-size: $font-scale-l;
+  line-height: get-line-height($font-scale-l);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 }
@@ -448,8 +445,8 @@ html {
 
 @mixin type-body {
   @include type-base-body;
-  font-size: var(--font-scale-m);
-  line-height: var(--line-height);
+  font-size: $font-scale-m;
+  line-height: get-line-height($font-scale-m);
 }
 
 body,
@@ -460,8 +457,8 @@ body,
 
 @mixin type-body-s {
   @include type-base-body;
-  font-size: var(--font-scale-s);
-  line-height: calc(var(--line-height) * 0.75);
+  font-size: $font-scale-s;
+  line-height: get-line-height($font-scale-s);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 }
@@ -733,7 +730,7 @@ structure:
   border: 2px solid var(--c-ui-1);
   text-decoration: none;
   text-align: center;
-  padding: calc(var(--spacing-component-xs) - 0.4rem) calc(var(--spacing-component-m) + var(--spacing-component-2xs)) var(--spacing-component-xs);
+  padding: calc(var(--spacing-component-xs) - 4px) calc(var(--spacing-component-m) + var(--spacing-component-2xs)) var(--spacing-component-xs);
   cursor: pointer;
 }
 
@@ -771,12 +768,12 @@ structure:
 */
 .thds-statistic__number {
   @include type-base-body;
-  font-size: var(--font-scale-3xl);
-  line-height: calc(var(--line-height) * 2);
+  font-size: $font-scale-3xl;
+  line-height: get-line-height($font-scale-3xl);
 }
 
 .thds-statistic__unit {
-  font-size: var(--font-scale-l);
+  font-size: $font-scale-l;
   font-weight: 500;
 }
 
@@ -1163,7 +1160,7 @@ structure:
   position: absolute;
   top: 1px;
   left: 0;
-  width: 1.7rem;
+  width: 16px;
 }
 
 @media screen and (max-width: 992px) { /* compensate for oxygen off-by-one error,  */

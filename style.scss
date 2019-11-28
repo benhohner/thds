@@ -24,19 +24,48 @@
 // - State
 //     - .button_disabled
 
-
 // Dev Styles ================================
 body {
-  background-image: linear-gradient(180deg, #db5353 1.56%, #ffffff 1.56%, #ffffff 12.50%, #f7d6aa 12.50%, #f7d6aa 14.06%, #fff 14.06%, #fff 25%, #b0ffbb 25%, #b0ffbb 26.56%, #fff 26.56%, #fff 37.50%, #cfcbfa 37.50%, #cfcbfa 39.06%, #fff 39.06%, #fff 50%, #db5353 50%, #db5353 51.56%, #ffffff 51.56%, #ffffff 62.50%, #f7d6aa 62.50%, #f7d6aa 64.06%, #fff 64.06%, #fff 75%, #b0ffbb 75%, #b0ffbb 76.56%, #fff 76.56%, #fff 87.50%, #cfcbfa 87.50%, #cfcbfa 89.06%, #fff 89.06%, #fff 100%);
-  background-size: 64.00px 64.00px;
+  background-image: linear-gradient(
+    180deg,
+    #db5353 1.56%,
+    #ffffff 1.56%,
+    #ffffff 12.5%,
+    #f7d6aa 12.5%,
+    #f7d6aa 14.06%,
+    #fff 14.06%,
+    #fff 25%,
+    #b0ffbb 25%,
+    #b0ffbb 26.56%,
+    #fff 26.56%,
+    #fff 37.5%,
+    #cfcbfa 37.5%,
+    #cfcbfa 39.06%,
+    #fff 39.06%,
+    #fff 50%,
+    #db5353 50%,
+    #db5353 51.56%,
+    #ffffff 51.56%,
+    #ffffff 62.5%,
+    #f7d6aa 62.5%,
+    #f7d6aa 64.06%,
+    #fff 64.06%,
+    #fff 75%,
+    #b0ffbb 75%,
+    #b0ffbb 76.56%,
+    #fff 76.56%,
+    #fff 87.5%,
+    #cfcbfa 87.5%,
+    #cfcbfa 89.06%,
+    #fff 89.06%,
+    #fff 100%
+  );
+  background-size: 64px 64px;
 }
 
 * {
   outline: 1px solid blue;
 }
-
-
-
 
 //=================================================================
 // SASS FUNCTIONS =================================================
@@ -101,6 +130,7 @@ body {
   @return $number;
 }
 
+// Unit conversion
 @function px-to-rem($px, $base-font-size: 16px) {
   @return ($px / $base-font-size) * 1rem;
 }
@@ -192,74 +222,75 @@ body {
 //=================================================================
 
 // Colours ========================================================
-$c-primary: #1C2440; // Dark Blue 
-$c-secondary: #2C676A; // Teal 
-$c-tertiary: #399455; // Wild Forest Green 
-$c-accent-1: #2C416E; // Resolution Blue 
-$c-accent-2: #3A639C; // San Marino Blue 
-$c-accent-3: #4489C9; // Celestial Blue 
-$c-accent-4: #76BE43; // Business Centre Green 
-$c-highlight-r: #FF5F5A; // Highlight Red 
-$c-highlight-o: #F4AC62; // Highlight Orange 
-$c-highlight-y: #F0E069; // Highlight Yellow 
-$c-highlight-g: #A5EB72; // Highlight Green 
-$c-highlight-b: #7EBDE1; // Highlight Blue 
-$c-highlight-v: #A67FDB; // Highlight Violet 
-$c-ui-1: #020518; // Bluish-black 
-$c-ui-2: #D6D6D9; // Slate Grey 
-$c-ui-3: #F3F2F2; // Off-white 
-$c-ui-4: #fff; // White 
-
+$c-primary: #1c2440; // Dark Blue
+$c-secondary: #2c676a; // Teal
+$c-tertiary: #399455; // Wild Forest Green
+$c-accent-1: #2c416e; // Resolution Blue
+$c-accent-2: #3a639c; // San Marino Blue
+$c-accent-3: #4489c9; // Celestial Blue
+$c-accent-4: #76be43; // Business Centre Green
+$c-highlight-r: #ff5f5a; // Highlight Red
+$c-highlight-o: #f4ac62; // Highlight Orange
+$c-highlight-y: #f0e069; // Highlight Yellow
+$c-highlight-g: #a5eb72; // Highlight Green
+$c-highlight-b: #7ebde1; // Highlight Blue
+$c-highlight-v: #a67fdb; // Highlight Violet
+$c-ui-1: #020518; // Bluish-black
+$c-ui-2: #d6d6d9; // Slate Grey
+$c-ui-3: #f3f2f2; // Off-white
+$c-ui-4: #fff; // White
 
 // Spacing ========================================================
 $layout-page-width: 1040px;
 $layout-content-width: 870px;
 $layout-header-height: 74px;
 
-
 // Font Scales ====================================================
-$font-html-size: 100%; // 10px 
+$font-html-size: 100%; // 10px
 $line-height: get-line-height(get-type-size(4));
 
 $font-scale-5xl: get-type-size(16); // type-display-2xl
 $font-scale-4xl: get-type-size(14); // type-display-xl
 $font-scale-3xl: get-type-size(12); // type-display-l
 $font-scale-2xl: get-type-size(8); // type-display-m
-$font-scale-xl:  get-type-size(7); // type-display-s, type-body-xl
-$font-scale-l:   get-type-size(6); // type-body-l
-$font-scale-m:   get-type-size(4); // type-body, type-subheading, type-heading
-$font-scale-s:   get-type-size(2); // type-body-s
+$font-scale-xl: get-type-size(7); // type-display-s, type-body-xl
+$font-scale-l: get-type-size(6); // type-body-l
+$font-scale-m: get-type-size(4); // type-body, type-subheading, type-heading
+$font-scale-s: get-type-size(2); // type-body-s
 
-
-// Spacing Scales ===================================================
+// Spacing Scales =================================================
 $spacing-base-size: $line-height * get-type-size(4);
 
-$spacing-component-3xl: $spacing-base-size * 3; // 8.2520rem 
-$spacing-component-2xl: $spacing-base-size * 2.5; // 6.8766rem 
-$spacing-component-xl: $spacing-base-size * 2; // 5.5013rem 
-$spacing-component-l: $spacing-base-size * 1.5; // 4.1260rem 
-$spacing-component-m: $spacing-base-size; // 2.7507rem 
-$spacing-component-s: $spacing-base-size * 0.75; // 2.0630rem 
-$spacing-component-xs: $spacing-base-size * 0.5; // 1.3753rem 
-$spacing-component-2xs: $spacing-base-size * 0.25; // 0.6877rem 
-$spacing-component-3xs: $spacing-base-size * 0.125; // 0.3438rem 
+$spacing-component-3xl: $spacing-base-size * 3; // 8.2520rem
+$spacing-component-2xl: $spacing-base-size * 2.5; // 6.8766rem
+$spacing-component-xl: $spacing-base-size * 2; // 5.5013rem
+$spacing-component-l: $spacing-base-size * 1.5; // 4.1260rem
+$spacing-component-m: $spacing-base-size; // 2.7507rem
+$spacing-component-s: $spacing-base-size * 0.75; // 2.0630rem
+$spacing-component-xs: $spacing-base-size * 0.5; // 1.3753rem
+$spacing-component-2xs: $spacing-base-size * 0.25; // 0.6877rem
+$spacing-component-3xs: $spacing-base-size * 0.125; // 0.3438rem
 
-$spacing-layout-3xl: $spacing-base-size * 13; // 35.7586rem 
-$spacing-layout-2xl: $spacing-base-size * 8; // 22.0053rem 
-$spacing-layout-xl: $spacing-base-size * 5; // 13.7533rem 
-$spacing-layout-l: $spacing-base-size * 4; // 11.0026rem 
-$spacing-layout-m: $spacing-base-size * 3; // 8.2520rem 
-$spacing-layout-s: $spacing-base-size * 2; // 5.5013rem 
-$spacing-layout-xs: $spacing-base-size * 1; // 2.7507rem 
-$spacing-layout-2xs: $spacing-base-size / 2; // 1.3753rem 
+$spacing-layout-3xl: $spacing-base-size * 13; // 35.7586rem
+$spacing-layout-2xl: $spacing-base-size * 8; // 22.0053rem
+$spacing-layout-xl: $spacing-base-size * 5; // 13.7533rem
+$spacing-layout-l: $spacing-base-size * 4; // 11.0026rem
+$spacing-layout-m: $spacing-base-size * 3; // 8.2520rem
+$spacing-layout-s: $spacing-base-size * 2; // 5.5013rem
+$spacing-layout-xs: $spacing-base-size * 1; // 2.7507rem
+$spacing-layout-2xs: $spacing-base-size / 2; // 1.3753rem
 
-// Font theming ====================================
+// Theming =========================================================
 $display-color: $c-primary;
-$display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT",
+  "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue",
+  Helvetica, Arial, sans-serif;
 $display-weight: 800;
 
 $text-color: $c-primary;
-$text-font-family: "Rubik", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$text-font-family: "Rubik", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro",
+  Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica,
+  Arial, sans-serif;
 $text-weight: 400;
 
 
@@ -312,42 +343,41 @@ a {
   color: inherit;
 }
 
-
 /* Oxygen Builder Overrides ============================== */
 .ct-section > .ct-section-inner-wrap,
-body .ct-div-block { /* Make vertical margins collapse */
-   display: block;
+body .ct-div-block {
+  /* Make vertical margins collapse */
+  display: block;
 }
 
 @include respond(below, oxy-xl, 0) {
   #main > .ct-section-inner-wrap {
-      padding-left: 0 !important;
-      padding-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
-
 .ct-new-columns > .ct-div-block {
-    padding: 0 $spacing-layout-2xs 0 $spacing-layout-2xs;
+  padding: 0 $spacing-layout-2xs 0 $spacing-layout-2xs;
 }
 
 .ct-new-columns.thds-columns--no-margin > .ct-div-block {
-    padding: 0;
+  padding: 0;
 }
 
 .ct-new-columns > .ct-div-block:first-of-type {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .ct-new-columns > .ct-div-block:last-of-type {
-    padding-right: 0;
+  padding-right: 0;
 }
 
 @include respond(below, oxy-m, 0) {
   /* compensate for oxygen off-by-one error */
   .ct-new-columns > .ct-div-block {
-      padding: 0;
-    }
+    padding: 0;
+  }
 }
 
 /* Oxygen Helpers =========================== */
@@ -363,7 +393,7 @@ body .ct-div-block { /* Make vertical margins collapse */
 
 .thds-helper_list_reset_inline > li,
 .thds-helper_list_reset_inline ul > li {
-    list-style-type: none;
+  list-style-type: none;
   display: inline;
 }
 
@@ -371,27 +401,22 @@ body .ct-div-block { /* Make vertical margins collapse */
   font-size: 1.333em;
 }
 
-
-
 /* Typography ================================ */
 html {
   font-size: $font-html-size;
 }
 
-
-
 @mixin type-base-display {
-    color: $display-color;
-    font-family: $display-font-family;
-    font-weight: $display-weight;
+  color: $display-color;
+  font-family: $display-font-family;
+  font-weight: $display-weight;
 }
 
 @mixin type-base-body {
-    color: $text-color;
-    font-family: $text-font-family;
-    font-weight: $text-weight;
+  color: $text-color;
+  font-family: $text-font-family;
+  font-weight: $text-weight;
 }
-
 
 @mixin type-display-2xl {
   @include type-base-display;
@@ -407,7 +432,6 @@ html {
   @include type-display-2xl;
 }
 
-
 @mixin type-display-xl {
   @include type-base-display;
   font-size: $font-scale-4xl;
@@ -421,20 +445,17 @@ html {
   @include type-display-xl;
 }
 
-
 @mixin type-display-l {
   @include type-base-display;
   font-size: $font-scale-3xl;
   line-height: get-line-height($font-scale-3xl, 1.2);
   margin-top: $spacing-layout-xs;
   margin-bottom: $spacing-layout-xs;
-
 }
 
 .type-display-l {
   @include type-display-l;
 }
-
 
 @mixin type-display-m {
   @include type-base-display;
@@ -448,7 +469,6 @@ html {
   @include type-display-m;
 }
 
-
 @mixin type-display-s {
   @include type-base-display;
   font-size: $font-scale-xl;
@@ -460,7 +480,6 @@ html {
 .type-display-s {
   @include type-display-s;
 }
-
 
 @mixin type-heading {
   @include type-base-display;
@@ -478,7 +497,6 @@ html {
   @include type-heading;
 }
 
-
 @mixin type-subheading {
   @include type-base-display;
   font-size: $font-scale-m;
@@ -493,7 +511,6 @@ html {
   @include type-subheading;
 }
 
-
 @mixin type-body-xl {
   @include type-base-body;
   font-size: $font-scale-xl;
@@ -505,7 +522,6 @@ html {
 .type-body-xl {
   @include type-body-xl;
 }
-
 
 @mixin type-body-l {
   @include type-base-body;
@@ -519,7 +535,6 @@ html {
   @include type-body-l;
 }
 
-
 @mixin type-body {
   @include type-base-body;
   font-size: $font-scale-m;
@@ -530,7 +545,6 @@ body,
 .type-body {
   @include type-body;
 }
-
 
 @mixin type-body-s {
   @include type-base-body;
@@ -544,7 +558,6 @@ body,
   @include type-body-s;
 }
 
-
 .type-body p,
 .type-body ul,
 .type-body ol,
@@ -557,39 +570,31 @@ ol.type-body {
   margin-bottom: $spacing-layout-xs;
 }
 
-
-
-
-
 /* Shadow Boxes */
 @mixin box-raised {
   box-shadow: 0px 3px 17px rgba(50, 50, 50, 0.3);
 }
-
-
-
-
 
 /* Component
 -- Container ------------------------------------------------------------------
 A container to wrap all elements. Note: not a semantic "section" use a div for that.
 
 structure:
-  div.thds-container
+    div.thds-container
 
 modifiers:
-  .thds-container--fullwidth
+    .thds-container--fullwidth
     A 100% wide container. Combinable with all other container modifiers.
 
     structure:
-      div.thds-container.thds-container--fullwidth
+        div.thds-container.thds-container--fullwidth
 
-  .thds-container--no-margin
+    .thds-container--no-margin
     A container with no top or bottom margins. Combinable with all other
     container modifiers.
 
     structure:
-      div.thds-container.thds-container--no-margin
+        div.thds-container.thds-container--no-margin
 
 */
 
@@ -611,32 +616,27 @@ modifiers:
   }
 }
 
-.ct-inner-content > .thds-container:first-child { /* prevent first container from having top padding */
+.ct-inner-content > .thds-container:first-child {
+  /* prevent first container from having top padding */
   margin-top: 0;
 }
 
-
 .thds-container--fullwidth {
   max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
-
-
 
 .thds-container--no-margin {
   margin-top: 0;
   margin-bottom: 0;
 }
 
-
-
-
 /* Component
 -- Link ----------------------------------------------------------------------
 
 structure:
-  a.thds-link
+    a.thds-link
 */
 .thds-link {
   color: $c-accent-2;
@@ -647,14 +647,11 @@ structure:
   text-decoration: none;
 }
 
-
-
-
 /* Component
 -- Image ----------------------------------------------------------------------
 
 structure:
-  img.thds-image
+    img.thds-image
 */
 .thds-image {
   max-width: 100%;
@@ -662,28 +659,24 @@ structure:
   margin: 0 auto;
 }
 
-
-
-
-
 /* Component
 -- List -----------------------------------------------------------------------
 
 structure:
-  ul.thds-list
+    ul.thds-list
     li.thds-list__item
     [...]
 
 modifiers:
-  .thds-list--bulleted
+    .thds-list--bulleted
     Add bullets.
 
-  .thds-list--inline
+    .thds-list--inline
     An inline list using flexbox to eliminate weird spacing issues
     with display: inline
 
     structure:
-      ul.thds-list.thds-list--inline
+        ul.thds-list.thds-list--inline
         li.thds-list__item
         [...]
 
@@ -704,32 +697,24 @@ modifiers:
   flex-wrap: wrap;
 }
 
-
-
-
-
 /* Component
 -- Typography -----------------------------------------------------------------
 A basic container with examples of all possible typographic styles
 
 structure:
-  div.thds-typography.thds-container
+    div.thds-typography.thds-container
     [...]
 */
-
-
-
-
 
 /* Component
 -- Embedded SVG ---------------------------------------------------------------
 
 structure:
-  codeblock.thds-embedded-svg
+    codeblock.thds-embedded-svg
     svg.thds-embedded-svg__image
 
 modifiers:
-  .thds-embedded-svg_icon_m  2x line height
+    .thds-embedded-svg_icon_m  2x line height
 */
 .thds-embedded-svg__image {
   display: block;
@@ -739,31 +724,29 @@ modifiers:
   height: $spacing-component-xl;
 }
 
-
-
 /* Component
 -- Text Block -----------------------------------------------------------------
 Basic building block for most body text.
 
 structure:
-  div.thds-text-block
+    div.thds-text-block
     h_.thds-text-block__title.type-subheading
     text.type-body.thds-text-block__description
 
 modifiers:
-  .thds-text-block_bulleted
+    .thds-text-block_bulleted
 
 */
 .thds-text-block {
-    margin-bottom: $spacing-component-m;
+  margin-bottom: $spacing-component-m;
 }
 
 .thds-text-block__title {
-    @include type-subheading;
+  @include type-subheading;
 }
 
 .thds-text-block__description {
-    @include type-body;
+  @include type-body;
 }
 
 .thds-text-block_bulleted {
@@ -787,24 +770,19 @@ modifiers:
   }
 }
 
-
-
 .thds-text-block_large .thds-text-block__title {
-    @include type-display-m;
+  @include type-display-m;
 }
 
 .thds-text-block_large .thds-text-block__description {
-    @include type-body-l;
+  @include type-body-l;
 }
-
-
-
 
 /* Component
 -- Button ---------------------------------------------------------------------
 
 structure:
-  a.thds-button.type-heading
+    a.thds-button.type-heading
 */
 .thds-button {
   @include type-heading;
@@ -822,22 +800,18 @@ structure:
   color: $c-primary;
 }
 
-
 .thds-button_disabled {
-    color: $c-ui-3;
-    border-color: $c-ui-3;
-    cursor: not-allowed;
+  color: $c-ui-3;
+  border-color: $c-ui-3;
+  cursor: not-allowed;
 }
-
-
-
 
 /* Component
 -- Statistic ------------------------------------------------------------------
 To display numbers, stats, or metrics prominently.
 
 structure:
-  rich-text.thds-statistic
+    rich-text.thds-statistic
     span.thds-statistic__number
     span.thds-statistic__unit
     span.thds-statistic__description.type-heading
@@ -855,14 +829,10 @@ structure:
 }
 
 .thds-statistic__description {
-    @include type-heading;
+  @include type-heading;
   display: block;
   margin-top: 0;
 }
-
-
-
-
 
 /* Component
 -- Portfolio Service Overview -------------------------------------------------
@@ -870,7 +840,7 @@ Convenience component comprised of only utility classes. Used to introduce each
 section of a portfolio item. Could be used for other things.
 
 structure:
-  div.thds-portfolio-service-overview
+    div.thds-portfolio-service-overview
     h2.thds-portfolio-service-overview__service.type-heading
     text.thds-portfolio-service-overview__tagline.type-display-xl
     rich-text.thds-portfolio-service-overview__explanation.type-body
@@ -888,22 +858,20 @@ structure:
   @include type-body-l;
 }
 
-
-
 /* Component
 -- Blockquote -----------------------------------------------------------------
 
 structure:
-  rich-text.thds-blockquote
+    rich-text.thds-blockquote
     blockquote.thds-blockquote__quote
-      span.thds-blockquote__attribution
+        span.thds-blockquote__attribution
 
 */
 .thds-blockquote__quote {
-    @include type-body-xl;
-    margin: 0;
-    text-align: center;
-    font-weight: 500;
+  @include type-body-xl;
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
 }
 
 .thds-blockquote__attribution {
@@ -913,21 +881,17 @@ structure:
   font-weight: 400;
 }
 
-
-
-
-
 /* Complex Component
 == Icon Block ==========================================================
 Building block for text with an inline SVG icon (not added via css,
 meaning the icon has semantic meaning, not just a bullet point.)
 
 structure:
-  div.thds-icon-block
+    div.thds-icon-block
     codeblock.thds-embedded-svg.thds-icon-block__icon-wrapper
-      svg.thds-embedded-svg__image.thds-icon-block__icon[.type-subheading,.type-display-l]
+        svg.thds-embedded-svg__image.thds-icon-block__icon[.type-subheading,.type-display-l]
     div.thds-text-block.thds-icon-block__thds-text-block
-      [...]
+        [...]
 
 modifiers:
     .thds-icon-block_icon_position_left
@@ -939,28 +903,24 @@ modifiers:
   margin-bottom: 2 * $spacing-component-m - 48px; /* 48px is height of icon */
 }
 
-.thds-icon-block__thds-text-block .thds-text-block__title { /* mix with thds-text-block */
+.thds-icon-block__thds-text-block .thds-text-block__title {
+  /* mix with thds-text-block */
   margin-top: 0;
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
-
 .thds-icon-block_icon_position_left {
-    position: relative;
+  position: relative;
 }
 
 .thds-icon-block_icon_position_left .thds-icon-block__icon-wrapper {
-    position: absolute;
-    top: $spacing-component-m * 2 - 48px;
+  position: absolute;
+  top: $spacing-component-m * 2 - 48px;
 }
 
 .thds-icon-block_icon_position_left .thds-text-block {
-    padding-left: $spacing-component-2xl * 2 - 48px;
+  padding-left: $spacing-component-2xl * 2 - 48px;
 }
-
-
-
-
 
 /* Complex Component
 == Item Overview ============================================================
@@ -1001,7 +961,7 @@ structure:
 }
 
 .thds-item-overview__statistic-wrapper {
-    width: 33.33%;
+  width: 33.33%;
 }
 
 @include respond(below, oxy-m) {
@@ -1009,47 +969,43 @@ structure:
     margin-top: $spacing-layout-xs;
   }
 
-    .thds-item-overview__aside-wrapper,
-    .thds-item-overview__statistic-rich-text {
-      text-align: center;
-    }
+  .thds-item-overview__aside-wrapper,
+  .thds-item-overview__statistic-rich-text {
+    text-align: center;
+  }
 
   .thds-item-overview__statistic-wrapper {
-          margin: $spacing-layout-xs auto;
-          width: 100%;
-    }
+    margin: $spacing-layout-xs auto;
+    width: 100%;
+  }
 
-    .thds-item-overview__statistic-wrapper:last-of-type {
-      margin-bottom: 0;
-    }
+  .thds-item-overview__statistic-wrapper:last-of-type {
+    margin-bottom: 0;
+  }
 
-    .thds-image.thds-item-overview__subject-image {
-      text-align: center;
-      margin-left: auto;
-        margin-right: auto;
+  .thds-image.thds-item-overview__subject-image {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
-
-
-
-
 
 /* Complex Component
 == Hero =======================================================================
 
 vars:
-  $hero-height: height of the hero section.
-  $hero-height_mobile: height of hero when device width below breakpoint M.
+    $hero-height: height of the hero section.
+    $hero-height_mobile: height of hero when device width below breakpoint M.
 
 structure:
-  div.thds-hero
+    div.thds-hero
     img.thds-hero__image
     div.thds-hero__content
-      //content goes here
+        //content goes here
 
 modifiers:
-  .thds-hero_content_bottom
-  .thds-hero_inverted
+    .thds-hero_content_bottom
+    .thds-hero_inverted
 */
 $hero-height: 79vh;
 $hero-height_mobile: 71vh;
@@ -1074,7 +1030,8 @@ $hero-height_mobile: 71vh;
 
 .thds-hero__content {
   position: absolute;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   margin: 0 auto;
   z-index: 1;
   max-width: $layout-content-width;
@@ -1087,12 +1044,13 @@ $hero-height_mobile: 71vh;
   color: $c-ui-1;
 }
 
-
-.thds-hero__content > :first-child { /* prevent first element from having margin */
+.thds-hero__content > :first-child {
+  /* prevent first element from having margin */
   margin-top: 0;
 }
 
-.thds-hero__content > :last-child { /* prevent last element from having bottom margin */
+.thds-hero__content > :last-child {
+  /* prevent last element from having bottom margin */
   margin-bottom: 0;
 }
 
@@ -1113,7 +1071,6 @@ $hero-height_mobile: 71vh;
   }
 }
 
-
 .thds-hero_content_bottom {
   justify-content: flex-end;
 }
@@ -1123,67 +1080,61 @@ $hero-height_mobile: 71vh;
   padding-bottom: $spacing-layout-l;
 }
 
-
-
-
 /* Complex Component
 == CTA ========================================================================
 
 structure:
-  div.thds-cta
+    div.thds-cta
     h_.thds-cta__message
     a.thds-button.thds-cta__button
 */
 .thds-cta {
-    @include box-raised;
+  @include box-raised;
   max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    padding-left: $spacing-component-l;
-    padding-right: $spacing-component-l;
-    overflow: hidden; /* prevent margin collapse */
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding-left: $spacing-component-l;
+  padding-right: $spacing-component-l;
+  overflow: hidden; /* prevent margin collapse */
 }
 
 @include respond(below, oxy-m, 0) {
   .thds-cta {
     max-width: 100%;
-    }
+  }
 }
 
 .thds-cta__message {
-    @include type-body-l;
+  @include type-body-l;
 }
-
-
-
 
 /* Complex Component TODO
 == Section Header =============================================================
 
 structure:
-  section.thds-section.thds-section-header
+    section.thds-section.thds-section-header
     h2.thds-section-header__title.type-heading
     p.thds-section-header__tagline.type-display-2xl
     img.thds-section-header__image
 
 */
 .thds-section-header {
-    display: block;
+  display: block;
   position: relative;
 }
 
 .thds-section-header__wrapper {
   overflow: hidden;
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .thds-section-header__title {
-    @include type-heading;
+  @include type-heading;
 }
 
 .thds-section-header__tagline {
-    @include type-display-xl;
+  @include type-display-xl;
   margin-top: $spacing-component-2xl;
   margin-bottom: 0;
 }
@@ -1199,22 +1150,18 @@ structure:
   object-position: left;
 }
 
-
-
-
-
 /* Complex Component TODO
 == Item Breakdown =============================================================
 
 structure:
-  columns.thds-item-breakdown
+    columns.thds-item-breakdown
     div.thds-item-breakdown__title-wrapper
-      h3.thds-item-breakdown__title
+        h3.thds-item-breakdown__title
     div.thds-item-breakdown__sub-item-wrapper
-      ul.thds-item-breakdown__sub-items.thds-list
+        ul.thds-item-breakdown__sub-items.thds-list
         li.thds-item-breakdown__sub-item.thds-list__item.type-body
     div.thds-item-breakdown__description-wrapper
-      text-block.thds-item-breakdown__description
+        text-block.thds-item-breakdown__description
 */
 .thds-item-breakdown {
   margin-bottom: $spacing-layout-xs;
@@ -1235,7 +1182,8 @@ structure:
   padding-left: 28px;
 }
 
-.thds-item-breakdown__sub-item:before { /* TODO extract to element */
+.thds-item-breakdown__sub-item:before {
+  /* TODO extract to element */
   content: url(/wp-content/uploads/2h/img/marker-check.svg);
   position: absolute;
   top: 1px;
@@ -1246,28 +1194,25 @@ structure:
 @include respond(below, oxy-l, 0) {
   /* compensate for oxygen off-by-one error,  */
   .thds-item-breakdown__sub-items {
-      margin-bottom: $spacing-component-xs;
+    margin-bottom: $spacing-component-xs;
   }
 }
 
 .thds-item-breakdown__description {
-    @include type-body;
+  @include type-body;
 }
-
-
-
 
 /* Complex Component TODO
 == Feature Detail =============================================================
 
 structure:
-  columns.thds-feature-detail
+    columns.thds-feature-detail
     div.thds-feature-detail__column
-      img.thds-feature-detail__image
+        img.thds-feature-detail__image
     div.thds-feature-detail__column
-      h3.type-display-l.thds-feature-detail__name
-      p.type-body-l.thds-feature-detail__summary
-      ul.thds-feature-list [...]
+        h3.type-display-l.thds-feature-detail__name
+        p.type-body-l.thds-feature-detail__summary
+        ul.thds-feature-list [...]
 
 */
 .thds-feature-detail__name {
@@ -1276,21 +1221,17 @@ structure:
 
 .thds-feature-detail__image {
   display: block;
-    max-width: 66.66%;
-    margin: 0 auto;
+  max-width: 66.66%;
+  margin: 0 auto;
 }
-
-
-
-
 
 /* Complex Component TODO
 == Logo Grid ==================================================================
 
 structure:
-  div.thds-logo-grid
+    div.thds-logo-grid
     div.thds-logo-grid__item
-      img.thds-logo-grid__image
+        img.thds-logo-grid__image
 */
 .thds-logo-grid {
   display: flex !important;
@@ -1307,7 +1248,7 @@ structure:
 
 @include respond(below, oxy-m) {
   .thds-logo-grid__item {
-  padding: $spacing-component-2xs;
+    padding: $spacing-component-2xs;
     flex-basis: 50%;
   }
 }
@@ -1324,39 +1265,35 @@ structure:
   transition: filter 0.3s;
 }
 
-
-
-
-
 /* Component
 -- Header ------------------------------------------------------------------
 Override the oxygen default header
 
 header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-header       .oxy-sticker-header-active
-  div.oxy-header-row.thds-header__row
+    div.oxy-header-row.thds-header__row
     div.oxy-header-container
-      div.oxy-header-left
+        div.oxy-header-left
     a.thds-header__image-link-wrapper
-          img.ct-image.thds-image.thds-header__image
-      div.oxy-header-center
-      div.oxy-header-right
+            img.ct-image.thds-image.thds-header__image
+        div.oxy-header-center
+        div.oxy-header-right
         nav.oxy-nav-menu.oxy-nav-menu-dropdowns.oxy-nav-menu-dropdown-arrow.thds-header__nav
-          div.oxy-menu-toggle
+            div.oxy-menu-toggle
             div.oxy-nav-menu-hamburger-wrap
-              div.oxy-nav-menu-hamburger
+                div.oxy-nav-menu-hamburger
                 div.oxy-nav-menu-hamburger-line
                 div.oxy-nav-menu-hamburger-line
                 div.oxy-nav-menu-hamburger-line
-          div.menu-footer-menu-container
+            div.menu-footer-menu-container
             ul.oxy-nav-menu-list
-              li.menu-item.menu-item-type-post_type.menu-item-object-page.menu-item-home.current-menu-item.page_item.current_page_item
+                li.menu-item.menu-item-type-post_type.menu-item-object-page.menu-item-home.current-menu-item.page_item.current_page_item
                 a
-              li.menu-item.menu-item-type-post_type.menu-item-object-page.menu-item-has-children
+                li.menu-item.menu-item-type-post_type.menu-item-object-page.menu-item-has-children
                 a
                 ul.sub-menu
-                  li.menu-item.menu-item-type-post_type.menu-item-object-page
+                    li.menu-item.menu-item-type-post_type.menu-item-object-page
                     a
-          [...]
+            [...]
         [...]
 */
 .thds-header {
@@ -1380,20 +1317,20 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 
 .thds-header__nav .menu-item.current-menu-item > a,
 .thds-header__nav .menu-item.current-menu-parent > a {
-    color: $c-secondary !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: $c-secondary !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__nav .menu-item a {
   line-height: $layout-header-height;
-    padding: 0 25px;
+  padding: 0 25px;
 
-    transition: all 0.3s;
-    color: $c-accent-1 !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  transition: all 0.3s;
+  color: $c-accent-1 !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__nav .menu-item a:hover {
-    color: $c-secondary !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
-    transition: all 0.3s;
+  color: $c-secondary !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  transition: all 0.3s;
 }
 
 .thds-header__nav .oxy-nav-menu-hamburger-line {
@@ -1401,17 +1338,17 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 }
 
 .thds-header .oxy-nav-menu-open .sub-menu {
-   background-color: $c-ui-3;
+  background-color: $c-ui-3;
 }
 
 .thds-header .oxy-nav-menu.oxy-nav-menu-open .oxy-nav-menu-hamburger-wrap {
   right: 41px;
-    top: 2px;
+  top: 2px;
 }
 
 .oxy-nav-menu-hamburger,
 .thds-header .oxy-nav-menu-open .oxy-nav-menu-hamburger {
-   transition: all 0.3s;
+  transition: all 0.3s;
 }
 
 .oxy-nav-menu-prevent-overflow .thds-header .thds-header__image-link-wrapper {
@@ -1422,45 +1359,42 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
   padding: 0;
 }
 
-
-
-
 /* Component
 -- footer ------------------------------------------------------------------
 Override the oxygen default header
 
 footer.thds-footer
-  div.thds-footer__row-wrapper
+    div.thds-footer__row-wrapper
     div.thds-footer__row.thds-container
-      h2.thds-footer__tagline
-      rich-text.thds-footer__contact
-  div.thds-footer__row-wrapper
+        h2.thds-footer__tagline
+        rich-text.thds-footer__contact
+    div.thds-footer__row-wrapper
     div.thds-footer__row.thds-container.thds-container--no-margin
-      rich-text.thds-footer__copyright
+        rich-text.thds-footer__copyright
 */
 
 .thds-footer {
-	margin-top: $spacing-layout-s;
+  margin-top: $spacing-layout-s;
 }
 
 .thds-footer__row-wrapper {
-    overflow: hidden;
-    background-color: $c-ui-2;
+  overflow: hidden;
+  background-color: $c-ui-2;
 }
 
 .thds-footer__row-wrapper_bottom {
-    background-color: $c-ui-3;
+  background-color: $c-ui-3;
 }
 
 .thds-footer__tagline {
-    @include type-display-m;
+  @include type-display-m;
 }
 
 .thds-footer__contact {
-    @include type-body;
-    margin-bottom: $spacing-component-m;
+  @include type-body;
+  margin-bottom: $spacing-component-m;
 }
 
 .thds-footer__copyright {
-    @include type-body-s;
+  @include type-body-s;
 }

@@ -119,8 +119,8 @@ $c-ui-4: #fff; /* White */
 
 /* Spacing ========================================================
 */
-$layout-page-width: 870px;
-$layout-content-width: 1100px;
+$layout-page-width: 1040px;
+$layout-content-width: 870px;
 $layout-header-height: 74px;
 
 /* Font Scales ====================================================
@@ -133,7 +133,7 @@ $line-height: get-line-height(get-type-size(4));
 
 /* Spacing Scales ===================================================
 */
-$spacing-base-size: get-line-height(get-type-size(4)) * px-to-rem(get-type-size(4));
+$spacing-base-size: $line-height * get-type-size(4);
 
 $spacing-component-3xl: $spacing-base-size * 3; /* 8.2520rem */
 $spacing-component-2xl: $spacing-base-size * 2.5; /* 6.8766rem */
@@ -171,12 +171,6 @@ $breakpoint-xl: $layout-page-width;
 $breakpoint-l: 992px;
 $breakpoint-m: 767px;
 $breakpoint-s: 480px;
-
-@media only screen and (max-width : 1024px) { // FIX
-  :root {
-
-    }
-}
 
 
 
@@ -266,12 +260,6 @@ body .ct-div-block { /* Make vertical margins collapse */
 /* Oxygen Helpers =========================== */
 .thds-helper_section_width_full > .ct-section-inner-wrap {
   max-width: 100%;
-}
-
-.thds-helper_wrap_page_width {
-  max-width: $layout-page-width;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* Helpers ================================== */
@@ -514,13 +502,20 @@ modifiers:
 */
 
 .thds-container {
-  max-width: $layout-page-width;
+  max-width: $layout-content-width;
   margin-top: $spacing-layout-l;
   margin-bottom: $spacing-layout-s;
   margin-left: auto;
   margin-right: auto;
-  padding-left: $spacing-layout-xs;
-  padding-right: $spacing-layout-xs;
+}
+
+@media only screen and (max-width: $layout-content-width + (2 * $spacing-layout-xs) + 17px) { /* Fix scrollbar being included in media query calc */
+  .thds-container {
+    margin-left: $spacing-layout-xs;
+    margin-right: $spacing-layout-xs;
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .ct-inner-content > .thds-container:first-child { /* prevent first container from having top padding */
@@ -532,8 +527,6 @@ modifiers:
   max-width: 100%;
     margin-left: 0;
     margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
 }
 
 
@@ -695,7 +688,7 @@ modifiers:
     content: ">";
     position: absolute;
     top: ($spacing-component-l - $bullet-height) / 2;
-    left: 0rem - $bullet-width - $spacing-component-s;
+    left: 0 - $bullet-width - $spacing-component-s;
     line-height: 0;
     width: $bullet-width;
   }
@@ -727,7 +720,7 @@ structure:
   border: 2px solid $c-ui-1;
   text-decoration: none;
   text-align: center;
-  padding: ($spacing-component-xs - px-to-rem(4px)) ($spacing-component-m + $spacing-component-2xs) $spacing-component-xs;
+  padding: ($spacing-component-xs - 4px) ($spacing-component-m + $spacing-component-2xs) $spacing-component-xs;
   cursor: pointer;
 }
 
@@ -850,7 +843,7 @@ modifiers:
 */
 
 .thds-icon-block__icon {
-  margin-bottom: 2 * $spacing-component-m - px-to-rem(48px); /* 48px is height of icon */
+  margin-bottom: 2 * $spacing-component-m - 48px; /* 48px is height of icon */
 }
 
 .thds-icon-block__thds-text-block .thds-text-block__title { /* mix with thds-text-block */
@@ -865,11 +858,11 @@ modifiers:
 
 .thds-icon-block_icon_position_left .thds-icon-block__icon-wrapper {
     position: absolute;
-    top: $spacing-component-m * 2 - px-to-rem(48px);
+    top: $spacing-component-m * 2 - 48px;
 }
 
 .thds-icon-block_icon_position_left .thds-text-block {
-    padding-left: $spacing-component-2xl * 2 - px-to-rem(48px);
+    padding-left: $spacing-component-2xl * 2 - 48px;
 }
 
 
@@ -991,7 +984,7 @@ $hero-height_mobile: 71vh;
   left: 0; right: 0;
   margin: 0 auto;
   z-index: 1;
-  max-width: $layout-page-width;
+  max-width: $layout-content-width;
   text-align: center;
 
   color: $c-ui-4;
@@ -1010,7 +1003,7 @@ $hero-height_mobile: 71vh;
   margin-bottom: 0;
 }
 
-@media screen and (max-width: 1232px) { /* NOTE: must recalculate if page width changes from 1160px */
+@media screen and (max-width: $layout-page-width + $spacing-layout-xs) { /* NOTE: must recalculate if page width changes from 1160px */
   .thds-hero__content {
     margin-left: $spacing-layout-xs;
     margin-right: $spacing-layout-xs;

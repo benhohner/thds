@@ -166,13 +166,11 @@ body {
 
 
 /* Breakpoints ==============================
-   Since browsers don't support css variables in media queries
-   store them here for reference and wait excitedly
-
-    $breakpoint-xl: $layout-page-width;
-    $breakpoint-l: 992px;
-    $breakpoint-m: 767px;
-    $breakpoint-s: 480px;
+*/
+$breakpoint-xl: $layout-page-width;
+$breakpoint-l: 992px;
+$breakpoint-m: 767px;
+$breakpoint-s: 480px;
 */
 @media only screen and (max-width : 1024px) {
   :root {

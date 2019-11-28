@@ -84,85 +84,85 @@ body {
 }
 
 
-  $font-scale-5xl: get-type-size(16); // type-display-2xl
-  $font-scale-4xl: get-type-size(14); // type-display-xl
-  $font-scale-3xl: get-type-size(12); // type-display-l
-  $font-scale-2xl: get-type-size(8); // type-display-m
-  $font-scale-xl:  get-type-size(7); // type-display-s, type-body-xl
-  $font-scale-l:   get-type-size(6); // type-body-l
-  $font-scale-m:   get-type-size(4); // type-body, type-subheading, type-heading
-  $font-scale-s:   get-type-size(2); // type-body-s
+$font-scale-5xl: get-type-size(16); // type-display-2xl
+$font-scale-4xl: get-type-size(14); // type-display-xl
+$font-scale-3xl: get-type-size(12); // type-display-l
+$font-scale-2xl: get-type-size(8); // type-display-m
+$font-scale-xl:  get-type-size(7); // type-display-s, type-body-xl
+$font-scale-l:   get-type-size(6); // type-body-l
+$font-scale-m:   get-type-size(4); // type-body, type-subheading, type-heading
+$font-scale-s:   get-type-size(2); // type-body-s
 
 
 /* Global Variables ==========================*/
 
-  /* Colours ========================================================
-  */
-  $c-primary: #1C2440; /* Dark Blue */
-  $c-secondary: #2C676A; /* Teal */
-  $c-tertiary: #399455; /* Wild Forest Green */
-  $c-accent-1: #2C416E; /* Resolution Blue */
-  $c-accent-2: #3A639C; /* San Marino Blue */
-  $c-accent-3: #4489C9; /* Celestial Blue */
-  $c-accent-4: #76BE43; /* Business Centre Green */
-  $c-highlight-r: #FF5F5A; /* Highlight Red */
-  $c-highlight-o: #F4AC62; /* Highlight Orange */
-  $c-highlight-y: #F0E069; /* Highlight Yellow */
-  $c-highlight-g: #A5EB72; /* Highlight Green */
-  $c-highlight-b: #7EBDE1; /* Highlight Blue */
-  $c-highlight-v: #A67FDB; /* Highlight Violet */
-  $c-ui-1: #020518; /* Bluish-black */
-  $c-ui-2: #D6D6D9; /* Slate Grey */
-  $c-ui-3: #F3F2F2; /* Off-white */
-  $c-ui-4: #fff; /* White */
+/* Colours ========================================================
+*/
+$c-primary: #1C2440; /* Dark Blue */
+$c-secondary: #2C676A; /* Teal */
+$c-tertiary: #399455; /* Wild Forest Green */
+$c-accent-1: #2C416E; /* Resolution Blue */
+$c-accent-2: #3A639C; /* San Marino Blue */
+$c-accent-3: #4489C9; /* Celestial Blue */
+$c-accent-4: #76BE43; /* Business Centre Green */
+$c-highlight-r: #FF5F5A; /* Highlight Red */
+$c-highlight-o: #F4AC62; /* Highlight Orange */
+$c-highlight-y: #F0E069; /* Highlight Yellow */
+$c-highlight-g: #A5EB72; /* Highlight Green */
+$c-highlight-b: #7EBDE1; /* Highlight Blue */
+$c-highlight-v: #A67FDB; /* Highlight Violet */
+$c-ui-1: #020518; /* Bluish-black */
+$c-ui-2: #D6D6D9; /* Slate Grey */
+$c-ui-3: #F3F2F2; /* Off-white */
+$c-ui-4: #fff; /* White */
 
 
-  /* Spacing ========================================================
-  */
-  $layout-page-width: 870px;
-  $layout-content-width: 1100px;
-  $layout-header-height: 74px;
+/* Spacing ========================================================
+*/
+$layout-page-width: 870px;
+$layout-content-width: 1100px;
+$layout-header-height: 74px;
 
-  /* Font Scales ====================================================
-  */
-  $font-html-size: 100%; /* 10px */
-  $line-height: get-line-height(get-type-size(4));
-
-
+/* Font Scales ====================================================
+*/
+$font-html-size: 100%; /* 10px */
+$line-height: get-line-height(get-type-size(4));
 
 
-  /* Spacing Scales ===================================================
-  */
-  $spacing-base-size: get-line-height(get-type-size(4)) * px-to-rem(get-type-size(4));
 
-  $spacing-component-3xl: $spacing-base-size * 3; /* 8.2520rem */
-  $spacing-component-2xl: $spacing-base-size * 2.5; /* 6.8766rem */
-  $spacing-component-xl: $spacing-base-size * 2; /* 5.5013rem */
-  $spacing-component-l: $spacing-base-size * 1.5; /* 4.1260rem */
-  $spacing-component-m: $spacing-base-size; /* 2.7507rem */
-  $spacing-component-s: $spacing-base-size * 0.75; /* 2.0630rem */
-  $spacing-component-xs: $spacing-base-size * 0.5; /* 1.3753rem */
-  $spacing-component-2xs: $spacing-base-size * 0.25; /* 0.6877rem */
-  $spacing-component-3xs: $spacing-base-size * 0.125; /* 0.3438rem */
 
-  $spacing-layout-3xl: $spacing-base-size * 13; /* 35.7586rem */
-  $spacing-layout-2xl: $spacing-base-size * 8; /* 22.0053rem */
-  $spacing-layout-xl: $spacing-base-size * 5; /* 13.7533rem */
-  $spacing-layout-l: $spacing-base-size * 4; /* 11.0026rem */
-  $spacing-layout-m: $spacing-base-size * 3; /* 8.2520rem */
-  $spacing-layout-s: $spacing-base-size * 2; /* 5.5013rem */
-  $spacing-layout-xs: $spacing-base-size * 1; /* 2.7507rem */
-  $spacing-layout-2xs: $spacing-base-size / 2; /* 1.3753rem */
-  
-  /* Font theming ====================================
-  */
-  $display-color: $c-primary;
-  $display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  $display-weight: 800;
+/* Spacing Scales ===================================================
+*/
+$spacing-base-size: get-line-height(get-type-size(4)) * px-to-rem(get-type-size(4));
 
-  $text-color: $c-primary;
-  $text-font-family: "Rubik", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  $text-weight: 400;
+$spacing-component-3xl: $spacing-base-size * 3; /* 8.2520rem */
+$spacing-component-2xl: $spacing-base-size * 2.5; /* 6.8766rem */
+$spacing-component-xl: $spacing-base-size * 2; /* 5.5013rem */
+$spacing-component-l: $spacing-base-size * 1.5; /* 4.1260rem */
+$spacing-component-m: $spacing-base-size; /* 2.7507rem */
+$spacing-component-s: $spacing-base-size * 0.75; /* 2.0630rem */
+$spacing-component-xs: $spacing-base-size * 0.5; /* 1.3753rem */
+$spacing-component-2xs: $spacing-base-size * 0.25; /* 0.6877rem */
+$spacing-component-3xs: $spacing-base-size * 0.125; /* 0.3438rem */
+
+$spacing-layout-3xl: $spacing-base-size * 13; /* 35.7586rem */
+$spacing-layout-2xl: $spacing-base-size * 8; /* 22.0053rem */
+$spacing-layout-xl: $spacing-base-size * 5; /* 13.7533rem */
+$spacing-layout-l: $spacing-base-size * 4; /* 11.0026rem */
+$spacing-layout-m: $spacing-base-size * 3; /* 8.2520rem */
+$spacing-layout-s: $spacing-base-size * 2; /* 5.5013rem */
+$spacing-layout-xs: $spacing-base-size * 1; /* 2.7507rem */
+$spacing-layout-2xs: $spacing-base-size / 2; /* 1.3753rem */
+
+/* Font theming ====================================
+*/
+$display-color: $c-primary;
+$display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$display-weight: 800;
+
+$text-color: $c-primary;
+$text-font-family: "Rubik", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$text-weight: 400;
 
 
 /* Breakpoints ==============================
@@ -171,8 +171,8 @@ $breakpoint-xl: $layout-page-width;
 $breakpoint-l: 992px;
 $breakpoint-m: 767px;
 $breakpoint-s: 480px;
-*/
-@media only screen and (max-width : 1024px) {
+
+@media only screen and (max-width : 1024px) { // FIX
   :root {
 
     }

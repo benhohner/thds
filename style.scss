@@ -109,6 +109,15 @@ body {
   @return ($rem / 1rem) * $base-font-size;
 }
 
+// Map utilities
+@function map-get-default($map, $key, $default: null) {
+  $value: map-get($map, $key);
+  @if not $value {
+    $value: $default;
+  }
+  @return $value;
+}
+
 // Typography ======================================================
 //  #1 12px
 //  #2 14px
@@ -139,9 +148,44 @@ body {
 }
 
 // Media Queries ==================================================
+@mixin respond($feature, $condition, $scrollbar-compensation: 17px) {
+  // A map of all features (min-width, max-width, orientation, resolution, etc.).
+  $features: (
+    "above": min-width,
+    "below": max-width,
+    "min-width": min-width,
+    "max-width": max-width
+  );
 
+  // A map of all conditions (breakpoints, resolutions, or other).
+  $conditions: (
+    'layout-page-width': $layout-page-width,
+    'layout-content-width': $layout-content-width,
+    'oxy-xl': 1160px,
+    'oxy-l': 992px,
+    'oxy-m': 768px,
+    'oxy-s': 480px
+  );
 
+  $feature-value: map-get-default($features, $feature, $feature);
+  $condition-value: map-get-default($conditions, $condition, $condition);
 
+  // Compensate for scrollbars not being included in screen width in chrome and firefox for windows
+  @if is-absolute-length($condition-value) {
+    $condition-value: $condition-value + $scrollbar-compensation;
+  } @else if is-length($condition-value) {
+    @warn "Respond: Scrollbar compensation not possible if not using absolute units (px, etc.).";
+  }
+
+  // Prevent media query overlap
+  @if $feature-value == 'max-width' and is-length($condition-value) {
+    $condition-value: $condition-value - 0.00001;
+  }
+
+  @media ($feature-value: $condition-value) {
+    @content;
+  }
+}
 
 //=================================================================
 // VARIABLES ======================================================
@@ -308,8 +352,8 @@ body .ct-div-block { /* Make vertical margins collapse */
     padding-right: 0;
 }
 
-
-@media screen and (max-width: 768px) { /* compensate for oxygen off-by-one error */
+@include respond(below, oxy-m, 0) {
+  /* compensate for oxygen off-by-one error */
   .ct-new-columns > .ct-div-block {
       padding: 0;
     }
@@ -566,7 +610,8 @@ modifiers:
   margin-right: auto;
 }
 
-@media only screen and (max-width: $layout-content-width + (2 * $spacing-layout-xs) + 17px) { /* Fix scrollbar being included in media query calc */
+@include respond(below, $layout-content-width + (2 * $spacing-layout-xs)) {
+  /* Fix scrollbar being included in media query calc */
   .thds-container {
     margin-left: $spacing-layout-xs;
     margin-right: $spacing-layout-xs;
@@ -968,10 +1013,10 @@ structure:
     width: 33.33%;
 }
 
-@media screen and (max-width: 768px) { /* compensate for oxygen off-by-one error */
-    .thds-item-overview__aside-wrapper {
-      margin-top: $spacing-layout-xs;
-    }
+@include respond(below, oxy-m) {
+  .thds-item-overview__aside-wrapper {
+    margin-top: $spacing-layout-xs;
+  }
 
     .thds-item-overview__aside-wrapper,
     .thds-item-overview__statistic-rich-text {
@@ -1060,7 +1105,8 @@ $hero-height_mobile: 71vh;
   margin-bottom: 0;
 }
 
-@media screen and (max-width: $layout-page-width + $spacing-layout-xs) { /* NOTE: must recalculate if page width changes from 1160px */
+@include respond(below, $layout-content-width + (2 * $spacing-layout-xs)) {
+  /* NOTE: must recalculate if page width changes from 1160px */
   .thds-hero__content {
     margin-left: $spacing-layout-xs;
     margin-right: $spacing-layout-xs;
@@ -1069,7 +1115,8 @@ $hero-height_mobile: 71vh;
   }
 }
 
-@media screen and (max-width: 768px) { /* compensate for oxygen off-by-one error */
+@include respond(below, oxy-m, 0) {
+  /* compensate for oxygen off-by-one error */
   .thds-hero {
     height: $hero-height_mobile;
   }
@@ -1107,7 +1154,7 @@ structure:
     overflow: hidden; /* prevent margin collapse */
 }
 
-@media screen and (max-width: 767px) {
+@include respond(below, oxy-m, 0) {
   .thds-cta {
     max-width: 100%;
     }
@@ -1205,7 +1252,8 @@ structure:
   width: 16px;
 }
 
-@media screen and (max-width: 992px) { /* compensate for oxygen off-by-one error,  */
+@include respond(below, oxy-l, 0) {
+  /* compensate for oxygen off-by-one error,  */
   .thds-item-breakdown__sub-items {
       margin-bottom: $spacing-component-xs;
   }
@@ -1266,7 +1314,7 @@ structure:
   height: $spacing-component-3xl;
 }
 
-@media screen and (max-width: 768px) {
+@include respond(below, oxy-m) {
   .thds-logo-grid__item {
   padding: $spacing-component-2xs;
     flex-basis: 50%;

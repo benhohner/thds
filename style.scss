@@ -319,7 +319,7 @@ body .ct-div-block { /* Make vertical margins collapse */
    display: block;
 }
 
-@media (max-width: 1160px) {
+@include respond(below, oxy-xl, 0) {
   #main > .ct-section-inner-wrap {
       padding-left: 0 !important;
       padding-right: 0 !important;

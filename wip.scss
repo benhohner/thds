@@ -1,0 +1,684 @@
+/// @param {Map} $map
+@mixin properties($map) {
+  @each $name, $value in $map {
+    #{$name}: $value;
+  }
+}
+
+/// @param {Number} $value - Number with units
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+
+
+/// Default font size
+$base-font-size: 16px !default;
+
+/// Convert a given px unit to a rem unit
+/// @param {Number} $px - Number with px unit
+@function px-to-rem($px) {
+  @return ($px / $base-font-size) * 1rem;
+}
+
+@function rem-to-px($rem) {
+  @return ($rem / 1rem) * $base-font-size;
+}
+
+
+
+/// Compute the type size for the given type scale step
+/// @param {Number} $step
+@function get-type-size($step, $ratio: 1) {
+  @if $step == 0 {
+    @return 12px;
+  }
+  // Yn = Yn-1 + {INT[(n-2)/4] + 1} * 2
+  @return get-type-size($step - 1) + (floor(($step - 2) / 4 * $ratio) + 1) * 2;
+}
+
+@function get-type-size-rem($step) {
+  @return px-to-rem(get-type-size($step));
+}
+
+@function get-line-height($font-size, $ratio: 1.7, $baseline: 8px) {
+  @return round($font-size * $ratio / $baseline) * $baseline / $font-size;
+}
+
+@function get-line-height-rem($font-size, $ratio: 1.7, $baseline: 0.5rem) {
+  @return get-line-height(rem-to-px($font-size), $ratio, rem-to-px($baseline));
+}
+
+/// Font family fallbacks for: IBM Plex Mono, IBM Plex Sans, IBM Plex Sans
+/// Condensed, IBM Plex Sans Hebrew, and IBM Plex Serif
+$font-families: (
+  'mono': unquote("'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Courier, monospace"),
+  'sans': unquote("'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif"),
+  'serif': unquote("'IBM Plex Serif', 'Georgia', Times, serif")
+);
+
+/// Get the font-family for an IBM Plex font
+/// @param {String} $name
+@function font-family($name) {
+  @return map-get($font-families, $name);
+}
+
+
+/// Suggested font weights to be used in product
+$font-weights: (
+  'thin': 100,
+  'extra-light': 200,
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700,
+  'extra-bold': 800,
+  'black': 900
+);
+
+/// Retrieve the font-weight value for a given name
+/// @param {String} $weight
+@function font-weight($weight) {
+  @return map-get($font-weights, $weight);
+}
+
+
+// Colours ========================================================
+$c-primary: #1c2440; // Dark Blue
+$c-secondary: #2c676a; // Teal
+$c-tertiary: #399455; // Wild Forest Green
+$c-accent-1: #2c416e; // Resolution Blue
+$c-accent-2: #3a639c; // San Marino Blue
+$c-accent-3: #4489c9; // Celestial Blue
+$c-accent-4: #76be43; // Business Centre Green
+$c-highlight-r: #ff5f5a; // Highlight Red
+$c-highlight-o: #f4ac62; // Highlight Orange
+$c-highlight-y: #f0e069; // Highlight Yellow
+$c-highlight-g: #a5eb72; // Highlight Green
+$c-highlight-b: #7ebde1; // Highlight Blue
+$c-highlight-v: #a67fdb; // Highlight Violet
+$c-ui-1: #020518; // Bluish-black
+$c-ui-2: #d6d6d9; // Slate Grey
+$c-ui-3: #f3f2f2; // Off-white
+$c-ui-4: #fff; // White
+
+// Spacing ========================================================
+$layout-page-width: 1040px;
+$layout-content-width: 870px;
+$layout-header-height: 74px;
+
+// Font Scales ====================================================
+$font-html-size: 100%; // 10px
+$line-height: get-line-height-rem(get-type-size-rem(4));
+
+
+$font-scale-5xl: get-type-size-rem(16); // type-display-2xl
+$font-scale-4xl: get-type-size-rem(14); // type-display-xl
+$font-scale-3xl: get-type-size-rem(12); // type-display-l
+$font-scale-2xl: get-type-size-rem(8); // type-display-m
+$font-scale-xl: get-type-size-rem(7); // type-display-s, type-body-xl
+$font-scale-l: get-type-size-rem(6); // type-body-l
+$font-scale-m: get-type-size-rem(4); // type-body, type-subheading, type-heading
+$font-scale-s: get-type-size-rem(2); // type-body-s
+
+
+// Spacing Scales =================================================
+$spacing-base-size: $line-height * get-type-size-rem(4);
+
+$spacing-component-3xl: $spacing-base-size * 3; // 8.2520rem
+$spacing-component-2xl: $spacing-base-size * 2.5; // 6.8766rem
+$spacing-component-xl: $spacing-base-size * 2; // 5.5013rem
+$spacing-component-l: $spacing-base-size * 1.5; // 4.1260rem
+$spacing-component-m: $spacing-base-size; // 2.7507rem
+$spacing-component-s: $spacing-base-size * 0.75; // 2.0630rem
+$spacing-component-xs: $spacing-base-size * 0.5; // 1.3753rem
+$spacing-component-2xs: $spacing-base-size * 0.25; // 0.6877rem
+$spacing-component-3xs: $spacing-base-size * 0.125; // 0.3438rem
+
+$spacing-layout-3xl: $spacing-base-size * 13; // 35.7586rem
+$spacing-layout-2xl: $spacing-base-size * 8; // 22.0053rem
+$spacing-layout-xl: $spacing-base-size * 5; // 13.7533rem
+$spacing-layout-l: $spacing-base-size * 4; // 11.0026rem
+$spacing-layout-m: $spacing-base-size * 3; // 8.2520rem
+$spacing-layout-s: $spacing-base-size * 2; // 5.5013rem
+$spacing-layout-xs: $spacing-base-size * 1; // 2.7507rem
+$spacing-layout-2xs: $spacing-base-size / 2; // 1.3753rem
+
+// Theming =========================================================
+$display-color: $c-primary;
+$display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT",
+  "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue",
+  Helvetica, Arial, sans-serif;
+$display-weight: 800;
+
+$text-color: $c-primary;
+$text-font-family: "Rubik", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro",
+  Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica,
+  Arial, sans-serif;
+$text-weight: 400;
+
+
+$type-display-2xl: (
+  color: $display-color,
+  font-family: $display-font-family,
+  font-weight: 700,
+  font-size: $font-scale-5xl,
+  line-height: get-line-height-rem($font-scale-5xl, 1.15),
+  margin-top: $spacing-layout-m,
+  margin-bottom: $spacing-layout-s,
+  letter-spacing: -1px,
+);
+
+$type-display-xl: (
+  color: $display-color,
+  font-family: $display-font-family,
+  font-weight: $display-weight,
+  font-size: $font-scale-4xl,
+  line-height: get-line-height-rem($font-scale-4xl, 1.2),
+  margin-top: $spacing-layout-s,
+  margin-bottom: $spacing-layout-xs,
+  letter-spacing: -1px,
+);
+
+
+$type-display-l: (
+  color: $display-color,
+  font-family: $display-font-family,
+  font-weight: $display-weight,
+  font-size: $font-scale-3xl,
+  line-height: get-line-height-rem($font-scale-3xl, 1.2),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+);
+
+
+$type-display-m: (
+  color: $display-color,
+  font-family: $display-font-family,
+  font-weight: $display-weight,
+  font-size: $font-scale-2xl,
+  line-height: get-line-height-rem($font-scale-2xl, 1.5),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+);
+
+
+$type-display-s: (
+  color: $display-color,
+  font-family: $display-font-family,
+  font-weight: $display-weight,
+  font-size: $font-scale-xl,
+  line-height: get-line-height-rem($font-scale-xl),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+);
+
+
+$type-heading: (
+  color: $c-tertiary,
+  font-family: $display-font-family,
+  font-weight: 700,
+  font-size: $font-scale-l,
+  line-height: get-line-height-rem($font-scale-l, 1.4),
+  margin-top: 0,
+  margin-bottom: 0,
+  text-transform: uppercase,
+  letter-spacing: 0.4px,
+);
+
+$type-subheading: (
+  color: $c-tertiary,
+  font-family: $display-font-family,
+  font-weight: 700,
+  font-size: $font-scale-m,
+  line-height: get-line-height-rem($font-scale-m, 1.6),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: 0,
+);
+
+$type-body-xl: (
+  color: $text-color,
+  font-family: $text-font-family,
+  font-weight: $text-weight,
+  font-size: $font-scale-xl,
+  line-height: get-line-height-rem($font-scale-xl),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+);
+
+
+$type-body-l: (
+  color: $text-color,
+  font-family: $text-font-family,
+  font-weight: $text-weight,
+  font-size: $font-scale-l,
+  line-height: get-line-height-rem($font-scale-l),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+);
+
+$type-body: (
+  color: $text-color,
+  font-family: $text-font-family,
+  font-weight: $text-weight,
+  font-size: $font-scale-m,
+  line-height: get-line-height-rem($font-scale-m),
+);
+
+$type-body-s: (
+  color: $text-color,
+  font-family: $text-font-family,
+  font-weight: $text-weight,
+  font-size: $font-scale-s,
+  line-height: get-line-height-rem($font-scale-s),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs
+);
+
+
+$body-long-01: (
+  font-size: get-type-size-rem(2),
+  font-weight: font-weight('regular'),
+  line-height: px-to-rem(20px),
+  letter-spacing: 0.16px,
+) !default;
+
+$body-short-02: (
+  font-size: get-type-size-rem(3),
+  font-weight: font-weight('regular'),
+  line-height: px-to-rem(22px),
+  letter-spacing: 0,
+) !default;
+
+$code-01: (
+  font-family: font-family('mono'),
+  font-size: get-type-size-rem(1),
+  font-weight: font-weight('regular'),
+  line-height: px-to-rem(16px),
+  letter-spacing: 0.32px,
+) !default;
+
+$heading-01: (
+  font-size: get-type-size-rem(2),
+  font-weight: font-weight('semibold'),
+  line-height: px-to-rem(18px),
+  letter-spacing: 0.16px,
+) !default;
+
+$productive-heading-01: $heading-01 !default;
+
+$productive-heading-03: (
+  font-size: get-type-size-rem(5),
+  font-weight: font-weight('regular'),
+  line-height: px-to-rem(26px),
+  letter-spacing: 0,
+) !default;
+
+$productive-heading-04: (
+  font-size: get-type-size-rem(7),
+  font-weight: font-weight('regular'),
+  line-height: px-to-rem(36px),
+  letter-spacing: 0,
+) !default;
+
+$expressive-heading-01: map-merge(
+  $heading-01,
+  (
+    line-height: px-to-rem(20),
+  )
+) !default;
+
+$expressive-heading-05: (
+  font-size: get-type-size-rem(8),
+  font-weight: font-weight('regular'),
+  line-height: 1.25,
+  letter-spacing: 0,
+  breakpoints: (
+    md: (
+      font-size: get-type-size-rem(9),
+      line-height: 1.22,
+    ),
+    lg: (
+      font-size: get-type-size-rem(10),
+      line-height: 1.19,
+    ),
+    xlg: (
+      font-size: get-type-size-rem(11),
+      line-height: 1.17,
+    ),
+    max: (
+      font-size: get-type-size-rem(13),
+    ),
+  ),
+) !default;
+
+$expressive-heading-06: (
+  font-size: get-type-size-rem(8),
+  font-weight: font-weight('semibold'),
+  line-height: 1.25,
+  letter-spacing: 0,
+  breakpoints: (
+    md: (
+      font-size: get-type-size-rem(9),
+      line-height: 1.22,
+    ),
+    lg: (
+      font-size: get-type-size-rem(10),
+      line-height: 1.19,
+    ),
+    xlg: (
+      font-size: get-type-size-rem(11),
+      line-height: 1.17,
+    ),
+    max: (
+      font-size: get-type-size-rem(13),
+    ),
+  ),
+) !default;
+
+$expressive-paragraph-01: (
+  font-size: get-type-size-rem(6),
+  font-weight: font-weight('light'),
+  line-height: 1.25,
+  letter-spacing: 0,
+  breakpoints: (
+    lg: (
+      font-size: get-type-size-rem(7),
+      line-height: 1.29,
+    ),
+    max: (
+      font-size: get-type-size-rem(8),
+      line-height: 1.25,
+    ),
+  ),
+);
+
+$quotation-01: (
+  font-size: get-type-size-rem(5),
+  font-weight: font-weight('regular'),
+  line-height: 1.30,
+  letter-spacing: 0,
+  breakpoints: (
+    md: (
+      font-size: get-type-size-rem(5),
+    ),
+    lg: (
+      font-size: get-type-size-rem(6),
+      line-height: 1.25,
+    ),
+    xlg: (
+      font-size: get-type-size-rem(7),
+      line-height: 1.29,
+    ),
+    max: (
+      font-size: get-type-size-rem(8),
+      line-height: 1.25,
+    ),
+  ),
+) !default;
+
+$display-03: (
+  font-size: get-type-size-rem(10),
+  font-weight: font-weight('light'),
+  line-height: 1.19,
+  letter-spacing: 0,
+  breakpoints: (
+    md: (
+      font-size: get-type-size-rem(14),
+      line-height: 1.15,
+    ),
+    lg: (
+      font-size: get-type-size-rem(17),
+      line-height: 1.11,
+      letter-spacing: -0.64px,
+    ),
+    xlg: (
+      font-size: get-type-size-rem(20),
+      line-height: 1.07,
+      letter-spacing: -0.64px,
+    ),
+    max: (
+      font-size: get-type-size-rem(23),
+      line-height: 1.05,
+      letter-spacing: -0.96px,
+    ),
+  ),
+) !default;
+
+$tokens: (
+  type-display-2xl: $type-display-2xl,
+  type-display-xl: $type-display-xl,
+  type-display-l: $type-display-l,
+  type-display-m: $type-display-m,
+  type-display-s: $type-display-s,
+  type-heading: $type-heading,
+  type-subheading: $type-subheading,
+  type-body-xl: $type-body-xl,
+  type-body-l: $type-body-l,
+  type-body: $type-body,
+  type-body-s: $type-body-s,
+  body-short-02: $body-short-02,
+  body-long-01: $body-long-01,
+  code-01: $code-01,
+  heading-01: $heading-01,
+  productive-heading-01: $productive-heading-01,
+  productive-heading-03: $productive-heading-03,
+  productive-heading-04: $productive-heading-04,
+  expressive-paragraph-01: $expressive-paragraph-01,
+  expressive-heading-01: $expressive-heading-01,
+  expressive-heading-05: $expressive-heading-05,
+  expressive-heading-06: $expressive-heading-06,
+  quotation-01: $quotation-01,
+  display-03: $display-03,
+);
+
+
+// Initial map of our breakpoints and their values
+$grid-breakpoints: (
+  sm: (
+    width: px-to-rem(320px),
+  ),
+  md: (
+    width: px-to-rem(672px),
+  ),
+  lg: (
+    width: px-to-rem(1056px),
+  ),
+  xlg: (
+    width: px-to-rem(1312px),
+  ),
+  max: (
+    width: px-to-rem(1584px),
+  ),
+) !default;
+
+/// Get the name of the next breakpoint, or null for the last breakpoint
+/// @param {String} $breakpoint-name - The name of the brekapoint
+/// @param {Map} $breakpoints [$grid-breakpoints] - A map of breakpoints where the key is the name of the breakpoint and the value is the values for the breakpoint
+@function breakpoint-next($breakpoint-name, $breakpoints: $grid-breakpoints) {
+  $breakpoint-names: map-keys($breakpoints);
+  $n: index($breakpoint-names, $breakpoint-name);
+  @if $n != null and $n < length($breakpoint-names) {
+    @return nth($breakpoint-names, $n + 1);
+  }
+  @return null;
+}
+
+/// Generate a media query up to the width of the given breakpoint name
+/// @param {String | Number} $name
+/// @param {Map} $breakpoints [$grid-breakpoints] - A map of breakpoints where the key is the name
+/// @content
+@mixin breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  @if type-of($name) == 'number' {
+    @media (min-width: $name) {
+      @content;
+    }
+  } @else if map-has-key($breakpoints, $name) {
+    $breakpoint: map-get($breakpoints, $name);
+    $width: map-get($breakpoint, width);
+    // If is smallest breakpoint
+    @if index(map-keys($breakpoints), $name) == 1 {
+      @content;
+    } @else {
+      @media (min-width: $width) {
+        @content;
+      }
+    }
+  } @else {
+    @error 'Unable to find a breakpoint with name `#{$name}`. Expected one of: (#{map-keys($breakpoints)})';
+  }
+}
+
+
+
+/// Computes the fluid `font-size` for a given type style and breakpoint
+/// @param {Map} $type-styles - The styles for a given token
+/// @param {String} $breakpoint-name - The name of the breakpoint to which we apply the fluid
+/// @param {Map} $breakpoints [$grid-breakpoints] - The breakpoints for the grid system
+@mixin fluid-type-size($type-styles, $breakpoint-name, $breakpoints: $grid-breakpoints) {
+  // Get the information about the breakpoint we're currently working in. Useful
+  // for getting initial width information
+  $breakpoint: map-get($breakpoints, $breakpoint-name);
+
+  // Our fluid styles are captured under the 'breakpoints' property in our type
+  // styles map. These define what values to treat as `max-` variables below
+  $fluid-sizes: map-get($type-styles, breakpoints);
+  
+  $fluid-breakpoint: ();
+  
+  // Special case for `sm` because the styles for small are on the type style
+  // directly
+  @if $breakpoint-name == sm {
+    $fluid-breakpoint: map-remove($type-styles, breakpoints);
+  } @else {
+    $fluid-breakpoint: map-get($fluid-sizes, $breakpoint-name);
+  }
+
+  // Initialize our font-sizes to the default size for the type style
+  $max-font-size: map-get($type-styles, font-size);
+  $min-font-size: map-get($type-styles, font-size);
+  @if map-has-key($fluid-breakpoint, font-size) {
+    $min-font-size: map-get($fluid-breakpoint, font-size);
+  }
+
+  // Initialize our min and max width to the width of the current breakpoint
+  $max-vw: map-get($breakpoint, width);
+  $min-vw: map-get($breakpoint, width);
+
+  // We can use `breakpoint-next` to see if there is another breakpoint we can
+  // use to update `max-font-size` and `max-vw` with larger values
+  $next-breakpoint-available: breakpoint-next($breakpoint-name, $breakpoints);
+  $next-fluid-breakpoint-name: null;
+
+  // We need to figure out what the next available fluid breakpoint is for our
+  // given $type-styles. In this loop we try and iterate through breakpoints
+  // until we either manually set $next-breakpoint-available to null or
+  // `breakpoint-next` returns null.
+  @while $next-breakpoint-available {
+    @if map-has-key($fluid-sizes, $next-breakpoint-available) {
+      $next-fluid-breakpoint-name: $next-breakpoint-available;
+      $next-breakpoint-available: null;
+    } @else {
+      $next-breakpoint-available: breakpoint-next($next-breakpoint-available, $breakpoints);
+    }
+  }
+
+  // If we have found the next available fluid breakpoint name, then we know
+  // that we have values that we can use to set max-font-size and max-vw as both
+  // values derive from the next breakpoint
+  @if $next-fluid-breakpoint-name {
+    $next-fluid-breakpoint: map-get($breakpoints, $next-fluid-breakpoint-name);
+    $max-font-size: map-get(
+      map-get($fluid-sizes, $next-fluid-breakpoint-name),
+      font-size
+    );
+    $max-vw: map-get($next-fluid-breakpoint, width);
+
+    // prettier-ignore
+    font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)})
+    );
+  } @else {
+    // Otherwise, just default to setting the font size found from the type
+    // style or the given fluid breakpoint in the type style
+    font-size: $min-font-size;
+  }
+}
+
+
+
+/// This helper includes fluid type styles for the given token value. Fluid type
+/// means that the `font-size` is computed using `calc()` in order to be
+/// determined by the screen size instead of a breakpoint. As a result, fluid
+/// styles should be used with caution in fixed width contexts.
+///
+/// In addition, we make use of %-based line-heights so that the line-height of
+/// each type style is computed correctly due to the dynamic nature of the
+/// `font-size`.
+///
+/// Most of the logic for this work comes from CSS Tricks:
+/// https://css-tricks.com/snippets/css/fluid-typography/
+///
+/// @param {Map} $type-styles - The value of a given type token
+/// @param {Map} $breakpoints [$grid-breakpoints] - Custom breakpoints to use
+@mixin fluid-type($type-styles, $breakpoints: $grid-breakpoints) {
+  // Include the initial styles for the given token by default without any
+  // media query guard. This includes `font-size` as a fallback in the case
+  // that a browser does not support `calc()`
+  @include properties(map-remove($type-styles, breakpoints));
+
+  // We also need to include the `sm` styles by default since they don't
+  // appear in the fluid styles for tokens
+  @include fluid-type-size($type-styles, sm, $breakpoints);
+
+  // Finally, we need to go through all the breakpoints defined in the type
+  // token and apply the properties and fluid type size for that given
+  // breakpoint
+  @each $name, $values in map-get($type-styles, breakpoints) {
+    @include breakpoint-up($name) {
+      @include properties($values);
+      @include fluid-type-size($type-styles, $name, $breakpoints);
+    }
+  }
+}
+
+
+
+
+/// Helper mixin to include the styles for a given token in any selector in your
+/// project. Also includes an optional fluid option that will enable fluid
+/// styles for the token if they are defined. Fluid styles will cause the
+/// token's font-size to be computed based on the viewport size. As a result, use
+/// with caution in fixed contexts.
+/// @param {String} $token-name - The name of the token to get the styles for
+/// @param {Boolean} $fluid [false] - Specify whether to include fluid styles for the
+/// @param {Map} $breakpoints [$grid-breakpoints] - Provide a custom breakpoint map to use
+@mixin type-style($token-name, $fluid: false, $breakpoints: $grid-breakpoints) {
+  @if not map-has-key($tokens, $token-name) {
+    @error 'Unable to find a token with the name: `#{$token-name}`';
+  }
+
+  $token: map-get($tokens, $token-name);
+
+  // If $fluid is set to true and the token has breakpoints defined for fluid
+  // styles, delegate to the fluid-type helper for the given token
+  @if $fluid == true and map-has-key($token, 'breakpoints') {
+    @include fluid-type($token, $breakpoints);
+  } @else {
+    @include properties(map-remove($token, 'breakpoints'));
+  }
+}
+
+body,
+.type-body {
+  @include type-style(type-body, true);
+}
+
+.text {
+  @include fluid-type(map-get($tokens,display-03));
+}
+
+.asdf {
+  color: blue;
+  @include type-style(display-03, true);
+}

@@ -131,13 +131,18 @@ body {
 }
 
 // Unit conversion
-@function px-to-rem($px, $base-font-size: 16px) {
+
+// Default font size
+$base-font-size: 16px;
+
+@function px-to-rem($px, $base-font-size: $base-font-size) {
   @return ($px / $base-font-size) * 1rem;
 }
 
-@function rem-to-px($rem, $base-font-size: 16px) {
+@function rem-to-px($rem, $base-font-size: $base-font-size) {
   @return ($rem / 1rem) * $base-font-size;
 }
+
 
 // Map utilities
 @function map-get-default($map, $key, $default: null) {
@@ -146,6 +151,58 @@ body {
     $value: $default;
   }
   @return $value;
+}
+
+@mixin map-to-properties($map) {
+  @each $name, $value in $map {
+    #{$name}: $value;
+  }
+}
+
+
+// Media Queries ==================================================
+@mixin respond($feature, $condition, $scrollbar-compensation: 17px) {
+  // A map of all features (min-width, max-width, orientation, resolution, etc.).
+  $features: (
+    "above": min-width,
+    "below": max-width,
+    "min-width": min-width,
+    "max-width": max-width
+  );
+
+  // A map of all conditions (breakpoints, resolutions, or other).
+  $conditions: (
+    'layout-page-width': $layout-page-width,
+    'layout-content-width': $layout-content-width,
+    'oxy-xl': 1160px,
+    'oxy-l': 992px,
+    'oxy-m': 768px,
+    'oxy-s': 480px,
+    'sm': 320px,
+    'md': 672px,
+    'lg': 1056px,
+    'xlg': 1312px,
+    'max': 1584px,
+  );
+
+  $feature-value: map-get-default($features, $feature, $feature);
+  $condition-value: map-get-default($conditions, $condition, $condition);
+
+  // Compensate for scrollbars not being included in screen width in chrome and firefox for windows
+  @if is-absolute-length($condition-value) {
+    $condition-value: $condition-value + $scrollbar-compensation;
+  } @else if is-length($condition-value) {
+    @warn "Respond: Scrollbar compensation not possible if not using absolute units (px, etc.).";
+  }
+
+  // Prevent media query overlap
+  @if $feature-value == 'max-width' and is-length($condition-value) {
+    $condition-value: $condition-value - 0.00001;
+  }
+
+  @media ($feature-value: $condition-value) {
+    @content;
+  }
 }
 
 // Typography ======================================================
@@ -170,95 +227,119 @@ body {
     @return 12px;
   }
   // Yn = Yn-1 + {INT[(n-2)/4] + 1} * 2
-  @return get-type-size($step - 1) + (floor(($step - 2) / 4 * $ratio) + 1) * 2;
+  @return get-type-size($step - 1) + (floor(($step - 2) / 4 * $ratio) + 1) * 2;// WIP FIX TODO
 }
+
+@function get-type-size-rem($step) {
+  @return px-to-rem(get-type-size($step));
+}
+
 
 @function get-line-height($font-size, $ratio: 1.7, $baseline: 8px) {
   @return round($font-size * $ratio / $baseline) * $baseline / $font-size;
 }
 
-// Media Queries ==================================================
-@mixin respond($feature, $condition, $scrollbar-compensation: 17px) {
-  // A map of all features (min-width, max-width, orientation, resolution, etc.).
-  $features: (
-    "above": min-width,
-    "below": max-width,
-    "min-width": min-width,
-    "max-width": max-width
-  );
+@function get-line-height-rem($font-size, $ratio: 1.7, $baseline: 0.5rem) {
+  @return get-line-height(rem-to-px($font-size), $ratio, rem-to-px($baseline));
+}
 
-  // A map of all conditions (breakpoints, resolutions, or other).
-  $conditions: (
-    'layout-page-width': $layout-page-width,
-    'layout-content-width': $layout-content-width,
-    'oxy-xl': 1160px,
-    'oxy-l': 992px,
-    'oxy-m': 768px,
-    'oxy-s': 480px
-  );
-
-  $feature-value: map-get-default($features, $feature, $feature);
-  $condition-value: map-get-default($conditions, $condition, $condition);
-
-  // Compensate for scrollbars not being included in screen width in chrome and firefox for windows
-  @if is-absolute-length($condition-value) {
-    $condition-value: $condition-value + $scrollbar-compensation;
-  } @else if is-length($condition-value) {
-    @warn "Respond: Scrollbar compensation not possible if not using absolute units (px, etc.).";
+/// Include the styles for a given token in any selector in your project. 
+/// @param {String} $token-name - The name of the token to get the styles for
+@mixin type-style($token-name) {
+  @if not map-has-key($tokens, $token-name) {
+    @error 'Unable to find a token with the name: `#{$token-name}`';
   }
 
-  // Prevent media query overlap
-  @if $feature-value == 'max-width' and is-length($condition-value) {
-    $condition-value: $condition-value - 0.00001;
-  }
+  $token: map-get($tokens, $token-name);
 
-  @media ($feature-value: $condition-value) {
-    @content;
+  // Include the initial styles for the given token
+  @include map-to-properties(map-remove($token, breakpoints));
+
+  @if map-has-key($token, breakpoints) {
+    // For each breakpoint defined in the type token, apply the
+    // properties for that given breakpoint
+    @each $name, $values in map-get($token, breakpoints) {
+      @include respond(max-width, $name, 0) {
+        @include map-to-properties($values);
+      }
+    }
   }
 }
+
+
+/// Font family fallbacks for: IBM Plex Mono, IBM Plex Sans, IBM Plex Sans
+/// Condensed, IBM Plex Sans Hebrew, and IBM Plex Serif
+$font-families: (
+  'sans': unquote("'Poppins', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
+  'serif': unquote("'Rubik', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
+);
+
+/// Get the font-family for an IBM Plex font
+/// @param {String} $name
+@function font-family($name) {
+  @return map-get($font-families, $name);
+}
+
+
+/// Suggested font weights to be used in product
+$font-weights: (
+  'thin': 100,
+  'extra-light': 200,
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700,
+  'extra-bold': 800,
+  'black': 900
+);
+
+/// Retrieve the font-weight value for a given name
+/// @param {String} $weight
+@function font-weight($weight) {
+  @return map-get($font-weights, $weight);
+}
+
+
 
 //=================================================================
 // VARIABLES ======================================================
 //=================================================================
 
 // Colours ========================================================
-$c-primary: #1c2440; // Dark Blue
-$c-secondary: #2c676a; // Teal
-$c-tertiary: #399455; // Wild Forest Green
-$c-accent-1: #2c416e; // Resolution Blue
-$c-accent-2: #3a639c; // San Marino Blue
-$c-accent-3: #4489c9; // Celestial Blue
-$c-accent-4: #76be43; // Business Centre Green
-$c-highlight-r: #ff5f5a; // Highlight Red
-$c-highlight-o: #f4ac62; // Highlight Orange
-$c-highlight-y: #f0e069; // Highlight Yellow
-$c-highlight-g: #a5eb72; // Highlight Green
-$c-highlight-b: #7ebde1; // Highlight Blue
-$c-highlight-v: #a67fdb; // Highlight Violet
-$c-ui-1: #020518; // Bluish-black
-$c-ui-2: #d6d6d9; // Slate Grey
-$c-ui-3: #f3f2f2; // Off-white
-$c-ui-4: #fff; // White
+$colors: (
+  'primary': #1c2440, // Dark Blue
+  'secondary': #2c676a, // Teal
+  'tertiary': #399455, // Wild Forest Green
+  'accent-1': #2c416e, // Resolution Blue
+  'accent-2': #3a639c, // San Marino Blue
+  'accent-3': #4489c9, // Celestial Blue
+  'accent-4': #76be43, // Business Centre Green
+  'highlight-r': #ff5f5a, // Highlight Red
+  'highlight-o': #f4ac62, // Highlight Orange
+  'highlight-y': #f0e069, // Highlight Yellow
+  'highlight-g': #a5eb72, // Highlight Green
+  'highlight-b': #7ebde1, // Highlight Blue
+  'highlight-v': #a67fdb, // Highlight Violet
+  'ui-1': #020518, // Bluish-black
+  'ui-2': #d6d6d9, // Slate Grey
+  'ui-3': #f3f2f2, // Off-white
+  'ui-4': #fff, // White
+);
+
+/// Retrieve the color value for a given color name
+/// @param {String} $color
+@function color($color) {
+  @return map-get($colors, $color);
+}
 
 // Spacing ========================================================
 $layout-page-width: 1040px;
 $layout-content-width: 870px;
 $layout-header-height: 74px;
 
-// Font Scales ====================================================
-$font-html-size: 100%; // 10px
-$line-height: get-line-height(get-type-size(4));
-
-$font-scale-5xl: get-type-size(16); // type-display-2xl
-$font-scale-4xl: get-type-size(14); // type-display-xl
-$font-scale-3xl: get-type-size(12); // type-display-l
-$font-scale-2xl: get-type-size(8); // type-display-m
-$font-scale-xl: get-type-size(7); // type-display-s, type-body-xl
-$font-scale-l: get-type-size(6); // type-body-l
-$font-scale-m: get-type-size(4); // type-body, type-subheading, type-heading
-$font-scale-s: get-type-size(2); // type-body-s
-
 // Spacing Scales =================================================
+$line-height: get-line-height(get-type-size(4));
 $spacing-base-size: $line-height * get-type-size(4);
 
 $spacing-component-3xl: $spacing-base-size * 3; // 8.2520rem
@@ -281,17 +362,255 @@ $spacing-layout-xs: $spacing-base-size * 1; // 2.7507rem
 $spacing-layout-2xs: $spacing-base-size / 2; // 1.3753rem
 
 // Theming =========================================================
-$display-color: $c-primary;
+$display-color: color(primary);
 $display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT",
   "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue",
   Helvetica, Arial, sans-serif;
 $display-weight: 800;
 
-$text-color: $c-primary;
+$text-color: color(primary);
 $text-font-family: "Rubik", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro",
   Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica,
   Arial, sans-serif;
 $text-weight: 400;
+
+
+// Typography Generation ============================================
+// Other options include:
+// Breakpoints
+// breakpoints: (
+//   max: (
+//     font-size: get-type-size-rem(23),
+//     line-height: 1.05,
+//     letter-spacing: -0.96px,
+//   ),
+//   xlg: (
+//     font-size: get-type-size-rem(20),
+//     line-height: 1.07,
+//     letter-spacing: -0.64px,
+//   ),
+//   lg: (
+//     font-size: get-type-size-rem(17),
+//     line-height: 1.11,
+//     letter-spacing: -0.64px,
+//   ),
+//   md: (
+//     font-size: get-type-size-rem(14),
+//     line-height: 1.15,
+//     letter-spacing: 0,
+//   ),
+//   sm: (
+//     font-size: get-type-size-rem(12),
+//     line-height: 1.2,
+//   )
+// ),
+
+// Creating aliases
+// $productive-heading-01: $heading-01 !default;
+// Subclassing
+// If both maps have the same keys, the second map’s values are used in the
+// map that gets returned.
+// $expressive-heading-01: map-merge(
+//   $heading-01,
+//   (
+//     line-height: px-to-rem(20),
+//   )
+// ) !default;
+
+
+// Font Scales ====================================================
+$font-scale-5xl: get-type-size(16); // type-display-2xl
+$font-scale-4xl: get-type-size(14); // type-display-xl
+$font-scale-3xl: get-type-size(12); // type-display-l
+$font-scale-2xl: get-type-size(8); // type-display-m
+$font-scale-xl: get-type-size(7); // type-display-s, type-body-xl
+$font-scale-l: get-type-size(6); // type-body-l, type-heading
+$font-scale-m: get-type-size(4); // type-body, type-subheading
+$font-scale-s: get-type-size(2); // type-body-s
+
+
+$-type-base-display: (
+    color: $display-color,
+    font-family: $display-font-family,
+    font-weight: $display-weight,
+);
+
+$type-display-2xl: map-merge($-type-base-display, (
+  font-weight: 700,
+  font-size: get-type-size(16),
+  line-height: get-line-height(get-type-size(16), 1.15),
+  margin-top: $spacing-layout-m,
+  margin-bottom: $spacing-layout-s,
+  letter-spacing: -1px,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(16, 0.5),
+      line-height: get-line-height(get-type-size(16, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-display-xl: map-merge($-type-base-display, (
+  font-size: get-type-size(14),
+  line-height: get-line-height(get-type-size(14), 1.2),
+  margin-top: $spacing-layout-s,
+  margin-bottom: $spacing-layout-xs,
+  letter-spacing: -1px,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(14, 0.5),
+      line-height: get-line-height(get-type-size(14, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-display-l: map-merge($-type-base-display, (
+  font-size: get-type-size(12),
+  line-height: get-line-height(get-type-size(12), 1.2),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(12, 0.5),
+      line-height: get-line-height(get-type-size(12, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-display-m: map-merge($-type-base-display, (
+  font-size: get-type-size(8),
+  line-height: get-line-height(get-type-size(8), 1.5),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(8, 0.5),
+      line-height: get-line-height(get-type-size(8, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-display-s: map-merge($-type-base-display, (
+  font-size: get-type-size(7),
+  line-height: get-line-height(get-type-size(7)),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(7, 0.5),
+      line-height: get-line-height(get-type-size(7, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-heading: (
+  color: color(tertiary),
+  font-family: $display-font-family,
+  font-weight: 700,
+  font-size: get-type-size(6),
+  line-height: get-line-height(get-type-size(6), 1.4),
+  text-transform: uppercase,
+  letter-spacing: 0.4px,
+  margin-top: 0,
+  margin-bottom: 0,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(6, 0.5),
+      line-height: get-line-height(get-type-size(6, 0.5), 1.15)
+    ),
+  ),
+);
+
+$type-subheading: (
+  color: color(tertiary),
+  font-family: $display-font-family,
+  font-weight: 700,
+  font-size: get-type-size(4),
+  line-height: get-line-height(get-type-size(4), 1.6),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: 0,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(4, 0.5),
+      line-height: get-line-height(get-type-size(4, 0.5), 1.15)
+    ),
+  ),
+);
+
+
+$-type-base-body: (
+  color: $text-color,
+  font-family: $text-font-family,
+  font-weight: $text-weight,
+);
+
+$type-body-xl: map-merge($-type-base-body, (
+  font-size: get-type-size(7),
+  line-height: get-line-height(get-type-size(7)),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(7, 0.5),
+      line-height: get-line-height(get-type-size(7, 0.5), 1.15)
+    ),
+  ),
+));
+
+
+$type-body-l: map-merge($-type-base-body, (
+  font-size: get-type-size(6),
+  line-height: get-line-height(get-type-size(6)),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(6, 0.5),
+      line-height: get-line-height(get-type-size(6, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-body: map-merge($-type-base-body, (
+  font-size: get-type-size(4),
+  line-height: get-line-height(get-type-size(4)),
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(4, 0.5),
+      line-height: get-line-height(get-type-size(4, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-body-s: map-merge($-type-base-body, (
+  font-size: get-type-size(2),
+  line-height: get-line-height(get-type-size(2)),
+  margin-top: $spacing-layout-xs,
+  margin-bottom: $spacing-layout-xs,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(2, 0.5),
+      line-height: get-line-height(get-type-size(2, 0.5), 1.15)
+    ),
+  ),
+));
+
+
+$tokens: (
+  -type-base-display: $-type-base-display,
+  -type-base-body: $-type-base-body, 
+  type-display-2xl: $type-display-2xl,
+  type-display-xl: $type-display-xl,
+  type-display-l: $type-display-l,
+  type-display-m: $type-display-m,
+  type-display-s: $type-display-s,
+  type-heading: $type-heading,
+  type-subheading: $type-subheading,
+  type-body-xl: $type-body-xl,
+  type-body-l: $type-body-l,
+  type-body: $type-body,
+  type-body-s: $type-body-s,
+);
 
 
 //=================================================================
@@ -403,160 +722,21 @@ body .ct-div-block {
 
 /* Typography ================================ */
 html {
-  font-size: $font-html-size;
+  font-size: $base-font-size;
 }
 
-@mixin type-base-display {
-  color: $display-color;
-  font-family: $display-font-family;
-  font-weight: $display-weight;
+@each $selector-name, $_ in $tokens {
+  @if slice($selector-name, 1, 1) != '-' {
+    .#{$selector-name} {
+      @include type-style($selector-name);
+    }
+  }
 }
 
-@mixin type-base-body {
-  color: $text-color;
-  font-family: $text-font-family;
-  font-weight: $text-weight;
+body {
+  @include type-style(type-body);
 }
 
-@mixin type-display-2xl {
-  @include type-base-display;
-  font-size: $font-scale-5xl;
-  line-height: get-line-height($font-scale-5xl, 1.15);
-  margin-top: $spacing-layout-m;
-  margin-bottom: $spacing-layout-s;
-  letter-spacing: -1px;
-  font-weight: 700;
-}
-
-.type-display-2xl {
-  @include type-display-2xl;
-}
-
-@mixin type-display-xl {
-  @include type-base-display;
-  font-size: $font-scale-4xl;
-  line-height: get-line-height($font-scale-4xl, 1.2);
-  margin-top: $spacing-layout-s;
-  margin-bottom: $spacing-layout-xs;
-  letter-spacing: -1px;
-}
-
-.type-display-xl {
-  @include type-display-xl;
-}
-
-@mixin type-display-l {
-  @include type-base-display;
-  font-size: $font-scale-3xl;
-  line-height: get-line-height($font-scale-3xl, 1.2);
-  margin-top: $spacing-layout-xs;
-  margin-bottom: $spacing-layout-xs;
-}
-
-.type-display-l {
-  @include type-display-l;
-}
-
-@mixin type-display-m {
-  @include type-base-display;
-  font-size: $font-scale-2xl;
-  line-height: get-line-height($font-scale-2xl, 1.5);
-  margin-top: $spacing-layout-xs;
-  margin-bottom: $spacing-layout-xs;
-}
-
-.type-display-m {
-  @include type-display-m;
-}
-
-@mixin type-display-s {
-  @include type-base-display;
-  font-size: $font-scale-xl;
-  line-height: get-line-height($font-scale-xl);
-  margin-top: $spacing-layout-xs;
-  margin-bottom: $spacing-layout-xs;
-}
-
-.type-display-s {
-  @include type-display-s;
-}
-
-@mixin type-heading {
-  @include type-base-display;
-  font-size: $font-scale-l;
-  line-height: get-line-height($font-scale-l, 1.4);
-  margin-top: 0;
-  margin-bottom: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  font-weight: 700;
-  color: $c-tertiary;
-}
-
-.type-heading {
-  @include type-heading;
-}
-
-@mixin type-subheading {
-  @include type-base-display;
-  font-size: $font-scale-m;
-  line-height: get-line-height($font-scale-m, 1.6);
-  margin-top: $spacing-layout-xs;
-  margin-bottom: 0;
-  font-weight: 700;
-  color: $c-tertiary;
-}
-
-.type-subheading {
-  @include type-subheading;
-}
-
-@mixin type-body-xl {
-  @include type-base-body;
-  font-size: $font-scale-xl;
-  line-height: get-line-height($font-scale-xl);
-  margin-top: $spacing-layout-xs;
-  margin-bottom: $spacing-layout-xs;
-}
-
-.type-body-xl {
-  @include type-body-xl;
-}
-
-@mixin type-body-l {
-  @include type-base-body;
-  font-size: $font-scale-l;
-  line-height: get-line-height($font-scale-l);
-  margin-top: $spacing-layout-xs;
-  margin-bottom: $spacing-layout-xs;
-}
-
-.type-body-l {
-  @include type-body-l;
-}
-
-@mixin type-body {
-  @include type-base-body;
-  font-size: $font-scale-m;
-  line-height: get-line-height($font-scale-m);
-}
-
-body,
-.type-body {
-  @include type-body;
-}
-
-@mixin type-body-s {
-  @include type-base-body;
-  font-size: $font-scale-s;
-  line-height: get-line-height($font-scale-s);
-  margin-top: $spacing-layout-xs;
-  margin-bottom: $spacing-layout-xs;
-}
-
-.type-body-s {
-  @include type-body-s;
-}
 
 .type-body p,
 .type-body ul,
@@ -564,7 +744,7 @@ body,
 p.type-body,
 ul.type-body,
 ol.type-body {
-  @include type-base-body;
+  @include type-style(-type-base-body);
   padding: 0;
   margin-top: 0;
   margin-bottom: $spacing-layout-xs;
@@ -639,7 +819,7 @@ structure:
     a.thds-link
 */
 .thds-link {
-  color: $c-accent-2;
+  color: color(accent-2);
   text-decoration: underline;
 }
 
@@ -682,7 +862,7 @@ modifiers:
 
 */
 .thds-list {
-  @include type-body;
+  @include type-style(type-body);
   list-style-type: none;
 }
 
@@ -742,11 +922,11 @@ modifiers:
 }
 
 .thds-text-block__title {
-  @include type-subheading;
+  @include type-style(type-subheading);
 }
 
 .thds-text-block__description {
-  @include type-body;
+  @include type-style(type-body);
 }
 
 .thds-text-block_bulleted {
@@ -771,11 +951,11 @@ modifiers:
 }
 
 .thds-text-block_large .thds-text-block__title {
-  @include type-display-m;
+  @include type-style(type-display-m);
 }
 
 .thds-text-block_large .thds-text-block__description {
-  @include type-body-l;
+  @include type-style(type-body-l);
 }
 
 /* Component
@@ -785,10 +965,10 @@ structure:
     a.thds-button.type-heading
 */
 .thds-button {
-  @include type-heading;
+  @include type-style(type-heading);
   display: inline-block;
   margin: $spacing-component-m 0;
-  border: 2px solid $c-ui-1;
+  border: 2px solid color(ui-1);
   text-decoration: none;
   text-align: center;
   padding: ($spacing-component-xs - 4px) ($spacing-component-m + $spacing-component-2xs) $spacing-component-xs;
@@ -796,13 +976,13 @@ structure:
 }
 
 .thds-button:hover {
-  border-color: $c-tertiary;
-  color: $c-primary;
+  border-color: color(tertiary);
+  color: color(primary);
 }
 
 .thds-button_disabled {
-  color: $c-ui-3;
-  border-color: $c-ui-3;
+  color: color(ui-3);
+  border-color: color(ui-3);
   cursor: not-allowed;
 }
 
@@ -818,7 +998,7 @@ structure:
 
 */
 .thds-statistic__number {
-  @include type-base-body;
+  @include type-style(-type-base-body);
   font-size: $font-scale-3xl;
   line-height: get-line-height($font-scale-3xl);
 }
@@ -829,7 +1009,7 @@ structure:
 }
 
 .thds-statistic__description {
-  @include type-heading;
+  @include type-style(type-heading);
   display: block;
   margin-top: 0;
 }
@@ -847,15 +1027,15 @@ structure:
 */
 
 .thds-portfolio-service-overview__service {
-  @include type-heading;
+  @include type-style(type-heading);
 }
 
 .thds-portfolio-service-overview__tagline {
-  @include type-display-l;
+  @include type-style(type-display-l);
 }
 
 .thds-portfolio-service-overview__explanation {
-  @include type-body-l;
+  @include type-style(type-body-l);
 }
 
 /* Component
@@ -868,14 +1048,14 @@ structure:
 
 */
 .thds-blockquote__quote {
-  @include type-body-xl;
+  @include type-style(type-body-xl);
   margin: 0;
   text-align: center;
   font-weight: 500;
 }
 
 .thds-blockquote__attribution {
-  @include type-subheading;
+  @include type-style(type-subheading);
   display: block;
   text-align: center;
   font-weight: 400;
@@ -1037,11 +1217,11 @@ $hero-height_mobile: 71vh;
   max-width: $layout-content-width;
   text-align: center;
 
-  color: $c-ui-4;
+  color: color(ui-4);
 }
 
 .thds-hero_inverted .thds-hero__content {
-  color: $c-ui-1;
+  color: color(ui-1);
 }
 
 .thds-hero__content > :first-child {
@@ -1106,7 +1286,7 @@ structure:
 }
 
 .thds-cta__message {
-  @include type-body-l;
+  @include type-style(type-body-l);
 }
 
 /* Complex Component TODO
@@ -1130,11 +1310,11 @@ structure:
 }
 
 .thds-section-header__title {
-  @include type-heading;
+  @include type-style(type-heading);
 }
 
 .thds-section-header__tagline {
-  @include type-display-xl;
+  @include type-style(type-display-xl);
   margin-top: $spacing-component-2xl;
   margin-bottom: 0;
 }
@@ -1172,7 +1352,7 @@ structure:
 }
 
 .thds-item-breakdown__title {
-  @include type-display-l;
+  @include type-style(type-display-l);
   /* optically align to top of section */
   margin-top: $spacing-component-xs * -1;
 }
@@ -1184,7 +1364,7 @@ structure:
 
 .thds-item-breakdown__sub-item:before {
   /* TODO extract to element */
-  content: url(/wp-content/uploads/2h/img/marker-check.svg);
+  content: url('/wp-content/uploads/2h/img/marker-check.svg');
   position: absolute;
   top: 1px;
   left: 0;
@@ -1199,7 +1379,7 @@ structure:
 }
 
 .thds-item-breakdown__description {
-  @include type-body;
+  @include type-style(type-body);
 }
 
 /* Complex Component TODO
@@ -1297,7 +1477,7 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
         [...]
 */
 .thds-header {
-  background-color: $c-ui-4;
+  background-color: color(ui-4);
 }
 
 .thds-header .oxy-header-row {
@@ -1309,15 +1489,15 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 }
 
 .thds-header__nav {
-  @include type-heading;
-  color: $c-primary;
+  @include type-style(type-heading);
+  color: color(primary);
   margin-top: 0;
   margin-bottom: 0;
 }
 
 .thds-header__nav .menu-item.current-menu-item > a,
 .thds-header__nav .menu-item.current-menu-parent > a {
-  color: $c-secondary !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(secondary) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__nav .menu-item a {
@@ -1325,20 +1505,20 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
   padding: 0 25px;
 
   transition: all 0.3s;
-  color: $c-accent-1 !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(accent-1) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__nav .menu-item a:hover {
-  color: $c-secondary !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(secondary) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
   transition: all 0.3s;
 }
 
 .thds-header__nav .oxy-nav-menu-hamburger-line {
-  background-color: $c-primary;
+  background-color: color(primary);
 }
 
 .thds-header .oxy-nav-menu-open .sub-menu {
-  background-color: $c-ui-3;
+  background-color: color(ui-3);
 }
 
 .thds-header .oxy-nav-menu.oxy-nav-menu-open .oxy-nav-menu-hamburger-wrap {
@@ -1379,22 +1559,22 @@ footer.thds-footer
 
 .thds-footer__row-wrapper {
   overflow: hidden;
-  background-color: $c-ui-2;
+  background-color: color(ui-2);
 }
 
 .thds-footer__row-wrapper_bottom {
-  background-color: $c-ui-3;
+  background-color: color(ui-3);
 }
 
 .thds-footer__tagline {
-  @include type-display-m;
+  @include type-style(type-display-m);
 }
 
 .thds-footer__contact {
-  @include type-body;
+  @include type-style(type-body);
   margin-bottom: $spacing-component-m;
 }
 
 .thds-footer__copyright {
-  @include type-body-s;
+  @include type-style(type-body-s);
 }

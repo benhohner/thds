@@ -676,12 +676,9 @@ body .ct-div-block {
   }
 }
 
+/* Override oxygen.css .ct-new-columns > .ct-div-block */
 .ct-new-columns > .ct-div-block {
   padding: 0 $spacing-layout-2xs 0 $spacing-layout-2xs;
-}
-
-.ct-new-columns.thds-columns--no-margin > .ct-div-block {
-  padding: 0;
 }
 
 .ct-new-columns > .ct-div-block:first-of-type {
@@ -763,18 +760,18 @@ structure:
     div.thds-container
 
 modifiers:
-    .thds-container--fullwidth
+    .thds-container_width_full
     A 100% wide container. Combinable with all other container modifiers.
 
     structure:
-        div.thds-container.thds-container--fullwidth
+        div.thds-container.thds-container_width_full
 
-    .thds-container--no-margin
+    .thds-container_margin_none
     A container with no top or bottom margins. Combinable with all other
     container modifiers.
 
     structure:
-        div.thds-container.thds-container--no-margin
+        div.thds-container.thds-container_margin_none
 
 */
 
@@ -801,13 +798,13 @@ modifiers:
   margin-top: 0;
 }
 
-.thds-container--fullwidth {
+.thds-container_width_full {
   max-width: 100%;
   margin-left: 0;
   margin-right: 0;
 }
 
-.thds-container--no-margin {
+.thds-container_margin_none {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -848,15 +845,15 @@ structure:
     [...]
 
 modifiers:
-    .thds-list--bulleted
+    .thds-list_with-bullets
     Add bullets.
 
-    .thds-list--inline
+    .thds-list_display_inline
     An inline list using flexbox to eliminate weird spacing issues
     with display: inline
 
     structure:
-        ul.thds-list.thds-list--inline
+        ul.thds-list.thds-list_display_inline
         li.thds-list__item
         [...]
 
@@ -866,11 +863,11 @@ modifiers:
   list-style-type: none;
 }
 
-.thds-list--bulleted {
+.thds-list_with-bullets {
   list-style-type: square;
 }
 
-.thds-list--inline {
+.thds-list_display_inline {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1549,7 +1546,7 @@ footer.thds-footer
         h2.thds-footer__tagline
         rich-text.thds-footer__contact
     div.thds-footer__row-wrapper
-    div.thds-footer__row.thds-container.thds-container--no-margin
+    div.thds-footer__row.thds-container.thds-container_margin_none
         rich-text.thds-footer__copyright
 */
 

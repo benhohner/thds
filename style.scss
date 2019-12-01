@@ -172,8 +172,8 @@ $base-font-size: 16px;
 
   // A map of all conditions (breakpoints, resolutions, or other).
   $conditions: (
-    'layout-page-width': $layout-page-width,
-    'layout-content-width': $layout-content-width,
+    'layout-width-wide': $layout-width-wide,
+    'layout-width-content': $layout-width-content,
     'oxy-xl': 1160px,
     'oxy-l': 992px,
     'oxy-m': 768px,
@@ -334,9 +334,9 @@ $colors: (
 }
 
 // Spacing ========================================================
-$layout-page-width: 1040px;
-$layout-content-width: 870px;
-$layout-header-height: 74px;
+$layout-width-wide: 1040px;
+$layout-width-content: 870px;
+$layout-height-header: 74px;
 
 // Spacing Scales =================================================
 $line-height: get-line-height(get-type-size(4));
@@ -776,22 +776,21 @@ modifiers:
 */
 
 .thds-container {
-  max-width: $layout-content-width;
+  max-width: $layout-width-content;
   margin-top: $spacing-layout-l;
   margin-bottom: $spacing-layout-s;
   margin-left: auto;
   margin-right: auto;
-}
 
-@include respond(below, $layout-content-width + (2 * $spacing-layout-xs)) {
-  /* Fix scrollbar being included in media query calc */
-  .thds-container {
+  @include respond(below, $layout-width-content + (2 * $spacing-layout-xs)) {
+    /* Fix scrollbar being included in media query calc */
     margin-left: $spacing-layout-xs;
     margin-right: $spacing-layout-xs;
     padding-left: 0;
     padding-right: 0;
   }
 }
+
 
 .ct-inner-content > .thds-container:first-child {
   /* prevent first container from having top padding */
@@ -1211,7 +1210,7 @@ $hero-height_mobile: 71vh;
   right: 0;
   margin: 0 auto;
   z-index: 1;
-  max-width: $layout-content-width;
+  max-width: $layout-width-content;
   text-align: center;
 
   color: color(ui-4);
@@ -1231,7 +1230,7 @@ $hero-height_mobile: 71vh;
   margin-bottom: 0;
 }
 
-@include respond(below, $layout-content-width + (2 * $spacing-layout-xs)) {
+@include respond(below, $layout-width-content + (2 * $spacing-layout-xs)) {
   /* NOTE: must recalculate if page width changes from 1160px */
   .thds-hero__content {
     margin-left: $spacing-layout-xs;
@@ -1482,7 +1481,7 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 }
 
 .thds-header__image {
-  height: $layout-header-height;
+  height: $layout-height-header;
 }
 
 .thds-header__nav {
@@ -1498,7 +1497,7 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 }
 
 .thds-header__nav .menu-item a {
-  line-height: $layout-header-height;
+  line-height: $layout-height-header;
   padding: 0 25px;
 
   transition: all 0.3s;

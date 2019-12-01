@@ -760,8 +760,14 @@ structure:
     div.thds-container
 
 modifiers:
+    .thds-container_width_wide
+    A $layout-width-wide wide container. Combinable with all margin modifiers
+
+    structure:
+        div.thds-container.thds-container_width_wide
+
     .thds-container_width_full
-    A 100% wide container. Combinable with all other container modifiers.
+    A 100% wide container. Combinable with all margin modifiers.
 
     structure:
         div.thds-container.thds-container_width_full
@@ -795,6 +801,17 @@ modifiers:
 .ct-inner-content > .thds-container:first-child {
   /* prevent first container from having top padding */
   margin-top: 0;
+}
+
+.thds-container_width_wide {
+  max-width: $layout-width-wide;
+
+  @include respond(below, $layout-width-wide + (2 * $spacing-layout-xs)) {
+    margin-left: $spacing-layout-xs;
+    margin-right: $spacing-layout-xs;
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .thds-container_width_full {

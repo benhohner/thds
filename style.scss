@@ -376,46 +376,46 @@ $text-weight: 400;
 
 
 // Typography Generation ============================================
-// Other options include:
-// Breakpoints
-// breakpoints: (
-//   max: (
-//     font-size: get-type-size-rem(23),
-//     line-height: 1.05,
-//     letter-spacing: -0.96px,
-//   ),
-//   xlg: (
-//     font-size: get-type-size-rem(20),
-//     line-height: 1.07,
-//     letter-spacing: -0.64px,
-//   ),
-//   lg: (
-//     font-size: get-type-size-rem(17),
-//     line-height: 1.11,
-//     letter-spacing: -0.64px,
-//   ),
-//   md: (
-//     font-size: get-type-size-rem(14),
-//     line-height: 1.15,
-//     letter-spacing: 0,
-//   ),
-//   sm: (
-//     font-size: get-type-size-rem(12),
-//     line-height: 1.2,
-//   )
-// ),
-
-// Creating aliases
-// $productive-heading-01: $heading-01 !default;
-// Subclassing
-// If both maps have the same keys, the second map’s values are used in the
-// map that gets returned.
-// $expressive-heading-01: map-merge(
-//   $heading-01,
-//   (
-//     line-height: px-to-rem(20),
-//   )
-// ) !default;
+/// Other options include:
+/// Breakpoints
+/// breakpoints: (
+///   max: (
+///     font-size: get-type-size-rem(23),
+///     line-height: 1.05,
+///     letter-spacing: -0.96px,
+///   ),
+///   xlg: (
+///     font-size: get-type-size-rem(20),
+///     line-height: 1.07,
+///     letter-spacing: -0.64px,
+///   ),
+///   lg: (
+///     font-size: get-type-size-rem(17),
+///     line-height: 1.11,
+///     letter-spacing: -0.64px,
+///   ),
+///   md: (
+///     font-size: get-type-size-rem(14),
+///     line-height: 1.15,
+///     letter-spacing: 0,
+///   ),
+///   sm: (
+///     font-size: get-type-size-rem(12),
+///     line-height: 1.2,
+///   )
+/// ),
+///
+/// Creating aliases
+/// $productive-heading-01: $heading-01 !default;
+/// Subclassing
+/// If both maps have the same keys, the second map’s values are used in the
+/// map that gets returned.
+/// $expressive-heading-01: map-merge(
+///   $heading-01,
+///   (
+///     line-height: px-to-rem(20),
+///   )
+/// ) !default;
 
 
 // Font Scales ====================================================

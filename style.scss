@@ -235,11 +235,11 @@ $base-font-size: 16px;
 }
 
 
-@function get-line-height($font-size, $ratio: 1.7, $baseline: 8px) {
+@function get-line-height($font-size, $ratio: 1.77777777, $baseline: 8px) {
   @return round($font-size * $ratio / $baseline) * $baseline / $font-size;
 }
 
-@function get-line-height-rem($font-size, $ratio: 1.7, $baseline: 0.5rem) {
+@function get-line-height-rem($font-size, $ratio: 1.77777777, $baseline: 0.5rem) {
   @return get-line-height(rem-to-px($font-size), $ratio, rem-to-px($baseline));
 }
 
@@ -339,27 +339,33 @@ $layout-width-content: 870px;
 $layout-height-header: 74px;
 
 // Spacing Scales =================================================
-$line-height: get-line-height(get-type-size(4));
-$spacing-base-size: $line-height * get-type-size(4);
+$line-height: get-line-height(get-type-size(4)); // 1.77777778
+$spacing-base-size: $line-height * get-type-size(4); // 32px
 
-$spacing-component-3xl: $spacing-base-size * 3; // 8.2520rem
-$spacing-component-2xl: $spacing-base-size * 2.5; // 6.8766rem
-$spacing-component-xl: $spacing-base-size * 2; // 5.5013rem
-$spacing-component-l: $spacing-base-size * 1.5; // 4.1260rem
-$spacing-component-m: $spacing-base-size; // 2.7507rem
-$spacing-component-s: $spacing-base-size * 0.75; // 2.0630rem
-$spacing-component-xs: $spacing-base-size * 0.5; // 1.3753rem
-$spacing-component-2xs: $spacing-base-size * 0.25; // 0.6877rem
-$spacing-component-3xs: $spacing-base-size * 0.125; // 0.3438rem
+$spacings: (
+  'component-3xl': $spacing-base-size * 3, // 96px
+  'component-2xl': $spacing-base-size * 2.5, // 80px
+  'component-xl': $spacing-base-size * 2, // 64px
+  'component-l': $spacing-base-size * 1.5, // 48px
+  'component-m': $spacing-base-size, // 32px
+  'component-s': $spacing-base-size * 0.75, // 24px
+  'component-xs': $spacing-base-size * 0.5,  // 16px
+  'component-2xs': $spacing-base-size * 0.25, // 8px
+  'component-3xs': $spacing-base-size * 0.125, // 4px
 
-$spacing-layout-3xl: $spacing-base-size * 13; // 35.7586rem
-$spacing-layout-2xl: $spacing-base-size * 8; // 22.0053rem
-$spacing-layout-xl: $spacing-base-size * 5; // 13.7533rem
-$spacing-layout-l: $spacing-base-size * 4; // 11.0026rem
-$spacing-layout-m: $spacing-base-size * 3; // 8.2520rem
-$spacing-layout-s: $spacing-base-size * 2; // 5.5013rem
-$spacing-layout-xs: $spacing-base-size * 1; // 2.7507rem
-$spacing-layout-2xs: $spacing-base-size / 2; // 1.3753rem
+  'layout-3xl': $spacing-base-size * 13, // 416px
+  'layout-2xl': $spacing-base-size * 8, // 256px
+  'layout-xl': $spacing-base-size * 5, // 160px
+  'layout-l': $spacing-base-size * 4, // 128px
+  'layout-m': $spacing-base-size * 3, // 96px
+  'layout-s': $spacing-base-size * 2, // 64px
+  'layout-xs': $spacing-base-size * 1, // 32px
+  'layout-2xs': $spacing-base-size / 2, // 16px
+);
+
+@function spacing($spacing) {
+  @return map-get($spacings, $spacing);
+}
 
 // Theming =========================================================
 $display-color: color(primary);
@@ -439,8 +445,8 @@ $type-display-2xl: map-merge($-type-base-display, (
   font-weight: 700,
   font-size: get-type-size(16),
   line-height: get-line-height(get-type-size(16), 1.15),
-  margin-top: $spacing-layout-m,
-  margin-bottom: $spacing-layout-s,
+  margin-top: spacing(layout-m),
+  margin-bottom: spacing(layout-s),
   letter-spacing: -1px,
   breakpoints: (
     oxy-s: (
@@ -453,8 +459,8 @@ $type-display-2xl: map-merge($-type-base-display, (
 $type-display-xl: map-merge($-type-base-display, (
   font-size: get-type-size(14),
   line-height: get-line-height(get-type-size(14), 1.2),
-  margin-top: $spacing-layout-s,
-  margin-bottom: $spacing-layout-xs,
+  margin-top: spacing(layout-s),
+  margin-bottom: spacing(layout-xs),
   letter-spacing: -1px,
   breakpoints: (
     oxy-s: (
@@ -467,8 +473,8 @@ $type-display-xl: map-merge($-type-base-display, (
 $type-display-l: map-merge($-type-base-display, (
   font-size: get-type-size(12),
   line-height: get-line-height(get-type-size(12), 1.2),
-  margin-top: $spacing-layout-xs,
-  margin-bottom: $spacing-layout-xs,
+  margin-top: spacing(layout-xs),
+  margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(12, 0.5),
@@ -480,8 +486,8 @@ $type-display-l: map-merge($-type-base-display, (
 $type-display-m: map-merge($-type-base-display, (
   font-size: get-type-size(8),
   line-height: get-line-height(get-type-size(8), 1.5),
-  margin-top: $spacing-layout-xs,
-  margin-bottom: $spacing-layout-xs,
+  margin-top: spacing(layout-xs),
+  margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(8, 0.5),
@@ -493,8 +499,8 @@ $type-display-m: map-merge($-type-base-display, (
 $type-display-s: map-merge($-type-base-display, (
   font-size: get-type-size(7),
   line-height: get-line-height(get-type-size(7)),
-  margin-top: $spacing-layout-xs,
-  margin-bottom: $spacing-layout-xs,
+  margin-top: spacing(layout-xs),
+  margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(7, 0.5),
@@ -527,7 +533,7 @@ $type-subheading: (
   font-weight: 700,
   font-size: get-type-size(4),
   line-height: get-line-height(get-type-size(4), 1.6),
-  margin-top: $spacing-layout-xs,
+  margin-top: spacing(layout-xs),
   margin-bottom: 0,
   breakpoints: (
     oxy-s: (
@@ -547,8 +553,8 @@ $-type-base-body: (
 $type-body-xl: map-merge($-type-base-body, (
   font-size: get-type-size(7),
   line-height: get-line-height(get-type-size(7)),
-  margin-top: $spacing-layout-xs,
-  margin-bottom: $spacing-layout-xs,
+  margin-top: spacing(layout-xs),
+  margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(7, 0.5),
@@ -561,8 +567,8 @@ $type-body-xl: map-merge($-type-base-body, (
 $type-body-l: map-merge($-type-base-body, (
   font-size: get-type-size(6),
   line-height: get-line-height(get-type-size(6)),
-  margin-top: $spacing-layout-xs,
-  margin-bottom: $spacing-layout-xs,
+  margin-top: spacing(layout-xs),
+  margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(6, 0.5),
@@ -585,8 +591,8 @@ $type-body: map-merge($-type-base-body, (
 $type-body-s: map-merge($-type-base-body, (
   font-size: get-type-size(2),
   line-height: get-line-height(get-type-size(2)),
-  margin-top: $spacing-layout-xs,
-  margin-bottom: $spacing-layout-xs,
+  margin-top: spacing(layout-xs),
+  margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(2, 0.5),
@@ -678,7 +684,7 @@ body .ct-div-block {
 
 /* Override oxygen.css .ct-new-columns > .ct-div-block */
 .ct-new-columns > .ct-div-block {
-  padding: 0 $spacing-layout-2xs 0 $spacing-layout-2xs;
+  padding: 0 spacing(layout-2xs) 0 spacing(layout-2xs);
 }
 
 .ct-new-columns > .ct-div-block:first-of-type {
@@ -744,7 +750,7 @@ ol.type-body {
   @include type-style(-type-base-body);
   padding: 0;
   margin-top: 0;
-  margin-bottom: $spacing-layout-xs;
+  margin-bottom: spacing(layout-xs);
 }
 
 /* Shadow Boxes */
@@ -783,15 +789,15 @@ modifiers:
 
 .thds-container {
   max-width: $layout-width-content;
-  margin-top: $spacing-layout-l;
-  margin-bottom: $spacing-layout-s;
+  margin-top: spacing(layout-l);
+  margin-bottom: spacing(layout-s);
   margin-left: auto;
   margin-right: auto;
 
-  @include respond(below, $layout-width-content + (2 * $spacing-layout-xs)) {
+  @include respond(below, $layout-width-content + (2 * spacing(layout-xs))) {
     /* Fix scrollbar being included in media query calc */
-    margin-left: $spacing-layout-xs;
-    margin-right: $spacing-layout-xs;
+    margin-left: spacing(layout-xs);
+    margin-right: spacing(layout-xs);
     padding-left: 0;
     padding-right: 0;
   }
@@ -806,9 +812,9 @@ modifiers:
 .thds-container_width_wide {
   max-width: $layout-width-wide;
 
-  @include respond(below, $layout-width-wide + (2 * $spacing-layout-xs)) {
-    margin-left: $spacing-layout-xs;
-    margin-right: $spacing-layout-xs;
+  @include respond(below, $layout-width-wide + (2 * spacing(layout-xs))) {
+    margin-left: spacing(layout-xs);
+    margin-right: spacing(layout-xs);
     padding-left: 0;
     padding-right: 0;
   }
@@ -914,7 +920,7 @@ modifiers:
 }
 
 .thds-embedded-svg_icon_m .thds-embedded-svg__image {
-  height: $spacing-component-xl;
+  height: spacing(component-xl);
 }
 
 /* Component
@@ -931,7 +937,7 @@ modifiers:
 
 */
 .thds-text-block {
-  margin-bottom: $spacing-component-m;
+  margin-bottom: spacing(component-m);
 }
 
 .thds-text-block__title {
@@ -943,11 +949,11 @@ modifiers:
 }
 
 .thds-text-block_bulleted {
-  $bullet-width: $spacing-component-xs;
+  $bullet-width: spacing(component-xs);
   $bullet-dimension-ratio: 0.83360927;
   $bullet-height: $bullet-width * $bullet-dimension-ratio;
 
-  padding-left: $spacing-component-xl - $bullet-width;
+  padding-left: spacing(component-xl) - $bullet-width;
 
   .thds-text-block__title {
     position: relative;
@@ -956,8 +962,8 @@ modifiers:
   .thds-text-block__title:before {
     content: ">";
     position: absolute;
-    top: ($spacing-component-l - $bullet-height) / 2;
-    left: 0 - $bullet-width - $spacing-component-s;
+    top: (spacing(component-l) - $bullet-height) / 2;
+    left: 0 - $bullet-width - spacing(component-s);
     line-height: 0;
     width: $bullet-width;
   }
@@ -980,11 +986,11 @@ structure:
 .thds-button {
   @include type-style(type-heading);
   display: inline-block;
-  margin: $spacing-component-m 0;
+  margin: spacing(component-m) 0;
   border: 2px solid color(ui-1);
   text-decoration: none;
   text-align: center;
-  padding: ($spacing-component-xs - 4px) ($spacing-component-m + $spacing-component-2xs) $spacing-component-xs;
+  padding: (spacing(component-xs) - 4px) (spacing(component-m) + spacing(component-2xs)) spacing(component-xs);
   cursor: pointer;
 }
 
@@ -1093,7 +1099,7 @@ modifiers:
 */
 
 .thds-icon-block__icon {
-  margin-bottom: 2 * $spacing-component-m - 48px; /* 48px is height of icon */
+  margin-bottom: 2 * spacing(component-m) - 48px; /* 48px is height of icon */
 }
 
 .thds-icon-block__thds-text-block .thds-text-block__title {
@@ -1108,11 +1114,11 @@ modifiers:
 
 .thds-icon-block_icon_position_left .thds-icon-block__icon-wrapper {
   position: absolute;
-  top: $spacing-component-m * 2 - 48px;
+  top: spacing(component-m) * 2 - 48px;
 }
 
 .thds-icon-block_icon_position_left .thds-text-block {
-  padding-left: $spacing-component-2xl * 2 - 48px;
+  padding-left: spacing(component-2xl) * 2 - 48px;
 }
 
 /* Complex Component
@@ -1144,13 +1150,13 @@ structure:
 
 */
 .thds-item-overview__subject-image-wrapper {
-  min-height: $spacing-component-3xl;
+  min-height: spacing(component-3xl);
 }
 
 .thds-image.thds-item-overview__subject-image {
   text-align: left;
   margin: 0;
-  margin-bottom: $spacing-layout-xs;
+  margin-bottom: spacing(layout-xs);
 }
 
 .thds-item-overview__statistic-wrapper {
@@ -1159,7 +1165,7 @@ structure:
 
 @include respond(below, oxy-m) {
   .thds-item-overview__aside-wrapper {
-    margin-top: $spacing-layout-xs;
+    margin-top: spacing(layout-xs);
   }
 
   .thds-item-overview__aside-wrapper,
@@ -1168,7 +1174,7 @@ structure:
   }
 
   .thds-item-overview__statistic-wrapper {
-    margin: $spacing-layout-xs auto;
+    margin: spacing(layout-xs) auto;
     width: 100%;
   }
 
@@ -1247,13 +1253,13 @@ $hero-height_mobile: 71vh;
   margin-bottom: 0;
 }
 
-@include respond(below, $layout-width-content + (2 * $spacing-layout-xs)) {
+@include respond(below, $layout-width-content + (2 * spacing(layout-xs))) {
   /* NOTE: must recalculate if page width changes from 1160px */
   .thds-hero__content {
-    margin-left: $spacing-layout-xs;
-    margin-right: $spacing-layout-xs;
-    padding-bottom: $spacing-layout-xs;
-    padding-top: $spacing-layout-xs;
+    margin-left: spacing(layout-xs);
+    margin-right: spacing(layout-xs);
+    padding-bottom: spacing(layout-xs);
+    padding-top: spacing(layout-xs);
   }
 }
 
@@ -1270,7 +1276,7 @@ $hero-height_mobile: 71vh;
 
 .thds-hero_content_bottom .thds-hero__content {
   text-align: left;
-  padding-bottom: $spacing-layout-l;
+  padding-bottom: spacing(layout-l);
 }
 
 /* Complex Component
@@ -1287,8 +1293,8 @@ structure:
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  padding-left: $spacing-component-l;
-  padding-right: $spacing-component-l;
+  padding-left: spacing(component-l);
+  padding-right: spacing(component-l);
   overflow: hidden; /* prevent margin collapse */
 }
 
@@ -1328,14 +1334,14 @@ structure:
 
 .thds-section-header__tagline {
   @include type-style(type-display-xl);
-  margin-top: $spacing-component-2xl;
+  margin-top: spacing(component-2xl);
   margin-bottom: 0;
 }
 
 .thds-section-header__image {
   position: absolute;
   top: 0;
-  left: $spacing-layout-2xl;
+  left: spacing(layout-2xl);
   z-index: -1;
   height: 198px;
   /*border-bottom: 12px solid $brand-3;*/
@@ -1357,7 +1363,7 @@ structure:
         text-block.thds-item-breakdown__description
 */
 .thds-item-breakdown {
-  margin-bottom: $spacing-layout-xs;
+  margin-bottom: spacing(layout-xs);
 }
 
 .thds-item-breakdown:last-of-type {
@@ -1367,7 +1373,7 @@ structure:
 .thds-item-breakdown__title {
   @include type-style(type-display-l);
   /* optically align to top of section */
-  margin-top: $spacing-component-xs * -1;
+  margin-top: spacing(component-xs) * -1;
 }
 
 .thds-item-breakdown__sub-item {
@@ -1387,7 +1393,7 @@ structure:
 @include respond(below, oxy-l, 0) {
   /* compensate for oxygen off-by-one error,  */
   .thds-item-breakdown__sub-items {
-    margin-bottom: $spacing-component-xs;
+    margin-bottom: spacing(component-xs);
   }
 }
 
@@ -1436,12 +1442,12 @@ structure:
 .thds-logo-grid__item {
   flex-basis: 25%;
   display: flex;
-  height: $spacing-component-3xl;
+  height: spacing(component-3xl);
 }
 
 @include respond(below, oxy-m) {
   .thds-logo-grid__item {
-    padding: $spacing-component-2xs;
+    padding: spacing(component-2xs);
     flex-basis: 50%;
   }
 }
@@ -1567,7 +1573,7 @@ footer.thds-footer
 */
 
 .thds-footer {
-  margin-top: $spacing-layout-s;
+  margin-top: spacing(layout-s);
 }
 
 .thds-footer__row-wrapper {
@@ -1585,7 +1591,7 @@ footer.thds-footer
 
 .thds-footer__contact {
   @include type-style(type-body);
-  margin-bottom: $spacing-component-m;
+  margin-bottom: spacing(component-m);
 }
 
 .thds-footer__copyright {

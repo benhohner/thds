@@ -1,4 +1,4 @@
-/* README 2019-11-07 morning
+/* README 2019-11-07 15:02est
 Syntax
 block-name__element-name_modifier-name_sub-modifier-name
 .button_theme_blast
@@ -23,7 +23,6 @@ Can be used to change:
     - .button_type_labeled
 - State
     - .button_disabled
-
 
 
 */
@@ -77,7 +76,6 @@ body {
   --font-base-size: 1.8; /* 18px */
   --line-height-ratio: 1.7777777777;
   --line-height:  calc(var(--font-base-size) * 1.777777777 * 1rem); /* 3.2 in rem. all other spacing is a multiple of line-height to maintain vertical rhythm */
-  --line-height-unitless: calc(var(--line-height) / var(--font-scale-2xl));
   --scale-factor: 1.333333333; /* to be used for font scaling */
 
   /*
@@ -634,7 +632,7 @@ modifiers:
 }
 
 .thds-embedded-svg_icon_m .thds-embedded-svg__image {
-  height: calc(var(--line-height) * 2);
+  height: var(--spacing-component-xl);
 }
 
 
@@ -653,7 +651,7 @@ modifiers:
 
 */
 .thds-text-block {
-    margin-bottom: var(--line-height);
+    margin-bottom: var(--spacing-component-m);
 }
 
 .thds-text-block__title {
@@ -679,7 +677,7 @@ modifiers:
 .thds-text-block_bulleted .thds-text-block__title:before {
   content: ">";
   position: absolute;
-  top: calc((var(--line-height) - var(--bullet-height)) / 2);
+  top: calc((var(--spacing-component-l) - var(--bullet-height)) / 2);
   left: calc(0rem - var(--bullet-width) - var(--spacing-component-s));
   line-height: 0;
   width: var(--bullet-width);
@@ -706,11 +704,11 @@ structure:
 .thds-button {
   @include type-heading;
   display: inline-block;
-  margin: var(--line-height) 0;
+  margin: var(--spacing-component-m) 0;
   border: 2px solid var(--c-ui-1);
   text-decoration: none;
   text-align: center;
-  padding: calc(var(--spacing-component-xs) - 0.4rem) calc(var(--spacing-component-m) + var(--spacing-component-2xs)) var(--spacing-component-xs) !important;
+  padding: calc(var(--spacing-component-xs) - 0.4rem) calc(var(--spacing-component-m) + var(--spacing-component-2xs)) var(--spacing-component-xs);
   cursor: pointer;
 }
 
@@ -747,10 +745,9 @@ structure:
 
 */
 .thds-statistic__number {
-  font-size: var(--font-scale-4xl);
-  line-height: var(--font-scale-4xl);
-  margin-bottom: 0;
-  padding: 0;
+  @include type-base-body;
+  font-size: var(--font-scale-3xl);
+  line-height: calc(var(--line-height) * 2);
 }
 
 .thds-statistic__unit {
@@ -759,6 +756,7 @@ structure:
 }
 
 .thds-statistic__description {
+    @include type-heading;
   display: block;
   margin-top: 0;
 }
@@ -837,7 +835,7 @@ modifiers:
 */
 
 .thds-icon-block__icon {
-  margin-bottom: calc(2 * var(--line-height) - 48px); /* 48px is height of icon */
+  margin-bottom: calc(2 * var(--spacing-component-m) - 48px); /* 48px is height of icon */
 }
 
 .thds-icon-block__thds-text-block .thds-text-block__title { /* mix with thds-text-block */
@@ -852,11 +850,11 @@ modifiers:
 
 .thds-icon-block_icon_position_left .thds-icon-block__icon-wrapper {
     position: absolute;
-    top: calc(var(--line-height) * 2 - 48px);
+    top: calc(var(--spacing-component-m) * 2 - 48px);
 }
 
 .thds-icon-block_icon_position_left .thds-text-block {
-    padding-left: calc(var(--line-height) * 4.5 - 48px);
+    padding-left: calc(var(--spacing-component-2xl) * 2 - 48px);
 }
 
 
@@ -1115,9 +1113,9 @@ structure:
 }
 
 .thds-item-breakdown__title {
-    @include type-display-l;
+  @include type-display-l;
   /* optically align to top of section */
-  margin-top: calc(var(--line-height) / var(--scale-factor) / -2);
+  margin-top: calc(var(--spacing-component-xs) * -1);
 }
 
 .thds-item-breakdown__sub-item {
@@ -1191,7 +1189,7 @@ structure:
 .thds-logo-grid__item {
   flex-basis: 25%;
   display: flex;
-  height: calc(var(--line-height) * 3);
+  height: var(--spacing-component-3xl);
 }
 
 @media screen and (max-width: 768px) {
@@ -1249,11 +1247,11 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
         [...]
 */
 .thds-header {
-    background-color: var(--ui-4);
+  background-color: var(--ui-4);
 }
 
 .thds-header .oxy-header-row {
-    width: auto;
+  width: auto;
 }
 
 .thds-header__image {
@@ -1261,14 +1259,10 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 }
 
 .thds-header__nav {
-  /* .type-heading */
-  font-size: var(--font-scale-s);
-  line-height: var(--line-height);
-    margin-top: 0;
-    margin-bottom: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.04rem;
-  font-weight: 500;
+  @include type-heading;
+  color: var(--c-primary);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .thds-header__nav .menu-item.current-menu-item > a,

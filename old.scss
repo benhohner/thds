@@ -26,6 +26,37 @@ Can be used to change:
 
 
 */
+/* SASS ======================================*/
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+@function px-to-rem($px, $base-font-size: 16px) {
+  @return ($px / $base-font-size) * 1rem;
+}
+
+@function rem-to-px($rem, $base-font-size: 16px) {
+  @return ($rem / 1rem) * $base-font-size;
+}
+
+
+@function get-type-size($step, $ratio: 1) {
+  @if $step == 0 {
+    @return 12px;
+  }
+  // Yn = Yn-1 + {INT[(n-2)/4] + 1} * 2
+  @return get-type-size($step - 1) + (floor(($step - 2) / 4 * $ratio) + 1) * 2;
+}
+
+@function get-line-height($font-size, $ratio: 1.7, $baseline: 8px) {
+  @return round($font-size * $ratio / $baseline) * $baseline / $font-size;
+}
+
+
 
 
 /* Global Variables ==========================*/
@@ -36,7 +67,7 @@ body {
 }
 
 * {
-  outline: 1px solid red;
+  outline: 1px solid teal;
 }
 
 :root {
@@ -68,15 +99,14 @@ body {
   --layout-content-width: 1100px;
   --layout-header-height: 74px;
 
-
   /* Font Scales ====================================================
      Unit: rem
   */
   --font-html-size: 62.5%; /* 10px */
   --font-base-size: 1.8; /* 18px */
   --line-height-ratio: 1.7777777777;
-  --line-height:  calc(var(--font-base-size) * 1.777777777 * 1rem); /* 3.2 in rem. all other spacing is a multiple of line-height to maintain vertical rhythm */
-  --scale-factor: 1.333333333; /* to be used for font scaling */
+  --line-height:  calc(var(--font-base-size) * var(--line-height-ratio) * 1rem); /* 3.2 in rem. all other spacing is a multiple of line-height to maintain vertical rhythm */
+  --scale-factor: 1; /* to be used for font scaling */
 
   /*
    6xl  10.4
@@ -96,7 +126,7 @@ body {
   --font-scale-2xl: 3.2rem;
   --font-scale-xl: 2.8rem;
   --font-scale-l: 2.4rem;
-  --font-scale-m: calc(var(--font-base-size) * 1rem);
+  --font-scale-m: calc(1rem * var(--font-base-size) * var(--scale-factor));
   --font-scale-s: 1.4rem;
 
 
@@ -149,10 +179,9 @@ body {
     --breakpoint-m: 767px;
     --breakpoint-s: 480px;
 */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width : 1024px) {
   :root {
-      --scale-factor: 1.25;
-        /*--font-html-size: 56.25%;*/
+
     }
 }
 
@@ -274,6 +303,8 @@ body .ct-div-block { /* Make vertical margins collapse */
 html {
   font-size: var(--font-html-size); /* 10px base size */
 }
+
+
 
 @mixin type-base-display {
     color: var(--display-color);
@@ -446,10 +477,10 @@ body,
 p.type-body,
 ul.type-body,
 ol.type-body {
+  @include type-base-body;
   padding: 0;
   margin-top: 0;
   margin-bottom: var(--spacing-layout-xs);
-  font-weight: 400;
 }
 
 
@@ -457,7 +488,8 @@ ol.type-body {
 
 
 /* Shadow Boxes */
-.box-raised {
+
+@mixin box-raised {
   box-shadow: 0px 3px 17px rgba(50, 50, 50, 0.3);
 }
 
@@ -494,30 +526,23 @@ modifiers:
   margin-bottom: var(--spacing-layout-s);
   margin-left: auto;
   margin-right: auto;
+  padding-left: var(--spacing-layout-xs);
+  padding-right: var(--spacing-layout-xs);
 }
 
 .ct-inner-content > .thds-container:first-child { /* prevent first container from having top padding */
   margin-top: 0;
 }
 
-@media screen and (max-width: 1232px) { /* NOTE: must recalculate if page width changes from 1160px */
-  .thds-container {
-    margin-left: var(--spacing-layout-xs);
-    margin-right: var(--spacing-layout-xs);
-  }
-}
-
 
 .thds-container--fullwidth {
   max-width: 100%;
-}
-
-@media screen and (max-width: 1232px) { /* NOTE: must recalculate if page width changes from 1160px */
-  .thds-container--fullwidth {
     margin-left: 0;
     margin-right: 0;
-  }
+    padding-left: 0;
+    padding-right: 0;
 }
+
 
 
 .thds-container--no-margin {
@@ -663,7 +688,7 @@ modifiers:
 }
 
 .thds-text-block_bulleted {
-  --bullet-width: var(--font-scale-m);
+  --bullet-width: var(--spacing-component-xs);
   --bullet-dimension-ratio: 0.83360927;
   --bullet-height: calc(var(--bullet-width) * var(--bullet-dimension-ratio));
 
@@ -796,17 +821,19 @@ structure:
 
 structure:
   rich-text.thds-blockquote
-    blockquote.thds-blockquote__quote.type-body-xl
-      span.thds-blockquote__attribution.type-subheading
+    blockquote.thds-blockquote__quote
+      span.thds-blockquote__attribution
 
 */
 .thds-blockquote__quote {
+    @include type-body-xl;
     margin: 0;
-  text-align: center;
+    text-align: center;
     font-weight: 500;
 }
 
 .thds-blockquote__attribution {
+  @include type-subheading;
   display: block;
   text-align: center;
   font-weight: 400;
@@ -1022,16 +1049,16 @@ modifiers:
 
 
 
-
 /* Complex Component
 == CTA ========================================================================
 
 structure:
   div.thds-cta
-    h_.thds-cta__message.type-body-l
-    a.thds-button.thds-cta__button.type-heading
+    h_.thds-cta__message
+    a.thds-button.thds-cta__button
 */
 .thds-cta {
+    @include box-raised;
   max-width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -1047,6 +1074,9 @@ structure:
     }
 }
 
+.thds-cta__message {
+    @include type-body-l;
+}
 
 
 
@@ -1056,8 +1086,8 @@ structure:
 
 structure:
   section.thds-section.thds-section-header
-    h2.type-heading
-    p.type-display-2xl
+    h2.thds-section-header__title.type-heading
+    p.thds-section-header__tagline.type-display-2xl
     img.thds-section-header__image
 
 */
@@ -1071,9 +1101,14 @@ structure:
     margin-right: 0;
 }
 
-.thds-section-header .thds-section-header__tagline {
+.thds-section-header__title {
+    @include type-heading;
+}
+
+.thds-section-header__tagline {
+    @include type-display-xl;
   margin-top: var(--spacing-component-2xl);
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .thds-section-header__image {
@@ -1312,8 +1347,6 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 
 
 
-
-
 /* Component
 -- footer ------------------------------------------------------------------
 Override the oxygen default header
@@ -1321,10 +1354,11 @@ Override the oxygen default header
 footer.thds-footer
   div.thds-footer__row-wrapper
     div.thds-footer__row.thds-container
-      [...]
+      h2.thds-footer__tagline
+      rich-text.thds-footer__contact
   div.thds-footer__row-wrapper
     div.thds-footer__row.thds-container.thds-container--no-margin
-      [...]
+      rich-text.thds-footer__copyright
 */
 
 .thds-footer {
@@ -1333,5 +1367,22 @@ footer.thds-footer
 
 .thds-footer__row-wrapper {
     overflow: hidden;
+    background-color: var(--c-ui-2);
 }
 
+.thds-footer__row-wrapper_bottom {
+    background-color: var(--c-ui-3);
+}
+
+.thds-footer__tagline {
+    @include type-display-m;
+}
+
+.thds-footer__contact {
+    @include type-body;
+    margin-bottom: var(--spacing-component-m);
+}
+
+.thds-footer__copyright {
+    @include type-body-s;
+}

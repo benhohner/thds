@@ -855,13 +855,11 @@ modifiers:
 structure:
     a.thds-link
 */
-a,
 .thds-link {
   color: color(accent-2);
   text-decoration: underline;
 }
 
-a:hover,
 .thds-link:hover {
   color: color(accent-2);
   text-decoration: none;

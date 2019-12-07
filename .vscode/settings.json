@@ -1,0 +1,17 @@
+{
+  "liveSassCompile.settings.showOutputWindow": false,
+  "liveServer.settings.root": "/dist/",
+  "liveSassCompile.settings.excludeList": [
+    "**/node_modules/**",
+    ".vscode/**",
+    "dist/**",
+  ],
+  "liveSassCompile.settings.formats": [
+    // This is Default.
+    {
+      "format": "expanded",
+      "extensionName": ".css",
+      "savePath": "/dist"
+    },
+  ]
+}

@@ -722,7 +722,11 @@ body .ct-div-block {
   font-size: 1.333em;
 }
 
-/* Typography ================================ */
+/* Component
+-- Typography -----------------------------------------------------------------
+Typography classes. Not namespaced.
+
+*/
 html {
   font-size: $base-font-size;
 }
@@ -914,15 +918,6 @@ modifiers:
   display: flex;
   flex-wrap: wrap;
 }
-
-/* Component
--- Typography -----------------------------------------------------------------
-A basic container with examples of all possible typographic styles
-
-structure:
-    div.thds-typography.thds-container
-    [...]
-*/
 
 /* Component
 -- Embedded SVG ---------------------------------------------------------------

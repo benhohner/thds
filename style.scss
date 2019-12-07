@@ -796,6 +796,7 @@ modifiers:
   margin-bottom: spacing(layout-s);
   margin-left: auto;
   margin-right: auto;
+  position: relative;
 
   @include respond(below, $layout-width-content + (2 * spacing(layout-xs))) {
     /* Fix scrollbar being included in media query calc */
@@ -841,7 +842,7 @@ Mostly consists of modifiers, since there are already good styles from Oxygen.
 
 structure:
   columns.thds-columns
-    div.thds-column
+    div.thds-columns__columns
 
 modifiers:
   .thds-columns_padding_none
@@ -851,6 +852,68 @@ modifiers:
 
 .ct-new-columns.thds-columns_padding_none > .ct-div-block {
   padding: 0 0 0 0;
+}
+
+/* Component
+-- Card ------------------------------------------------------------------
+A raised element to contain semantically related information and set it apart
+from the background.
+
+structure:
+  div.thds-card
+
+modifiers:
+  .thds-columns_padding_none
+  Remove padding from all columns, useful for images
+
+*/
+
+.thds-card {
+  display: block;
+  margin: -2px;
+  position: relative;
+  min-width: spacing(layout-l);
+  min-height: spacing(layout-m);
+  border: 2px solid color(ui-2);
+  padding: spacing(component-m);
+  margin: 16px;
+  transition: all 400ms ease-in-out;
+}
+
+.thds-card > :first-child {
+  margin-top: 0;
+}
+
+.thds-card > :last-child {
+  margin-bottom: 0;
+}
+
+.thds-card:before {
+  display: block;
+  content: ' ';
+  position: absolute;
+  background-color: color(ui-3);
+  width: 100%;
+  height: 100%;
+  top: spacing(component-2xs);
+  left: spacing(component-2xs);
+  z-index: -1;
+  transition: all 400ms ease-in-out;
+}
+
+.thds-card:hover {
+  border-color: color(secondary);
+  transition: all 400ms ease-in-out;
+}
+
+.thds-card:hover:before {
+  top: 0;
+  left: 0;
+  transition: all 400ms;
+}
+
+.thds-card_clickable {
+  text-decoration: none;
 }
 
 /* Component

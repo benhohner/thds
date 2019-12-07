@@ -1,4 +1,44 @@
-/* 2019-11-04 Global Variables ==========================*/
+/* README 2019-11-07 morning
+Syntax
+block-name__element-name_modifier-name_sub-modifier-name
+.button_theme_blast
+.button_disabled
+.button__icon_size_large
+.hero_align_center
+
+Modifiers
+=========
+Can be:
+- Boolean
+    .button._disabled
+- Key-Value
+    .button_theme_cherry-moon
+
+Can be used to change:
+- Appearance
+    - .button_size_large
+- Behaviour
+    - .button_animation_bouncy
+- Structure
+    - .button_type_labeled
+- State
+    - .button_disabled
+
+
+
+*/
+
+
+/* Global Variables ==========================*/
+
+body {
+  background-image: linear-gradient(180deg, #db5353 1.56%, #ffffff 1.56%, #ffffff 12.50%, #f7d6aa 12.50%, #f7d6aa 14.06%, #fff 14.06%, #fff 25%, #b0ffbb 25%, #b0ffbb 26.56%, #fff 26.56%, #fff 37.50%, #cfcbfa 37.50%, #cfcbfa 39.06%, #fff 39.06%, #fff 50%, #db5353 50%, #db5353 51.56%, #ffffff 51.56%, #ffffff 62.50%, #f7d6aa 62.50%, #f7d6aa 64.06%, #fff 64.06%, #fff 75%, #b0ffbb 75%, #b0ffbb 76.56%, #fff 76.56%, #fff 87.50%, #cfcbfa 87.50%, #cfcbfa 89.06%, #fff 89.06%, #fff 100%);
+  background-size: 64.00px 64.00px;
+}
+
+* {
+  outline: 1px solid red;
+}
 
 :root {
   
@@ -34,9 +74,10 @@
      Unit: rem
   */
   --font-html-size: 62.5%; /* 10px */
-  --font-base-size: 1.8rem; /* 18px */
-  --font-base-size-2: 1.5rem;
-  --line-height: calc(var(--font-base-size) * 1.777777777); /* in rem. all other spacing is a multiple of line-height to maintain vertical rhythm */
+  --font-base-size: 1.8; /* 18px */
+  --line-height-ratio: 1.7777777777;
+  --line-height:  calc(var(--font-base-size) * 1.777777777 * 1rem); /* 3.2 in rem. all other spacing is a multiple of line-height to maintain vertical rhythm */
+  --line-height-unitless: calc(var(--line-height) / var(--font-scale-2xl));
   --scale-factor: 1.333333333; /* to be used for font scaling */
 
   /*
@@ -49,8 +90,6 @@
    l     2.4    type-body-l,
   Rm     1.8    type-body, type-subheading, type-heading
    s     1.4    type-body-s
-   xs    1.05
-   2xs   0.7875
   */
   --font-scale-6xl: 10.4rem;
   --font-scale-5xl: 8.4rem;
@@ -59,10 +98,8 @@
   --font-scale-2xl: 3.2rem;
   --font-scale-xl: 2.8rem;
   --font-scale-l: 2.4rem;
-  --font-scale-m: var(--font-base-size);
+  --font-scale-m: calc(var(--font-base-size) * 1rem);
   --font-scale-s: 1.4rem;
-  --font-scale-xs: calc(var(--font-scale-s) / var(--scale-factor));
-  --font-scale-2xs: calc(var(--font-scale-xs) / var(--scale-factor));
 
 
 
@@ -154,7 +191,7 @@ h6,
 p,
 ul,
 ol {
-  line-height: var(--line-height);
+  line-height: var(--line-height-ratio);
   margin: 0;
   padding: 0;
 }
@@ -240,40 +277,21 @@ html {
   font-size: var(--font-html-size); /* 10px base size */
 }
 
-.type-display-2xl,
-.type-display-xl,
-.type-display-l,
-.type-heading,
-.type-subheading,
-.type-body-s,
-.type-body,
-.type-body-l,
-.type-body-xl {
-  padding: 0;
+@mixin type-base-display {
+    color: var(--display-color);
+    font-family: var(--display-font-family);
+    font-weight: var(--display-weight);
 }
 
-.type-display-2xl,
-.type-display-xl,
-.type-display-l,
-.type-heading,
-.type-subheading {
-  color: var(--display-color);
-  font-family: var(--display-font-family);
-  font-weight: var(--display-weight);
+@mixin type-base-body {
+    color: var(--text-color);
+    font-family: var(--text-font-family);
+    font-weight: var(--text-weight);
 }
 
 
-.type-body-xl,
-.type-body-l,
-body,
-.type-body,
-.type-body-s {
-  color: var(--text-color);
-  font-family: var(--text-font-family);
-  font-weight: var(--text-weight);
-}
-
-.type-display-2xl {
+@mixin type-display-2xl {
+  @include type-base-display;
   font-size: var(--font-scale-5xl);
   line-height: calc(var(--line-height) * 3);
   margin-top: var(--spacing-layout-m);
@@ -282,7 +300,13 @@ body,
   font-weight: 700;
 }
 
-.type-display-xl {
+.type-display-2xl {
+  @include type-display-2xl;
+}
+
+
+@mixin type-display-xl {
+  @include type-base-display;
   font-size: var(--font-scale-4xl);
   line-height: calc(var(--line-height) * 3);
   margin-top: var(--spacing-layout-s);
@@ -290,7 +314,13 @@ body,
   letter-spacing: -0.1rem;
 }
 
-.type-display-l {
+.type-display-xl {
+  @include type-display-xl;
+}
+
+
+@mixin type-display-l {
+  @include type-base-display;
   font-size: var(--font-scale-3xl);
   line-height: calc(var(--line-height) * 2.5);
   margin-top: var(--spacing-layout-xs);
@@ -298,21 +328,39 @@ body,
 
 }
 
-.type-display-m {
+.type-display-l {
+  @include type-display-l;
+}
+
+
+@mixin type-display-m {
+  @include type-base-display;
   font-size: var(--font-scale-2xl);
-  line-height: calc(var(--line-height) * 2);
+  line-height: calc(var(--line-height) * 1.25);
+  margin-top: var(--spacing-layout-xs);
+  margin-bottom: var(--spacing-layout-xs);
+}
+
+.type-display-m {
+  @include type-display-m;
+}
+
+
+@mixin type-display-s {
+  @include type-base-display;
+  font-size: var(--font-scale-xl);
+  line-height: calc(var(--line-height) * 1.25);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 }
 
 .type-display-s {
-  font-size: var(--font-scale-xl);
-  line-height: calc(var(--line-height) * 1.33333333);
-  margin-top: var(--spacing-layout-xs);
-  margin-bottom: var(--spacing-layout-xs);
+  @include type-display-s;
 }
 
-.type-heading {
+
+@mixin type-heading {
+  @include type-base-display;
   font-size: var(--font-scale-m);
   line-height: var(--line-height);
   margin-top: 0;
@@ -323,7 +371,13 @@ body,
   color: var(--c-tertiary);
 }
 
-.type-subheading {
+.type-heading {
+  @include type-heading;
+}
+
+
+@mixin type-subheading {
+  @include type-base-display;
   font-size: var(--font-scale-m);
   line-height: var(--line-height);
   margin-top: var(--spacing-layout-xs);
@@ -332,31 +386,61 @@ body,
   color: var(--c-tertiary);
 }
 
-.type-body-xl {
+.type-subheading {
+  @include type-subheading;
+}
+
+
+@mixin type-body-xl {
+  @include type-base-body;
   font-size: var(--font-scale-xl);
   line-height: calc(var(--line-height) * 1.5);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 }
 
-.type-body-l {
+.type-body-xl {
+  @include type-body-xl;
+}
+
+
+@mixin type-body-l {
+  @include type-base-body;
   font-size: var(--font-scale-l);
-  line-height: calc(var(--line-height) * 1.2);
+  line-height: calc(var(--line-height) * 1.25);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 }
 
-.type-body {
+.type-body-l {
+  @include type-body-l;
+}
+
+
+@mixin type-body {
+  @include type-base-body;
   font-size: var(--font-scale-m);
   line-height: var(--line-height);
 }
 
-.type-body-s {
+body,
+.type-body {
+  @include type-body;
+}
+
+
+@mixin type-body-s {
+  @include type-base-body;
   font-size: var(--font-scale-s);
-  line-height: var(--line-height);
+  line-height: calc(var(--line-height) * 0.75);
   margin-top: var(--spacing-layout-xs);
   margin-bottom: var(--spacing-layout-xs);
 }
+
+.type-body-s {
+  @include type-body-s;
+}
+
 
 .type-body p,
 .type-body ul,
@@ -447,7 +531,7 @@ modifiers:
 
 
 /* Component
--- Image ----------------------------------------------------------------------
+-- Link ----------------------------------------------------------------------
 
 structure:
   a.thds-link
@@ -503,6 +587,7 @@ modifiers:
 
 */
 .thds-list {
+  @include type-body;
   list-style-type: none;
 }
 
@@ -540,12 +625,17 @@ structure:
 structure:
   codeblock.thds-embedded-svg
     svg.thds-embedded-svg__image
+
+modifiers:
+  .thds-embedded-svg_icon_m  2x line height
 */
 .thds-embedded-svg__image {
   display: block;
 }
 
-
+.thds-embedded-svg_icon_m .thds-embedded-svg__image {
+  height: calc(var(--line-height) * 2);
+}
 
 
 
@@ -566,9 +656,16 @@ modifiers:
     margin-bottom: var(--line-height);
 }
 
+.thds-text-block__title {
+    @include type-subheading;
+}
+
+.thds-text-block__description {
+    @include type-body;
+}
 
 .thds-text-block_bulleted {
-  --bullet-width: var(--font-base-size);
+  --bullet-width: var(--font-scale-m);
   --bullet-dimension-ratio: 0.83360927;
   --bullet-height: calc(var(--bullet-width) * var(--bullet-dimension-ratio));
 
@@ -590,26 +687,12 @@ modifiers:
 
 
 .thds-text-block_large .thds-text-block__title {
-  /* .type-display-l  */
-  font-family: var(--display-font-family);
-  font-size: var(--font-scale-xl);
-  line-height: calc(var(--line-height) * 1.5);
-  margin-top: var(--spacing-layout-xs);
-  margin-bottom: var(--spacing-layout-xs);
-  letter-spacing: -0.05rem;
-  font-weight: 700;
+    @include type-display-m;
 }
 
 .thds-text-block_large .thds-text-block__description {
-  /* .type-body-l */
-    font-size: var(--font-scale-l);
-  line-height: calc(var(--line-height) * 1.5);
-  margin-top: var(--spacing-layout-xs);
-  margin-bottom: var(--spacing-layout-xs);
-  letter-spacing: -0.03rem;
-  font-weight: 400;
+    @include type-body-l;
 }
-
 
 
 
@@ -621,18 +704,15 @@ structure:
   a.thds-button.type-heading
 */
 .thds-button {
+  @include type-heading;
   display: inline-block;
-  margin-bottom: 2.7rem;
-  border: 2px solid var(--brand-2);
+  margin: var(--line-height) 0;
+  border: 2px solid var(--c-ui-1);
   text-decoration: none;
-    text-align: center;
-  padding: calc(var(--spacing-component-xs) + 0.2rem) calc(var(--spacing-component-m) + var(--spacing-component-2xs)) var(--spacing-component-xs) !important;
-  color: var(--brand-2);
-    cursor: pointer;
+  text-align: center;
+  padding: calc(var(--spacing-component-xs) - 0.4rem) calc(var(--spacing-component-m) + var(--spacing-component-2xs)) var(--spacing-component-xs) !important;
+  cursor: pointer;
 }
-
-
-
 
 .thds-button:hover {
   border-color: var(--brand-4);
@@ -640,13 +720,13 @@ structure:
 }
 
 
-.thds-button.disabled {
+.thds-button_disabled {
     color: var(--ui-3);
     border-color: var(--ui-3);
     cursor: not-allowed;
 }
 
-.thds-button.disabled {
+.thds-button_disabled {
   color: var(--ui-3);
     border-color: var(--ui-3);
 }
@@ -699,18 +779,16 @@ structure:
     rich-text.thds-portfolio-service-overview__explanation.type-body
 */
 
+.thds-portfolio-service-overview__service {
+  @include type-heading;
+}
+
+.thds-portfolio-service-overview__tagline {
+  @include type-display-l;
+}
 
 .thds-portfolio-service-overview__explanation {
-    /* thds-color-ui-2 */
-    color: var(--ui-2);
-
-    /* type-body-l */
-  font-size: var(--font-scale-l);
-  line-height: calc(var(--line-height) * 1.5);
-  margin-top: var(--spacing-layout-xs);
-  margin-bottom: var(--spacing-layout-xs);
-  letter-spacing: -0.03rem;
-  font-weight: 400;
+  @include type-body-l;
 }
 
 
@@ -1033,10 +1111,11 @@ structure:
 }
 
 .thds-item-breakdown:last-of-type {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .thds-item-breakdown__title {
+    @include type-display-l;
   /* optically align to top of section */
   margin-top: calc(var(--line-height) / var(--scale-factor) / -2);
 }
@@ -1060,6 +1139,9 @@ structure:
   }
 }
 
+.thds-item-breakdown__description {
+    @include type-body;
+}
 
 
 
@@ -1109,6 +1191,7 @@ structure:
 .thds-logo-grid__item {
   flex-basis: 25%;
   display: flex;
+  height: calc(var(--line-height) * 3);
 }
 
 @media screen and (max-width: 768px) {
@@ -1226,6 +1309,10 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 
 .oxy-nav-menu-prevent-overflow .thds-header .thds-header__image-link-wrapper {
   z-index: 2147483643;
+}
+
+.oxy-header-container {
+  padding: 0;
 }
 
 

@@ -1,17 +1,9 @@
 {
-  "liveSassCompile.settings.showOutputWindow": false,
-  "liveServer.settings.root": "/dist/",
-  "liveSassCompile.settings.excludeList": [
-    "**/node_modules/**",
-    ".vscode/**",
-    "dist/**",
-  ],
-  "liveSassCompile.settings.formats": [
-    // This is Default.
-    {
-      "format": "expanded",
-      "extensionName": ".css",
-      "savePath": "/dist"
-    },
-  ]
+  "liveServer.settings.root": "./dist",
+  "dartsass.targetDirectory": "./dist",
+  "dartsass.sassWorkingDirectory": "./src",
+  "dartsass.sassBinPath": "C:\\ProgramData\\chocolatey\\bin\\sass.exe",
+  "dartsass.pauseInterval": 0.2,
+  "dartsass.disableMinifiedFileGeneration": true,
+  "dartsass.disableAutoPrefixer": true,
 }

@@ -1,3 +1,4 @@
+@use "sass:color";
 // Syntax
 // block-name__element-name_modifier-name_sub-modifier-name
 // .button_theme_blast
@@ -24,47 +25,47 @@
 //     - .button_disabled
 
 // Dev Styles ================================
-body {
-  background-image: linear-gradient(
-    180deg,
-    #db5353 1.56%,
-    #ffffff 1.56%,
-    #ffffff 12.5%,
-    #f7d6aa 12.5%,
-    #f7d6aa 14.06%,
-    #fff 14.06%,
-    #fff 25%,
-    #b0ffbb 25%,
-    #b0ffbb 26.56%,
-    #fff 26.56%,
-    #fff 37.5%,
-    #cfcbfa 37.5%,
-    #cfcbfa 39.06%,
-    #fff 39.06%,
-    #fff 50%,
-    #db5353 50%,
-    #db5353 51.56%,
-    #ffffff 51.56%,
-    #ffffff 62.5%,
-    #f7d6aa 62.5%,
-    #f7d6aa 64.06%,
-    #fff 64.06%,
-    #fff 75%,
-    #b0ffbb 75%,
-    #b0ffbb 76.56%,
-    #fff 76.56%,
-    #fff 87.5%,
-    #cfcbfa 87.5%,
-    #cfcbfa 89.06%,
-    #fff 89.06%,
-    #fff 100%
-  );
-  background-size: 64px 64px;
-}
+// body {
+//   background-image: linear-gradient(
+//     180deg,
+//     #db5353 1.56%,
+//     #ffffff 1.56%,
+//     #ffffff 12.5%,
+//     #f7d6aa 12.5%,
+//     #f7d6aa 14.06%,
+//     #fff 14.06%,
+//     #fff 25%,
+//     #b0ffbb 25%,
+//     #b0ffbb 26.56%,
+//     #fff 26.56%,
+//     #fff 37.5%,
+//     #cfcbfa 37.5%,
+//     #cfcbfa 39.06%,
+//     #fff 39.06%,
+//     #fff 50%,
+//     #db5353 50%,
+//     #db5353 51.56%,
+//     #ffffff 51.56%,
+//     #ffffff 62.5%,
+//     #f7d6aa 62.5%,
+//     #f7d6aa 64.06%,
+//     #fff 64.06%,
+//     #fff 75%,
+//     #b0ffbb 75%,
+//     #b0ffbb 76.56%,
+//     #fff 76.56%,
+//     #fff 87.5%,
+//     #cfcbfa 87.5%,
+//     #cfcbfa 89.06%,
+//     #fff 89.06%,
+//     #fff 100%
+//   );
+//   background-size: 64px 64px;
+// }
 
-* {
-  outline: 1px solid blue;
-}
+// * {
+//   outline: 1px solid rgba(50, 0, 0, 0.3);
+// }
 
 //=================================================================
 // SASS FUNCTIONS =================================================
@@ -366,14 +367,27 @@ $spacings: (
   @return map-get($spacings, $spacing);
 }
 
+// Shapes ==========================================================
+@mixin triangle_equilateral($width: spacing(component-2xs), $color: $text-color) {
+  // 0.86602540 is pythagorean equilateral ratio b = sqrt(1^2 - 0.5^2)
+  $border-height: ($width / 2 / 0.86602540);
+  width: 0;
+	height: 0;
+	
+	border-right: $border-height solid transparent; 
+	border-left: $border-height solid transparent; 
+
+	border-bottom: $width solid $color; 
+}
+
 // Theming =========================================================
-$display-color: color(primary);
+$display-color: color(ui-1);
 $display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT",
   "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue",
   Helvetica, Arial, sans-serif;
 $display-weight: 800;
 
-$text-color: color(primary);
+$text-color: color(ui-1);
 $text-font-family: "Rubik", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro",
   Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica,
   Arial, sans-serif;
@@ -444,13 +458,13 @@ $type-display-2xl: map-merge($-type-base-display, (
   font-weight: 700,
   font-size: get-type-size(16),
   line-height: get-line-height(get-type-size(16), 1.15),
-  margin-top: spacing(layout-m),
+  margin-top: 0,
   margin-bottom: spacing(layout-s),
   letter-spacing: -1px,
   breakpoints: (
     oxy-s: (
-      font-size: get-type-size(16, 0.5),
-      line-height: get-line-height(get-type-size(16, 0.5), 1.15)
+      font-size: get-type-size(11, 0.5),
+      line-height: get-line-height(get-type-size(11, 0.5), 1.15)
     ),
   ),
 ));
@@ -458,13 +472,13 @@ $type-display-2xl: map-merge($-type-base-display, (
 $type-display-xl: map-merge($-type-base-display, (
   font-size: get-type-size(14),
   line-height: get-line-height(get-type-size(14), 1.2),
-  margin-top: spacing(layout-s),
-  margin-bottom: spacing(layout-xs),
+  margin-top: 0,
+  margin-bottom: spacing(layout-s),
   letter-spacing: -1px,
   breakpoints: (
     oxy-s: (
-      font-size: get-type-size(14, 0.5),
-      line-height: get-line-height(get-type-size(14, 0.5), 1.15)
+      font-size: get-type-size(10, 0.5),
+      line-height: get-line-height(get-type-size(10, 0.5), 1.15)
     ),
   ),
 ));
@@ -472,12 +486,12 @@ $type-display-xl: map-merge($-type-base-display, (
 $type-display-l: map-merge($-type-base-display, (
   font-size: get-type-size(12),
   line-height: get-line-height(get-type-size(12), 1.2),
-  margin-top: spacing(layout-xs),
+  margin-top: 0,
   margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
-      font-size: get-type-size(12, 0.5),
-      line-height: get-line-height(get-type-size(12, 0.5), 1.15)
+      font-size: get-type-size(9, 0.5),
+      line-height: get-line-height(get-type-size(9, 0.5), 1.15)
     ),
   ),
 ));
@@ -485,7 +499,7 @@ $type-display-l: map-merge($-type-base-display, (
 $type-display-m: map-merge($-type-base-display, (
   font-size: get-type-size(8),
   line-height: get-line-height(get-type-size(8), 1.5),
-  margin-top: spacing(layout-xs),
+  margin-top: 0,
   margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
@@ -498,8 +512,8 @@ $type-display-m: map-merge($-type-base-display, (
 $type-display-s: map-merge($-type-base-display, (
   font-size: get-type-size(7),
   line-height: get-line-height(get-type-size(7)),
-  margin-top: spacing(layout-xs),
-  margin-bottom: spacing(layout-xs),
+  margin-top: 0,
+  margin-bottom: spacing(layout-2xs),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(7, 0.5),
@@ -509,7 +523,7 @@ $type-display-s: map-merge($-type-base-display, (
 ));
 
 $type-heading: (
-  color: color(tertiary),
+  color: color(accent-1),
   font-family: $display-font-family,
   font-weight: 700,
   font-size: get-type-size(6),
@@ -521,23 +535,23 @@ $type-heading: (
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(6, 0.5),
-      line-height: get-line-height(get-type-size(6, 0.5), 1.15)
+      line-height: get-line-height(get-type-size(6, 0.5), 1.5)
     ),
   ),
 );
 
 $type-subheading: (
-  color: color(tertiary),
+  color: color(accent-1),
   font-family: $display-font-family,
   font-weight: 700,
   font-size: get-type-size(4),
   line-height: get-line-height(get-type-size(4), 1.6),
-  margin-top: spacing(layout-xs),
+  margin-top: 0,
   margin-bottom: 0,
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(4, 0.5),
-      line-height: get-line-height(get-type-size(4, 0.5), 1.15)
+      line-height: get-line-height(get-type-size(4, 0.5), 1.6)
     ),
   ),
 );
@@ -552,12 +566,12 @@ $-type-base-body: (
 $type-body-xl: map-merge($-type-base-body, (
   font-size: get-type-size(7),
   line-height: get-line-height(get-type-size(7)),
-  margin-top: spacing(layout-xs),
-  margin-bottom: spacing(layout-xs),
+  margin-top: 0,
+  margin-bottom: spacing(layout-s),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(7, 0.5),
-      line-height: get-line-height(get-type-size(7, 0.5), 1.3)
+      line-height: get-line-height(get-type-size(7, 0.5), 1.4)
     ),
   ),
 ));
@@ -566,12 +580,12 @@ $type-body-xl: map-merge($-type-base-body, (
 $type-body-l: map-merge($-type-base-body, (
   font-size: get-type-size(6),
   line-height: get-line-height(get-type-size(6)),
-  margin-top: spacing(layout-xs),
-  margin-bottom: spacing(layout-xs),
+  margin-top: 0,
+  margin-bottom: spacing(layout-s),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(6, 0.5),
-      line-height: get-line-height(get-type-size(6, 0.5), 1.35)
+      line-height: get-line-height(get-type-size(6, 0.5), 1.4)
     ),
   ),
 ));
@@ -582,7 +596,7 @@ $type-body: map-merge($-type-base-body, (
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(4, 0.5),
-      line-height: get-line-height(get-type-size(4, 0.5), 1.35)
+      line-height: get-line-height(get-type-size(4, 0.5), 1.6)
     ),
   ),
 ));
@@ -590,7 +604,7 @@ $type-body: map-merge($-type-base-body, (
 $type-body-s: map-merge($-type-base-body, (
   font-size: get-type-size(2),
   line-height: get-line-height(get-type-size(2)),
-  margin-top: spacing(layout-xs),
+  margin-top: 0,
   margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
@@ -598,6 +612,12 @@ $type-body-s: map-merge($-type-base-body, (
       line-height: get-line-height(get-type-size(2, 0.5), 1.5)
     ),
   ),
+));
+
+$type-badge: map-merge($-type-base-body, (
+  font-size: get-type-size(3),
+  line-height: get-line-height(get-type-size(3)),
+  font-weight: font-weight('medium'),
 ));
 
 
@@ -615,6 +635,7 @@ $tokens: (
   type-body-l: $type-body-l,
   type-body: $type-body,
   type-body-s: $type-body-s,
+  type-badge: $type-badge,
 );
 
 
@@ -634,6 +655,12 @@ html {
 
 body {
   margin: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  -ms-hyphenate-limit-chars: 10 4 4;
 }
 
 /**
@@ -801,11 +828,12 @@ modifiers:
   margin-left: auto;
   margin-right: auto;
   position: relative;
+  z-index: 1; /* set new stacking context */
 
-  @include respond(below, $layout-width-content + (2 * spacing(layout-xs))) {
+  @include respond(below, $layout-width-content + (2 * spacing(layout-2xs))) {
     /* Fix scrollbar being included in media query calc */
-    margin-left: spacing(layout-xs);
-    margin-right: spacing(layout-xs);
+    margin-left: spacing(layout-2xs);
+    margin-right: spacing(layout-2xs);
     padding-left: 0;
     padding-right: 0;
   }
@@ -820,9 +848,9 @@ modifiers:
 .thds-container_width_wide {
   max-width: $layout-width-wide;
 
-  @include respond(below, $layout-width-wide + (2 * spacing(layout-xs))) {
-    margin-left: spacing(layout-xs);
-    margin-right: spacing(layout-xs);
+  @include respond(below, $layout-width-wide + (2 * spacing(layout-2xs))) {
+    margin-left: spacing(layout-2xs);
+    margin-right: spacing(layout-2xs);
     padding-left: 0;
     padding-right: 0;
   }
@@ -874,79 +902,103 @@ modifiers:
 
 .thds-card {
   display: block;
-  margin: -2px;
   position: relative;
   min-width: spacing(layout-l);
   min-height: spacing(layout-m);
-  border: 2px solid color(ui-2);
+  box-shadow: 0 0 0 1px color(secondary);
   padding: spacing(component-m);
   margin: 16px;
   transition: all 400ms ease-in-out;
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  &:before {
+    display: block;
+    content: ' ';
+    position: absolute;
+    background-color: color(ui-3);
+    width: 100%;
+    height: 100%;
+    top: spacing(component-3xs);
+    right: spacing(component-3xs);
+    z-index: -1;
+    transition: all 400ms ease-in-out;
+  }
+
+  &:hover {
+    border-color: color(secondary);
+    transition: all 400ms ease-in-out;
+  }
+
+  &:hover:before {
+    top: 0;
+    right: 0;
+    transition: all 400ms;
+  }
+
+  &_clickable {
+    text-decoration: none;
+  }
 }
 
-.thds-card > :first-child {
-  margin-top: 0;
+/* Component
+-- Button ---------------------------------------------------------------------
+
+structure:
+    a.thds-button
+*/
+.thds-button {
+  @include type-style(type-heading);
+  display: inline-block;
+  margin: spacing(component-s) 0;
+  background-color: color(secondary);
+  color: color(ui-4);
+  text-decoration: none;
+  text-align: center;
+  padding: (spacing(component-xs)) (spacing(component-s)) spacing(component-xs);
+  cursor: pointer;
+  position: relative;
+  transition: all 250ms ease-in-out;
 }
 
-.thds-card > :last-child {
-  margin-bottom: 0;
-}
-
-.thds-card:before {
-  display: block;
+.thds-button:before {
   content: ' ';
-  position: absolute;
-  background-color: color(ui-3);
-  width: 100%;
-  height: 100%;
-  top: spacing(component-2xs);
-  left: spacing(component-2xs);
-  z-index: -1;
-  transition: all 400ms ease-in-out;
-}
-
-.thds-card:hover {
-  border-color: color(secondary);
-  transition: all 400ms ease-in-out;
-}
-
-.thds-card:hover:before {
-  top: 0;
-  left: 0;
-  transition: all 400ms;
-}
-
-.thds-card_clickable {
-  text-decoration: none;
-}
-
-/* Component
--- Link ----------------------------------------------------------------------
-
-structure:
-    a.thds-link
-*/
-.thds-link {
-  color: color(accent-2);
-  text-decoration: underline;
-}
-
-.thds-link:hover {
-  color: color(accent-2);
-  text-decoration: none;
-}
-
-/* Component
--- Image ----------------------------------------------------------------------
-
-structure:
-    img.thds-image
-*/
-.thds-image {
-  max-width: 100%;
   display: block;
-  margin: 0 auto;
+  width: spacing(component-2xs);
+  border-radius: 50%;
+  background-color: color(tertiary);
+  height: spacing(component-2xs);
+  position: absolute;
+  bottom: calc(0% - (#{spacing(component-2xs)} / 2));
+  left: calc(50% - (#{spacing(component-2xs)} / 2));
+  transition: all 300ms ease-in-out;
+  transform: rotate(-180deg);
 }
+
+.thds-button:hover:before {
+  transition: all 300ms ease-in-out;
+  border-radius: 0;
+  transform: rotate(45deg);
+}
+
+.thds-button:hover {
+  background-color: color(tertiary);
+  color: color(ui-3);
+  transition: all 250ms ease-in-out;
+}
+
+.thds-button_secondary {
+  color: color(ui-1);
+  background-color: color(ui-4);
+}
+
+.thds-button_secondary:hover {
+  color: color(ui-1);
+}
+
+
 
 /* Component
 -- List -----------------------------------------------------------------------
@@ -975,9 +1027,31 @@ modifiers:
   list-style-type: none;
 }
 
-.thds-list_bulleted {
-  list-style-type: square;
+.thds-list_bulleted .thds-list__item {
+  padding-left: (spacing(component-s));
+  position: relative;
 }
+
+.thds-list_bulleted .thds-list__item:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: calc(50% - (#{spacing(component-3xs)} / 2) - 2px);
+  @include triangle_equilateral(6px, color(tertiary));
+  transform: rotate(-50deg);
+}
+
+.thds-list_bulleted .thds-list__item:after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  left: 2px;
+  top: calc(50% - (#{spacing(component-3xs)} / 2) - 5px);
+  @include triangle_equilateral(6px, color(primary));
+  transform: rotate(-50deg);
+}
+
 
 .thds-list_display_inline {
   display: -webkit-box;
@@ -996,12 +1070,286 @@ structure:
 modifiers:
     .thds-embedded-svg_icon_m  2x line height
 */
+.thds-embedded-svg {
+  display: inline-block;
+  margin: 0 spacing(layout-xs) 0 0;
+  position: relative;
+  color: color(ui-1);
+}
 .thds-embedded-svg__image {
   display: block;
 }
 
 .thds-embedded-svg_icon_m .thds-embedded-svg__image {
-  height: spacing(component-xl);
+  height: spacing(component-l);
+}
+
+
+@mixin shape($shape: "triangle",$size: spacing(component-l), $color: color(primary)) {
+  width: 0;
+  height: 0;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  transform: none;
+  background: transparent;
+  border-radius: 0;
+  z-index: -1;
+  @if ($shape == "triangle") {
+    @include triangle_equilateral($size, $color);
+  } @else if ($shape == "square") {
+    width: $size;
+    height: $size;
+    background: $color;
+  } @else if ($shape == "circle") {
+    width: $size;
+    height: $size;
+    background: $color;
+    border-radius: 50%;
+  } @else if ($shape == "parallelogram") {
+    width: $size * 0.85;
+    height: $size;
+    transform: skew(-20deg);
+    background: $color;
+  }
+}
+
+.thds-embedded-svg:before {
+  content: ' ';
+  position: absolute;
+  top: calc(60% - #{spacing(component-m) / 2});
+  left: calc(30% - #{spacing(component-m) / 2});
+}
+
+:nth-of-type(3n-2) > .thds-embedded-svg:nth-of-type(3n-2):before {
+   @include shape(parallelogram, spacing(component-m), color(secondary));
+}
+
+:nth-of-type(3n-2) > .thds-embedded-svg:nth-of-type(3n-1):before {
+   @include shape(circle, spacing(component-m), color(tertiary));
+}
+
+:nth-of-type(3n-2) > .thds-embedded-svg:nth-of-type(3n):before {
+   @include shape(triangle, spacing(component-m), color(accent-2));
+}
+
+:nth-of-type(3n-1) > .thds-embedded-svg:nth-of-type(3n-2):before {
+   @include shape(circle, spacing(component-m), color(tertiary));
+}
+
+:nth-of-type(3n-1) > .thds-embedded-svg:nth-of-type(3n-1):before {
+   @include shape(square, spacing(component-m), color(secondary));
+}
+
+:nth-of-type(3n-1) > .thds-embedded-svg:nth-of-type(3n):before {
+   @include shape(parallelogram, spacing(component-m), color(tertiary));
+}
+
+:nth-of-type(3n) > .thds-embedded-svg:nth-of-type(3n-2):before {
+   @include shape(triangle, spacing(component-m), color(accent-3));
+}
+
+:nth-of-type(3n) > .thds-embedded-svg:nth-of-type(3n-1):before {
+   @include shape(parallelogram, spacing(component-m), color(accent-2));
+}
+
+:nth-of-type(3n) > .thds-embedded-svg:nth-of-type(3n):before {
+   @include shape(square, spacing(component-m), color(secondary));
+}
+
+/* Component
+-- Image ----------------------------------------------------------------------
+
+structure:
+    img.thds-image
+*/
+.thds-image {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+
+/* Component
+-- Badge ----------------------------------------------------------------------
+
+structure:
+    span.thds-badge
+
+modifiers:
+    a.thds-badge_clickable (makes a clickable badge with an a element)
+*/
+.thds-badge {
+  @include type-style('type-badge');
+  background: color(ui-2);
+  padding: spacing(component-3xs) spacing(component-2xs);
+  border-radius: spacing(component-3xs);
+  white-space: nowrap;
+}
+
+.thds-badge_clickable {
+  text-decoration:none;
+  background: color(secondary);
+  color: color(ui-4);
+}
+
+.thds-badge_clickable:hover {
+  color: color(ui-4);
+  background: color(accent-3);
+}
+
+/* Component
+-- Link ----------------------------------------------------------------------
+
+structure:
+    a.thds-link
+*/
+.thds-link {
+  color: color(accent-2);
+  text-decoration: none;
+  background-image: linear-gradient(90deg, color(accent-2) 0%, color(accent-2) 100%);
+  background-repeat: no-repeat;
+  background-size: calc(100% - 0px) 0.11em;
+  background-position: 100% 100%;
+  transition: background-size 0.25s ease-in-out, color 0.25s ease-in-out, padding 0.25s ease-in-out, border-radius 0.25s ease-in-out;
+
+  &:hover {
+    color: color(ui-4);
+    background-size: 100% 100%;
+    padding: 0 spacing(component-2xs);
+    border-radius: spacing(component-3xs);
+  }
+}
+
+/* Component
+-- Hero -----------------------------------------------------------------------
+
+vars:
+    $hero-height: height of the hero section.
+    $hero-height_mobile: height of hero when device width below breakpoint M.
+
+structure:
+    div.thds-hero
+    img.thds-hero__image
+    div.thds-hero__content
+        //content goes here
+
+modifiers:
+    .thds-hero_content_bottom
+*/
+$hero-height: 79vh;
+$hero-height_mobile: 71vh;
+
+.thds-hero {
+  height: $hero-height;
+
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.thds-hero__image {
+  width: 100%;
+  height: inherit;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+}
+
+.thds-hero__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 1;
+  max-width: $layout-width-content;
+  text-align: center;
+
+  color: color(ui-4);
+}
+
+.thds-hero__content > :first-child {
+  /* prevent first element from having margin */
+  margin-top: 0;
+}
+
+.thds-hero__content > :last-child {
+  /* prevent last element from having bottom margin */
+  margin-bottom: 0;
+}
+
+@include respond(below, $layout-width-content + (2 * spacing(layout-xs))) {
+  /* NOTE: must recalculate if page width changes from 1160px */
+  .thds-hero__content {
+    margin-left: spacing(layout-xs);
+    margin-right: spacing(layout-xs);
+    padding-bottom: spacing(layout-xs);
+    padding-top: spacing(layout-xs);
+  }
+}
+
+@include respond(below, oxy-m, 0) {
+  /* compensate for oxygen off-by-one error */
+  .thds-hero {
+    height: $hero-height_mobile;
+  }
+}
+
+.thds-hero_content_bottom {
+  justify-content: flex-end;
+}
+
+.thds-hero_content_bottom .thds-hero__content {
+  text-align: left;
+  padding-bottom: spacing(layout-l);
+}
+
+/* Component
+-- Hero -----------------------------------------------------------------------
+
+structure:
+    <any typography or span>.thds-highlight.thds-highlight_color_r
+
+modifiers:
+    .thds-highlight_color_r
+    .thds-highlight_color_o
+    .thds-highlight_color_y
+    .thds-highlight_color_g
+    .thds-highlight_color_b
+    .thds-highlight_color_v
+*/
+.thds-highlight {
+  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-g) 0.125em, color(highlight-g) 100%);
+  background-repeat: no-repeat;
+  background-size: calc(100%) 1.03em;
+  background-position: 100% 100%;
+}
+
+.thds-highlight_color_r {
+  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-r) 0.125em, color(highlight-r) 100%);
+}
+
+.thds-highlight_color_o {
+  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-o) 0.125em, color(highlight-o) 100%);
+}
+
+.thds-highlight_color_y {
+  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-y) 0.125em, color(highlight-y) 100%);
+}
+
+.thds-highlight_color_g {
+  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-g) 0.125em, color(highlight-g) 100%);
+}
+
+.thds-highlight_color_b {
+  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-b) 0.125em, color(highlight-b) 100%);
+}
+
+.thds-highlight_color_v {
+  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-v) 0.125em, color(highlight-v) 100%);
 }
 
 /* Component
@@ -1058,33 +1406,6 @@ modifiers:
   @include type-style(type-body-l);
 }
 
-/* Component
--- Button ---------------------------------------------------------------------
-
-structure:
-    a.thds-button.type-heading
-*/
-.thds-button {
-  @include type-style(type-heading);
-  display: inline-block;
-  margin: spacing(component-m) 0;
-  border: 2px solid color(ui-1);
-  text-decoration: none;
-  text-align: center;
-  padding: (spacing(component-xs) - 4px) (spacing(component-m) + spacing(component-2xs)) spacing(component-xs);
-  cursor: pointer;
-}
-
-.thds-button:hover {
-  border-color: color(tertiary);
-  color: color(primary);
-}
-
-.thds-button_disabled {
-  color: color(ui-3);
-  border-color: color(ui-3);
-  cursor: not-allowed;
-}
 
 /* Component
 -- Statistic ------------------------------------------------------------------
@@ -1268,96 +1589,6 @@ structure:
     margin-left: auto;
     margin-right: auto;
   }
-}
-
-/* Complex Component
-== Hero =======================================================================
-
-vars:
-    $hero-height: height of the hero section.
-    $hero-height_mobile: height of hero when device width below breakpoint M.
-
-structure:
-    div.thds-hero
-    img.thds-hero__image
-    div.thds-hero__content
-        //content goes here
-
-modifiers:
-    .thds-hero_content_bottom
-    .thds-hero_inverted
-*/
-$hero-height: 79vh;
-$hero-height_mobile: 71vh;
-
-.thds-hero {
-  height: $hero-height;
-
-  display: flex !important;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.thds-hero__image {
-  width: 100%;
-  height: inherit;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto;
-}
-
-.thds-hero__content {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  z-index: 1;
-  max-width: $layout-width-content;
-  text-align: center;
-
-  color: color(ui-4);
-}
-
-.thds-hero_inverted .thds-hero__content {
-  color: color(ui-1);
-}
-
-.thds-hero__content > :first-child {
-  /* prevent first element from having margin */
-  margin-top: 0;
-}
-
-.thds-hero__content > :last-child {
-  /* prevent last element from having bottom margin */
-  margin-bottom: 0;
-}
-
-@include respond(below, $layout-width-content + (2 * spacing(layout-xs))) {
-  /* NOTE: must recalculate if page width changes from 1160px */
-  .thds-hero__content {
-    margin-left: spacing(layout-xs);
-    margin-right: spacing(layout-xs);
-    padding-bottom: spacing(layout-xs);
-    padding-top: spacing(layout-xs);
-  }
-}
-
-@include respond(below, oxy-m, 0) {
-  /* compensate for oxygen off-by-one error */
-  .thds-hero {
-    height: $hero-height_mobile;
-  }
-}
-
-.thds-hero_content_bottom {
-  justify-content: flex-end;
-}
-
-.thds-hero_content_bottom .thds-hero__content {
-  text-align: left;
-  padding-bottom: spacing(layout-l);
 }
 
 /* Complex Component

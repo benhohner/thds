@@ -1605,6 +1605,8 @@ structure:
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  padding-top: spacing(component-s);
+  padding-bottom: spacing(component-s);
   padding-left: spacing(component-l);
   padding-right: spacing(component-l);
   overflow: hidden; /* prevent margin collapse */
@@ -1618,6 +1620,11 @@ structure:
 
 .thds-cta__message {
   @include type-style(type-body-l);
+  margin-bottom: 0;
+}
+
+.thds-cta__button {
+  margin-bottom: spacing(component-2xs);
 }
 
 /* Complex Component TODO

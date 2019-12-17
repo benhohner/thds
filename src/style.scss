@@ -699,8 +699,7 @@ a {
 }
 
 /* Oxygen Builder Overrides ============================== */
-.ct-section > .ct-section-inner-wrap,
-body .ct-div-block {
+.ct-section > .ct-section-inner-wrap, .ct-div-block {
   /* Make vertical margins collapse */
   display: block;
 }
@@ -1748,40 +1747,45 @@ structure:
 
 structure:
     div.thds-logo-grid
-    div.thds-logo-grid__item
-        img.thds-logo-grid__image
+        div.thds-logo-grid__item
+            img.thds-logo-grid__image
 */
 .thds-logo-grid {
-  display: flex !important;
+  display: flex; /* override body .ct-div-block in */
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: stretch;
+  justify-content: flex-start;
+  margin-bottom: spacing(layout-s);
 }
 
 .thds-logo-grid__item {
-  flex-basis: 25%;
+  flex: 0 1 33.33333%;
+  padding: 0 spacing(component-xs) spacing(component-s);
   display: flex;
-  height: spacing(component-3xl);
+  align-items: center;
+  justify-content: center;
 }
 
 @include respond(below, oxy-m) {
   .thds-logo-grid__item {
-    padding: spacing(component-2xs);
-    flex-basis: 50%;
+    flex: 0 0 50%;
   }
 }
 
 .thds-logo-grid__image {
-  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-  filter: grayscale(100%);
-  transition: filter 0.3s;
+  // -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  // filter: grayscale(100%);
+  // transition: filter 0.3s;
+  max-width: 100%;
+  max-height: spacing(component-3xl);
 }
 
-.thds-logo-grid__item:hover .thds-logo-grid__image {
-  -webkit-filter: none;
-  filter: none;
-  transition: filter 0.3s;
-}
+// .thds-logo-grid__item:hover .thds-logo-grid__image {
+//   -webkit-filter: none;
+//   filter: none;
+//   transition: filter 0.3s;
+// }
 
 /* Component
 -- Header ------------------------------------------------------------------

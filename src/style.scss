@@ -567,7 +567,7 @@ $type-body-xl: map-merge($-type-base-body, (
   font-size: get-type-size(7),
   line-height: get-line-height(get-type-size(7)),
   margin-top: 0,
-  margin-bottom: spacing(layout-s),
+  margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(7, 0.5),
@@ -581,7 +581,7 @@ $type-body-l: map-merge($-type-base-body, (
   font-size: get-type-size(6),
   line-height: get-line-height(get-type-size(6)),
   margin-top: 0,
-  margin-bottom: spacing(layout-s),
+  margin-bottom: spacing(layout-xs),
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(6, 0.5),
@@ -698,6 +698,11 @@ a {
   color: inherit;
 }
 
+address {
+  font-style: normal;
+  margin-bottom: spacing(component-xs);
+}
+
 /* Oxygen Builder Overrides ============================== */
 .ct-section > .ct-section-inner-wrap, .ct-div-block {
   /* Make vertical margins collapse */
@@ -724,12 +729,23 @@ a {
   padding-right: 0;
 }
 
-@include respond(below, oxy-m, 0) {
+@include respond(below, oxy-l, 0) {
   /* compensate for oxygen off-by-one error */
   .ct-new-columns > .ct-div-block {
     padding: 0;
+    margin-bottom: spacing(layout-2xs);
+  }
+
+  .ct-new-columns > .ct-div-block:last-child {
+    margin-bottom: 0;
   }
 }
+
+/* Map Overrides ============================ */
+.wpgmp_map_parent {
+  float: none !important;
+}
+
 
 /* Oxygen Helpers =========================== */
 .thds-helper_section_width_full > .ct-section-inner-wrap {
@@ -788,7 +804,7 @@ ol.type-body {
 
 /* Shadow Boxes */
 @mixin box-raised {
-  box-shadow: 0px 3px 17px rgba(50, 50, 50, 0.3);
+  box-shadow: spacing(component-2xs) spacing(component-2xs) 0 rgba(50, 50, 50, 0.3), inset 0 0 0 1px rgba(50, 50, 50, 0.3);
 }
 
 /* Component
@@ -885,6 +901,14 @@ modifiers:
   padding: 0 0 0 0;
 }
 
+.thds-columns {
+  margin-bottom: spacing(layout-s);
+}
+
+.thds-columns:last-child {
+  margin-bottom: 0;
+}
+
 /* Component
 -- Card ------------------------------------------------------------------
 A raised element to contain semantically related information and set it apart
@@ -904,10 +928,9 @@ modifiers:
   position: relative;
   min-width: spacing(layout-l);
   min-height: spacing(layout-m);
-  box-shadow: 0 0 0 1px color(secondary);
+  box-shadow: inset 0 0 0 1px color(secondary);
   padding: spacing(component-m);
-  margin: 16px;
-  transition: all 400ms ease-in-out;
+  transition: all 250ms ease-in-out;
 
   > :last-child {
     margin-bottom: 0;
@@ -923,22 +946,30 @@ modifiers:
     top: spacing(component-3xs);
     right: spacing(component-3xs);
     z-index: -1;
-    transition: all 400ms ease-in-out;
+    transition: all 250ms ease-in-out;
   }
 
   &:hover {
     border-color: color(secondary);
-    transition: all 400ms ease-in-out;
+    transition: all 250ms ease-in-out;
   }
 
   &:hover:before {
     top: 0;
     right: 0;
-    transition: all 400ms;
+    transition: all 250ms;
   }
 
   &_clickable {
     text-decoration: none;
+  }
+
+  &_clickable:hover {
+    box-shadow: inset 0 0 0 4px color(secondary);
+  }
+
+  &_clickable:active {
+    box-shadow: inset 0 0 0 6px color(secondary);
   }
 }
 
@@ -1036,7 +1067,7 @@ modifiers:
   display: inline-block;
   position: absolute;
   left: 0;
-  top: calc(50% - (#{spacing(component-3xs)} / 2) - 2px);
+  top: calc(0.5em + 4px);
   @include triangle_equilateral(6px, color(tertiary));
   transform: rotate(-50deg);
 }
@@ -1046,7 +1077,7 @@ modifiers:
   display: inline-block;
   position: absolute;
   left: 2px;
-  top: calc(50% - (#{spacing(component-3xs)} / 2) - 5px);
+  top: calc(0.5em + 1px);
   @include triangle_equilateral(6px, color(primary));
   transform: rotate(-50deg);
 }
@@ -1071,7 +1102,7 @@ modifiers:
 */
 .thds-embedded-svg {
   display: inline-block;
-  margin: 0 spacing(layout-xs) 0 0;
+  margin: 0 0 0 0;
   position: relative;
   color: color(ui-1);
 }
@@ -1166,7 +1197,6 @@ structure:
 .thds-image {
   max-width: 100%;
   display: block;
-  margin: 0 auto;
 }
 
 
@@ -1756,7 +1786,11 @@ structure:
   justify-content: space-between;
   align-items: stretch;
   justify-content: flex-start;
-  margin-bottom: spacing(layout-s);
+  margin-bottom: spacing(layout-xs);
+}
+
+.thds-logo-grid:last-of-type {
+  margin-bottom: 0;
 }
 
 .thds-logo-grid__item {
@@ -1765,6 +1799,14 @@ structure:
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.thds-logo-grid__item_show_2 {
+  flex: 0 1 50%;
+}
+
+.thds-logo-grid__item_show_4 {
+  flex: 0 1 25%;
 }
 
 @include respond(below, oxy-m) {
@@ -1832,6 +1874,7 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 
 .thds-header__nav {
   @include type-style(type-heading);
+  font-size: get-type-size(3);
   color: color(primary);
   margin-top: 0;
   margin-bottom: 0;
@@ -1902,10 +1945,11 @@ footer.thds-footer
 .thds-footer__row-wrapper {
   overflow: hidden;
   background-color: color(ui-2);
+  padding-top: spacing(layout-xs);
 }
 
 .thds-footer__row-wrapper_bottom {
-  background-color: color(ui-3);
+  background-color: color(ui-4);
 }
 
 .thds-footer__tagline {
@@ -1914,7 +1958,6 @@ footer.thds-footer
 
 .thds-footer__contact {
   @include type-style(type-body);
-  margin-bottom: spacing(component-m);
 }
 
 .thds-footer__copyright {

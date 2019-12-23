@@ -705,9 +705,15 @@ address {
 }
 
 /* Oxygen Builder Overrides ============================== */
-.ct-section > .ct-section-inner-wrap, .ct-div-block {
+.ct-section > .ct-section-inner-wrap,
+.ct-div-block {
   /* Make vertical margins collapse */
   display: block;
+}
+
+.ct-link {
+  display: inline;
+  text-align: inherit;
 }
 
 @include respond(below, oxy-xl, 0) {

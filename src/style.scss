@@ -381,7 +381,7 @@ $spacings: (
 }
 
 // Theming =========================================================
-$display-color: color(ui-1);
+$display-color: color(primary);
 $display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT",
   "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue",
   Helvetica, Arial, sans-serif;
@@ -473,7 +473,7 @@ $type-display-xl: map-merge($-type-base-display, (
   font-size: get-type-size(14),
   line-height: get-line-height(get-type-size(14), 1.2),
   margin-top: 0,
-  margin-bottom: spacing(layout-s),
+  margin-bottom: spacing(layout-xs),
   letter-spacing: -1px,
   breakpoints: (
     oxy-s: (
@@ -504,7 +504,7 @@ $type-display-m: map-merge($-type-base-display, (
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(8, 0.5),
-      line-height: get-line-height(get-type-size(8, 0.5), 1.15)
+      line-height: get-line-height(get-type-size(8, 0.5), 1.25)
     ),
   ),
 ));
@@ -517,13 +517,13 @@ $type-display-s: map-merge($-type-base-display, (
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(7, 0.5),
-      line-height: get-line-height(get-type-size(7, 0.5), 1.15)
+      line-height: get-line-height(get-type-size(7, 0.5), 1.25)
     ),
   ),
 ));
 
 $type-heading: (
-  color: color(accent-1),
+  color: color(tertiary),
   font-family: $display-font-family,
   font-weight: 700,
   font-size: get-type-size(6),
@@ -535,13 +535,13 @@ $type-heading: (
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(6, 0.5),
-      line-height: get-line-height(get-type-size(6, 0.5), 1.5)
+      line-height: get-line-height(get-type-size(6, 0.5), 1.7)
     ),
   ),
 );
 
 $type-subheading: (
-  color: color(accent-1),
+  color: color(tertiary),
   font-family: $display-font-family,
   font-weight: 700,
   font-size: get-type-size(4),
@@ -585,7 +585,7 @@ $type-body-l: map-merge($-type-base-body, (
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(6, 0.5),
-      line-height: get-line-height(get-type-size(6, 0.5), 1.4)
+      line-height: get-line-height(get-type-size(6, 0.5), 1.7)
     ),
   ),
 ));
@@ -596,7 +596,7 @@ $type-body: map-merge($-type-base-body, (
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(4, 0.5),
-      line-height: get-line-height(get-type-size(4, 0.5), 1.6)
+      line-height: get-line-height(get-type-size(4, 0.5), 1.7)
     ),
   ),
 ));
@@ -651,6 +651,7 @@ html {
   text-size-adjust: 100%;
   /* Enable kerning and optional ligatures */
   text-rendering: optimizeLegibility;
+  box-sizing: border-box; /* oxygen makes box-sizing inherit, so set here */
 }
 
 body {
@@ -804,7 +805,7 @@ ol.type-body {
 
 /* Shadow Boxes */
 @mixin box-raised {
-  box-shadow: spacing(component-2xs) spacing(component-2xs) 0 rgba(50, 50, 50, 0.3), inset 0 0 0 1px rgba(50, 50, 50, 0.3);
+  box-shadow: (0 - spacing(component-3xs)) spacing(component-3xs) 0 color(ui-3), inset 0 0 0 1px color(ui-3);
 }
 
 /* Component
@@ -838,7 +839,7 @@ modifiers:
 
 .thds-container {
   max-width: $layout-width-content;
-  margin-top: spacing(layout-l);
+  margin-top: spacing(layout-m);
   margin-bottom: spacing(layout-s);
   margin-left: auto;
   margin-right: auto;
@@ -976,12 +977,18 @@ modifiers:
 /* Component
 -- Button ---------------------------------------------------------------------
 
+modifiers:
+.thds-button_secondary
+.thds-button_block
+
 structure:
     a.thds-button
 */
 .thds-button {
   @include type-style(type-heading);
-  display: inline-block;
+  display: block;
+  width: auto;
+  width: max-content;
   margin: spacing(component-s) 0;
   background-color: color(secondary);
   color: color(ui-4);
@@ -1028,6 +1035,10 @@ structure:
   color: color(ui-1);
 }
 
+.thds-button_block {
+  display: block;
+  width: auto;
+}
 
 
 /* Component
@@ -1197,6 +1208,7 @@ structure:
 .thds-image {
   max-width: 100%;
   display: block;
+  margin-bottom: spacing(layout-2xs);
 }
 
 
@@ -1235,19 +1247,25 @@ structure:
     a.thds-link
 */
 .thds-link {
-  color: color(accent-2);
+  color: color(tertiary);
   text-decoration: none;
-  background-image: linear-gradient(90deg, color(accent-2) 0%, color(accent-2) 100%);
+  background-image: linear-gradient(90deg, color(tertiary) 0%, color(tertiary) 100%);
   background-repeat: no-repeat;
-  background-size: calc(100% - 0px) 0.11em;
+  background-size: calc(100% - 0px) 0.08em;
   background-position: 100% 100%;
-  transition: background-size 0.25s ease-in-out, color 0.25s ease-in-out, padding 0.25s ease-in-out, border-radius 0.25s ease-in-out;
+  transition: background-size 0.18s ease-in-out, color 0.18s ease-in-out, padding 0.18s ease-in-out, border-radius 0.18s ease-in-out;
 
   &:hover {
     color: color(ui-4);
     background-size: 100% 100%;
-    padding: 0 spacing(component-2xs);
-    border-radius: spacing(component-3xs);
+    // padding: 0 spacing(component-2xs);
+    // border-radius: spacing(component-3xs);
+  }
+
+  &_simple {
+    color: inherit;
+    text-decoration: underline;
+    background-image: none;
   }
 }
 
@@ -1256,7 +1274,7 @@ structure:
 
 vars:
     $hero-height: height of the hero section.
-    $hero-height_mobile: height of hero when device width below breakpoint M.
+    $hero-image-height_mobile: height of hero image when device width below breakpoint M.
 
 structure:
     div.thds-hero
@@ -1268,36 +1286,31 @@ modifiers:
     .thds-hero_content_bottom
 */
 $hero-height: 79vh;
-$hero-height_mobile: 71vh;
+$hero-image-height_mobile: 45vh;
 
 .thds-hero {
   height: $hero-height;
-
   display: flex !important;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
 }
 
 .thds-hero__image {
-  width: 100%;
+  width:69.75%;
   height: inherit;
   object-fit: cover;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 0 0;
 }
 
 .thds-hero__content {
   position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
   z-index: 1;
-  max-width: $layout-width-content;
+  max-width: ($layout-width-content + (2 * spacing(component-l)));
   text-align: center;
-
-  color: color(ui-4);
+  background-color: color(ui-4);
+  padding: spacing(component-l);
 }
 
 .thds-hero__content > :first-child {
@@ -1310,7 +1323,7 @@ $hero-height_mobile: 71vh;
   margin-bottom: 0;
 }
 
-@include respond(below, $layout-width-content + (2 * spacing(layout-xs))) {
+@include respond(below, ($layout-width-content + (2 * spacing(component-l)) + (2 * spacing(layout-xs)))) {
   /* NOTE: must recalculate if page width changes from 1160px */
   .thds-hero__content {
     margin-left: spacing(layout-xs);
@@ -1320,20 +1333,40 @@ $hero-height_mobile: 71vh;
   }
 }
 
-@include respond(below, oxy-m, 0) {
-  /* compensate for oxygen off-by-one error */
-  .thds-hero {
-    height: $hero-height_mobile;
-  }
+.thds-hero_content_bottom {
+  display: block !important;
 }
 
-.thds-hero_content_bottom {
-  justify-content: flex-end;
-}
 
 .thds-hero_content_bottom .thds-hero__content {
+  position: absolute;
+  bottom: 10%;
+  right: spacing(component-xl);
   text-align: left;
-  padding-bottom: spacing(layout-l);
+}
+
+
+@include respond(below, "oxy-s") {
+  .thds-hero{
+    display: block !important;
+    height: auto;
+  }
+
+  .thds-hero__image {
+    width: 100%;
+    min-height: $hero-image-height_mobile;
+  }
+
+  .thds-hero__content,
+  .thds-hero_content_bottom .thds-hero__content {
+    margin-left: 0;
+    margin-right: 0;
+    padding: spacing(layout-s) spacing(layout-2xs) spacing(layout-2xs) spacing(layout-2xs);
+    position: relative;
+    bottom: auto;
+    right: auto;
+    text-align: left;
+  }
 }
 
 /* Component
@@ -1795,7 +1828,7 @@ structure:
 
 .thds-logo-grid__item {
   flex: 0 1 33.33333%;
-  padding: 0 spacing(component-xs) spacing(component-s);
+  padding: 0 spacing(component-xs) spacing(component-m);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1870,37 +1903,62 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 
 .thds-header__image {
   height: $layout-height-header;
+  margin-bottom: 0;
+}
+
+.thds-header__image-link-wrapper {
+  flex: 1 0 auto;
 }
 
 .thds-header__nav {
   @include type-style(type-heading);
   font-size: get-type-size(3);
-  color: color(primary);
+  color: color(ui-4);
   margin-top: 0;
   margin-bottom: 0;
 }
 
 .thds-header__nav .menu-item.current-menu-item > a,
 .thds-header__nav .menu-item.current-menu-parent > a {
-  color: color(secondary) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(tertiary) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__nav .menu-item a {
-  line-height: $layout-height-header;
+  height: $layout-height-header;
   padding: 0 25px;
 
   transition: all 0.3s;
-  color: color(accent-1) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(primary) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__nav .menu-item a:hover {
-  color: color(secondary) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(accent-4) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
   transition: all 0.3s;
 }
+
+
+.thds-header__nav .menu-item.thds-header__highlight a {
+  color: color(ui-4) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+}
+
+.thds-header__nav .menu-item.thds-header__highlight a:hover {
+  color: color(accent-4) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+}
+
+.thds-header__highlight a {
+  background-color: color(secondary);
+}
+
+.thds-header__highlight a:hover {
+  background-color: color(primary);
+}
+
 
 .thds-header__nav .oxy-nav-menu-hamburger-line {
   background-color: color(primary);
 }
+
+
 
 .thds-header .oxy-nav-menu-open .sub-menu {
   background-color: color(ui-3);
@@ -1942,24 +2000,57 @@ footer.thds-footer
   margin-top: spacing(layout-s);
 }
 
+.thds-footer__row-wrapper p,
+.thds-footer__row-wrapper address {
+  color: color(ui-2);
+}
+
 .thds-footer__row-wrapper {
-  overflow: hidden;
-  background-color: color(ui-2);
   padding-top: spacing(layout-xs);
 }
 
-.thds-footer__row-wrapper_bottom {
-  background-color: color(ui-4);
+.thds-footer__row-wrapper:nth-of-type(1) {
+  background-color: color(ui-3);
+}
+
+.thds-footer__row-wrapper:nth-of-type(2) {
+  overflow: hidden;
+  background-color: color(primary);
+}
+
+.thds-footer .thds-link_simple {
+  color: color(ui-4);
+}
+
+.thds-footer .thds-link_simple:hover {
+ color: color(tertiary);
+}
+
+.thds-footer__row-wrapper:nth-of-type(3) {
+  background-color: color(ui-1);
 }
 
 .thds-footer__tagline {
   @include type-style(type-display-m);
+  color: color(ui-3);
 }
 
-.thds-footer__contact {
-  @include type-style(type-body);
+
+
+.thds-footer__copyright :last-child {
+  margin-bottom: 0;
 }
 
-.thds-footer__copyright {
-  @include type-style(type-body-s);
+
+
+/* ============================================================================
+====== Custom Theming =========================================================
+============================================================================ */
+
+/* Contact Us Section ---------------------------------------------------------
+
+Section for the contact page
+*/
+.thds-section-contact-us {
+  @include box-raised;
 }

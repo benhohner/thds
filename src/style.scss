@@ -1269,9 +1269,14 @@ structure:
   }
 
   &_simple {
-    color: inherit;
+    color: color(primary);
     text-decoration: underline;
     background-image: none;
+  }
+
+  &_simple:hover {
+    color: color(ui-1);
+    text-decoration: none;
   }
 }
 

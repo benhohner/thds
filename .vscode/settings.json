@@ -1,5 +1,5 @@
 {
-  "liveServer.settings.root": "./src",
+  "liveServer.settings.root": "./",
   "dartsass.targetDirectory": "./dist",
   "dartsass.sassWorkingDirectory": "./src",
   "dartsass.sassBinPath": "C:\\ProgramData\\chocolatey\\bin\\sass.exe",

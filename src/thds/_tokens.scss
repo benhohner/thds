@@ -1,0 +1,22 @@
+@use '_utils' as *;
+
+
+// Spacing ========================================================
+$layout-width-wide: 1040px;
+$layout-width-content: 870px;
+$layout-height-header: 74px;
+
+// Media Queries ==================================================
+$breakpoints: (
+    'layout-width-wide': $layout-width-wide,
+    'layout-width-content': $layout-width-content,
+    'oxy-xl': 1160px,
+    'oxy-l': 992px,
+    'oxy-m': 768px,
+    'oxy-s': 480px,
+    'sm': 320px,
+    'md': 672px,
+    'lg': 1056px,
+    'xlg': 1312px,
+    'max': 1584px,
+  );

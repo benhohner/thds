@@ -1,4 +1,11 @@
-@use '_utils' as *;
+@use 'sass:map';
+
+@use 'utils' as *;
+@use 'mixins' as *;
+
+//=================================================================
+// Design Tokens ==================================================
+//=================================================================
 
 
 // Spacing ========================================================
@@ -20,3 +27,426 @@ $breakpoints: (
     'xlg': 1312px,
     'max': 1584px,
   );
+
+  /// Font family fallbacks for: IBM Plex Mono, IBM Plex Sans, IBM Plex Sans
+/// Condensed, IBM Plex Sans Hebrew, and IBM Plex Serif
+$font-families: (
+  'sans': unquote("'Poppins', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
+  'serif': unquote("'Rubik', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
+);
+
+/// Get the font-family for an IBM Plex font
+/// @param {String} $name
+@function font-family($name) {
+  @return map.get($font-families, $name);
+}
+
+
+/// Suggested font weights to be used in product
+$font-weights: (
+  'thin': 100,
+  'extra-light': 200,
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700,
+  'extra-bold': 800,
+  'black': 900
+);
+
+/// Retrieve the font-weight value for a given name
+/// @param {String} $weight
+@function font-weight($weight) {
+  @return map.get($font-weights, $weight);
+}
+
+// Colours ========================================================
+$colors: (
+  'primary': #1c2440, // Dark Blue
+  'secondary': #2c676a, // Teal
+  'tertiary': #399455, // Wild Forest Green
+  'accent-1': #2c416e, // Resolution Blue
+  'accent-2': #3a639c, // San Marino Blue
+  'accent-3': #4489c9, // Celestial Blue
+  'accent-4': #76be43, // Business Centre Green
+  'highlight-r': #ff5f5a, // Highlight Red
+  'highlight-o': #f4ac62, // Highlight Orange
+  'highlight-y': #f0e069, // Highlight Yellow
+  'highlight-g': #a5eb72, // Highlight Green
+  'highlight-b': #7ebde1, // Highlight Blue
+  'highlight-v': #a67fdb, // Highlight Violet
+  'ui-1': #020518, // Bluish-black
+  'ui-2': #d6d6d9, // Slate Grey
+  'ui-3': #f3f2f2, // Off-white
+  'ui-4': #fff, // White
+);
+
+/// Retrieve the color value for a given color name
+/// @param {String} $color
+@function color($color) {
+  @return map.get($colors, $color);
+}
+
+
+// Default font size
+$base-font-size: 16px !default;
+
+// Typography ======================================================
+//  #1 12px
+//  #2 14px
+//  #3 16px
+//  #4 18px
+//  #5 20px
+//  #6 24px
+//  #7 28px
+//  #8 32px
+//  #9 36px
+//  #10 42px
+//  #11 48px
+//  #12 54px
+//  #13 60px
+//  #14 68px
+//  #15 76px
+//  #16 84px
+@function get-type-size($step, $ratio: 1) {
+  @if $step == 0 {
+    @return 12px;
+  }
+  // Y_n = Y_n-1 + {INT[(n-2)/4] + 1} * 2
+  @return get-type-size($step - 1) + (floor(($step - 2) / 4 * $ratio) + 1) * 2;
+}
+
+@function get-type-size-rem($step) {
+  @return px-to-rem(get-type-size($step), $base-font-size);
+}
+
+
+@function get-line-height($font-size, $ratio: 1.77777777, $baseline: 8px) {
+  @return round($font-size * $ratio / $baseline) * $baseline / $font-size;
+}
+
+@function get-line-height-rem($font-size, $ratio: 1.77777777, $baseline: 0.5rem) {
+  @return get-line-height(rem-to-px($font-size, $base-font-size), $ratio, rem-to-px($baseline));
+}
+
+/// Include the styles for a given token in any selector in your project. 
+/// @param {String} $token-name - The name of the token to get the styles for
+@mixin type-style($token-name) {
+  @if not map-has-key($tokens, $token-name) {
+    @error 'Unable to find a token with the name: `#{$token-name}`';
+  }
+
+  // Get the token named $token-name is in the tokens list
+  $token: map.get($tokens, $token-name);
+
+  // Include the initial styles for the given token
+  @include map-to-properties(map-remove($token, breakpoints));
+
+  @if map-has-key($token, breakpoints) {
+    // For each breakpoint defined in the type token, apply the
+    // properties for that given breakpoint
+    @each $name, $values in map.get($token, breakpoints) {
+      @include respond(max-width, $name, 0) {
+        @include map-to-properties($values);
+      }
+    }
+  }
+}
+
+
+
+
+// Spacing Scales =================================================
+$line-height: get-line-height(get-type-size(4)); // 1.77777778
+$spacing-base-size: $line-height * get-type-size(4); // 32px
+
+$spacings: (
+  'component-3xl': $spacing-base-size * 3, // 96px
+  'component-2xl': $spacing-base-size * 2.5, // 80px
+  'component-xl': $spacing-base-size * 2, // 64px
+  'component-l': $spacing-base-size * 1.5, // 48px
+  'component-m': $spacing-base-size, // 32px
+  'component-s': $spacing-base-size * 0.75, // 24px
+  'component-xs': $spacing-base-size * 0.5,  // 16px
+  'component-2xs': $spacing-base-size * 0.25, // 8px
+  'component-3xs': $spacing-base-size * 0.125, // 4px
+
+  'layout-3xl': $spacing-base-size * 13, // 416px
+  'layout-2xl': $spacing-base-size * 8, // 256px
+  'layout-xl': $spacing-base-size * 5, // 160px
+  'layout-l': $spacing-base-size * 4, // 128px
+  'layout-m': $spacing-base-size * 3, // 96px
+  'layout-s': $spacing-base-size * 2, // 64px
+  'layout-xs': $spacing-base-size * 1, // 32px
+  'layout-2xs': $spacing-base-size / 2, // 16px
+);
+
+@function spacing($spacing) {
+  @return map.get($spacings, $spacing);
+}
+
+
+// Shadow Boxes ====================================================
+@mixin box-raised {
+  box-shadow: (0 - spacing(component-3xs)) spacing(component-3xs) 0 color(ui-3), inset 0 0 0 1px color(ui-3);
+}
+
+// Theming =========================================================
+$display-color: color(primary);
+$display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT",
+  "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue",
+  Helvetica, Arial, sans-serif;
+$display-weight: 800;
+
+$text-color: color(ui-1);
+$text-font-family: "Rubik", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro",
+  Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica,
+  Arial, sans-serif;
+$text-weight: 400;
+
+
+// Typography Generation ============================================
+/// Other options include:
+/// Breakpoints
+/// breakpoints: (
+///   max: (
+///     font-size: get-type-size-rem(23),
+///     line-height: 1.05,
+///     letter-spacing: -0.96px,
+///   ),
+///   xlg: (
+///     font-size: get-type-size-rem(20),
+///     line-height: 1.07,
+///     letter-spacing: -0.64px,
+///   ),
+///   lg: (
+///     font-size: get-type-size-rem(17),
+///     line-height: 1.11,
+///     letter-spacing: -0.64px,
+///   ),
+///   md: (
+///     font-size: get-type-size-rem(14),
+///     line-height: 1.15,
+///     letter-spacing: 0,
+///   ),
+///   sm: (
+///     font-size: get-type-size-rem(12),
+///     line-height: 1.2,
+///   )
+/// ),
+///
+/// Creating aliases
+/// $productive-heading-01: $heading-01 !default;
+/// Subclassing
+/// If both maps have the same keys, the second map’s values are used in the
+/// map that gets returned.
+/// $expressive-heading-01: map-merge(
+///   $heading-01,
+///   (
+///     line-height: px-to-rem(20),
+///   )
+/// ) !default;
+
+
+// Font Scales ====================================================
+$font-scale-5xl: get-type-size(16); // type-display-2xl
+$font-scale-4xl: get-type-size(14); // type-display-xl
+$font-scale-3xl: get-type-size(12); // type-display-l
+$font-scale-2xl: get-type-size(8); // type-display-m
+$font-scale-xl: get-type-size(7); // type-display-s, type-body-xl
+$font-scale-l: get-type-size(6); // type-body-l, type-heading
+$font-scale-m: get-type-size(4); // type-body, type-subheading
+$font-scale-s: get-type-size(2); // type-body-s
+
+
+$-type-base-display: (
+    color: $display-color,
+    font-family: $display-font-family,
+    font-weight: $display-weight,
+);
+
+$type-display-2xl: map-merge($-type-base-display, (
+  font-weight: 700,
+  font-size: get-type-size(16),
+  line-height: get-line-height(get-type-size(16), 1.15),
+  margin-top: 0,
+  margin-bottom: spacing(layout-s),
+  letter-spacing: -1px,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(11, 0.5),
+      line-height: get-line-height(get-type-size(11, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-display-xl: map-merge($-type-base-display, (
+  font-size: get-type-size(14),
+  line-height: get-line-height(get-type-size(14), 1.2),
+  margin-top: 0,
+  margin-bottom: spacing(layout-xs),
+  letter-spacing: -1px,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(10, 0.5),
+      line-height: get-line-height(get-type-size(10, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-display-l: map-merge($-type-base-display, (
+  font-size: get-type-size(12),
+  line-height: get-line-height(get-type-size(12), 1.2),
+  margin-top: 0,
+  margin-bottom: spacing(layout-xs),
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(9, 0.5),
+      line-height: get-line-height(get-type-size(9, 0.5), 1.15)
+    ),
+  ),
+));
+
+$type-display-m: map-merge($-type-base-display, (
+  font-size: get-type-size(8),
+  line-height: get-line-height(get-type-size(8), 1.5),
+  margin-top: 0,
+  margin-bottom: spacing(layout-xs),
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(8, 0.5),
+      line-height: get-line-height(get-type-size(8, 0.5), 1.25)
+    ),
+  ),
+));
+
+$type-display-s: map-merge($-type-base-display, (
+  font-size: get-type-size(7),
+  line-height: get-line-height(get-type-size(7)),
+  margin-top: 0,
+  margin-bottom: spacing(layout-2xs),
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(7, 0.5),
+      line-height: get-line-height(get-type-size(7, 0.5), 1.25)
+    ),
+  ),
+));
+
+$type-heading: (
+  color: color(tertiary),
+  font-family: $display-font-family,
+  font-weight: 700,
+  font-size: get-type-size(6),
+  line-height: get-line-height(get-type-size(6), 1.4),
+  text-transform: uppercase,
+  letter-spacing: 0.4px,
+  margin-top: 0,
+  margin-bottom: 0,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(6, 0.5),
+      line-height: get-line-height(get-type-size(6, 0.5), 1.7)
+    ),
+  ),
+);
+
+$type-subheading: (
+  color: color(tertiary),
+  font-family: $display-font-family,
+  font-weight: 700,
+  font-size: get-type-size(4),
+  line-height: get-line-height(get-type-size(4), 1.6),
+  margin-top: 0,
+  margin-bottom: 0,
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(4, 0.5),
+      line-height: get-line-height(get-type-size(4, 0.5), 1.6)
+    ),
+  ),
+);
+
+
+$-type-base-body: (
+  color: $text-color,
+  font-family: $text-font-family,
+  font-weight: $text-weight,
+);
+
+$type-body-xl: map-merge($-type-base-body, (
+  font-size: get-type-size(7),
+  line-height: get-line-height(get-type-size(7)),
+  margin-top: 0,
+  margin-bottom: spacing(layout-xs),
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(7, 0.5),
+      line-height: get-line-height(get-type-size(7, 0.5), 1.4)
+    ),
+  ),
+));
+
+
+$type-body-l: map-merge($-type-base-body, (
+  font-size: get-type-size(6),
+  line-height: get-line-height(get-type-size(6)),
+  margin-top: 0,
+  margin-bottom: spacing(layout-xs),
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(6, 0.5),
+      line-height: get-line-height(get-type-size(6, 0.5), 1.7)
+    ),
+  ),
+));
+
+$type-body: map-merge($-type-base-body, (
+  font-size: get-type-size(4),
+  line-height: get-line-height(get-type-size(4)),
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(4, 0.5),
+      line-height: get-line-height(get-type-size(4, 0.5), 1.7)
+    ),
+  ),
+));
+
+$type-body-s: map-merge($-type-base-body, (
+  font-size: get-type-size(2),
+  line-height: get-line-height(get-type-size(2)),
+  margin-top: 0,
+  margin-bottom: spacing(layout-xs),
+  breakpoints: (
+    oxy-s: (
+      font-size: get-type-size(2, 0.5),
+      line-height: get-line-height(get-type-size(2, 0.5), 1.5)
+    ),
+  ),
+));
+
+$type-badge: map-merge($-type-base-body, (
+  font-size: get-type-size(3),
+  line-height: get-line-height(get-type-size(3)),
+  font-weight: font-weight('medium'),
+));
+
+
+$tokens: (
+  -type-base-display: $-type-base-display,
+  -type-base-body: $-type-base-body, 
+  type-display-2xl: $type-display-2xl,
+  type-display-xl: $type-display-xl,
+  type-display-l: $type-display-l,
+  type-display-m: $type-display-m,
+  type-display-s: $type-display-s,
+  type-heading: $type-heading,
+  type-subheading: $type-subheading,
+  type-body-xl: $type-body-xl,
+  type-body-l: $type-body-l,
+  type-body: $type-body,
+  type-body-s: $type-body-s,
+  type-badge: $type-badge,
+);
+

@@ -1,0 +1,62 @@
+@use 'tokens' as *;
+
+/* Reset ==================================== */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Disable auto-enlargement of small text in Safari */
+  text-size-adjust: 100%;
+  /* Enable kerning and optional ligatures */
+  text-rendering: optimizeLegibility;
+  box-sizing: border-box; /* oxygen makes box-sizing inherit, so set here */
+}
+
+body {
+  margin: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  -ms-hyphenate-limit-chars: 10 4 4;
+}
+
+/**
+ * Form elements render using OS defaults,
+ * so font-family inheritance must be specifically declared
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
+  line-height: $line-height;
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style-position: inside;
+}
+
+a {
+  color: inherit;
+}
+
+address {
+  font-style: normal;
+  margin-bottom: spacing(component-xs);
+}

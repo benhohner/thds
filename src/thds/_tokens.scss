@@ -3,17 +3,13 @@
 @use 'utils' as *;
 @use 'mixins' as *;
 
-//=================================================================
-// Design Tokens ==================================================
-//=================================================================
 
-
-// Spacing ========================================================
+// Spacing =========================================================
 $layout-width-wide: 1040px;
 $layout-width-content: 870px;
 $layout-height-header: 74px;
 
-// Media Queries ==================================================
+// Media Queries ===================================================
 $breakpoints: (
     'layout-width-wide': $layout-width-wide,
     'layout-width-content': $layout-width-content,
@@ -28,8 +24,7 @@ $breakpoints: (
     'max': 1584px,
   );
 
-  /// Font family fallbacks for: IBM Plex Mono, IBM Plex Sans, IBM Plex Sans
-/// Condensed, IBM Plex Sans Hebrew, and IBM Plex Serif
+// Font Families ===================================================
 $font-families: (
   'sans': unquote("'Poppins', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
   'serif': unquote("'Rubik', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
@@ -44,16 +39,16 @@ $font-families: (
 
 /// Suggested font weights to be used in product
 $font-weights: (
-  'thin': 100,
-  'extra-light': 200,
-  'light': 300,
+  //'thin': 100,
+  //'extra-light': 200,
+  //'light': 300,
   'regular': 400,
   'medium': 500,
   'semibold': 600,
   'bold': 700,
   'extra-bold': 800,
   'black': 900
-);
+) !default;
 
 /// Retrieve the font-weight value for a given name
 /// @param {String} $weight
@@ -61,7 +56,7 @@ $font-weights: (
   @return map.get($font-weights, $weight);
 }
 
-// Colours ========================================================
+// Colours =========================================================
 $colors: (
   'primary': #1c2440, // Dark Blue
   'secondary': #2c676a, // Teal
@@ -157,7 +152,7 @@ $base-font-size: 16px !default;
 
 
 
-// Spacing Scales =================================================
+// Spacing Scales ==================================================
 $line-height: get-line-height(get-type-size(4)); // 1.77777778
 $spacing-base-size: $line-height * get-type-size(4); // 32px
 
@@ -192,21 +187,8 @@ $spacings: (
   box-shadow: (0 - spacing(component-3xs)) spacing(component-3xs) 0 color(ui-3), inset 0 0 0 1px color(ui-3);
 }
 
-// Theming =========================================================
-$display-color: color(primary);
-$display-font-family: "Poppins", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT",
-  "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue",
-  Helvetica, Arial, sans-serif;
-$display-weight: 800;
 
-$text-color: color(ui-1);
-$text-font-family: "Rubik", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro",
-  Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica,
-  Arial, sans-serif;
-$text-weight: 400;
-
-
-// Typography Generation ============================================
+// Typography Generation ===========================================
 /// Other options include:
 /// Breakpoints
 /// breakpoints: (
@@ -249,7 +231,7 @@ $text-weight: 400;
 /// ) !default;
 
 
-// Font Scales ====================================================
+// Font Scales =====================================================
 $font-scale-5xl: get-type-size(16); // type-display-2xl
 $font-scale-4xl: get-type-size(14); // type-display-xl
 $font-scale-3xl: get-type-size(12); // type-display-l
@@ -260,14 +242,15 @@ $font-scale-m: get-type-size(4); // type-body, type-subheading
 $font-scale-s: get-type-size(2); // type-body-s
 
 
+// Display Type ====================================================
 $-type-base-display: (
-    color: $display-color,
-    font-family: $display-font-family,
-    font-weight: $display-weight,
+    color: color(primary),
+    font-family: font-family(sans),
+    font-weight: font-weight(extra-bold),
 );
 
 $type-display-2xl: map-merge($-type-base-display, (
-  font-weight: 700,
+  font-weight: font-weight(bold),
   font-size: get-type-size(16),
   line-height: get-line-height(get-type-size(16), 1.15),
   margin-top: 0,
@@ -334,10 +317,11 @@ $type-display-s: map-merge($-type-base-display, (
   ),
 ));
 
+// Headings ========================================================
 $type-heading: (
   color: color(tertiary),
-  font-family: $display-font-family,
-  font-weight: 700,
+  font-family: font-family(sans),
+  font-weight: font-weight(bold),
   font-size: get-type-size(6),
   line-height: get-line-height(get-type-size(6), 1.4),
   text-transform: uppercase,
@@ -354,8 +338,8 @@ $type-heading: (
 
 $type-subheading: (
   color: color(tertiary),
-  font-family: $display-font-family,
-  font-weight: 700,
+  font-family: font-family(sans),
+  font-weight: font-weight(bold),
   font-size: get-type-size(4),
   line-height: get-line-height(get-type-size(4), 1.6),
   margin-top: 0,
@@ -368,11 +352,11 @@ $type-subheading: (
   ),
 );
 
-
+// Body Type =======================================================
 $-type-base-body: (
-  color: $text-color,
-  font-family: $text-font-family,
-  font-weight: $text-weight,
+  color: color(ui-1),
+  font-family: font-family(serif),
+  font-weight: font-weight(regular),
 );
 
 $type-body-xl: map-merge($-type-base-body, (
@@ -429,7 +413,7 @@ $type-body-s: map-merge($-type-base-body, (
 $type-badge: map-merge($-type-base-body, (
   font-size: get-type-size(3),
   line-height: get-line-height(get-type-size(3)),
-  font-weight: font-weight('medium'),
+  font-weight: font-weight(medium),
 ));
 
 

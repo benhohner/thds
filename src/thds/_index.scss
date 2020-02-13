@@ -735,7 +735,7 @@ structure:
 
 .thds-statistic__unit {
   font-size: $font-scale-l;
-  font-weight: 500;
+  font-weight: font-weight(medium);
 }
 
 .thds-statistic__description {
@@ -781,14 +781,14 @@ structure:
   @include type-style(type-body-xl);
   margin: 0;
   text-align: center;
-  font-weight: 500;
+  font-weight: font-weight(medium);
 }
 
 .thds-blockquote__attribution {
   @include type-style(type-subheading);
   display: block;
   text-align: center;
-  font-weight: 400;
+  font-weight: font-weight(regular);
 }
 
 /* Complex Component

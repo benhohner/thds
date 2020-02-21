@@ -7,7 +7,7 @@
 // Spacing =========================================================
 $layout-width-wide: 1040px !default;
 $layout-width-content: 870px !default;
-$layout-height-header: 74px !default;
+$layout-height-header: 72px !default;
 
 // Media Queries ===================================================
 $breakpoints: (
@@ -26,8 +26,8 @@ $breakpoints: (
 
 // Font Families ===================================================
 $font-families: (
-  'sans': unquote("'Poppins', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
-  'serif': unquote("'Rubik', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
+  'display': unquote("'Public Sans', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
+  'text': unquote("'Public Sans', Frutiger, 'Frutiger Linotype', Univers, Calibri, 'Gill Sans', Myriad, 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, 'Helvetica Neue', Helvetica, sans-serif"),
 ) !default;
 
 /// Get the font-family for an IBM Plex font
@@ -56,22 +56,14 @@ $font-weights: (
 
 // Colours =========================================================
 $colors: (
-  'primary': #1c2440, // Dark Blue
-  'secondary': #2c676a, // Teal
-  'tertiary': #399455, // Wild Forest Green
-  'accent-1': #2c416e, // Resolution Blue
-  'accent-2': #3a639c, // San Marino Blue
-  'accent-3': #4489c9, // Celestial Blue
-  'accent-4': #76be43, // Business Centre Green
-  'highlight-r': #ff5f5a, // Highlight Red
-  'highlight-o': #f4ac62, // Highlight Orange
-  'highlight-y': #f0e069, // Highlight Yellow
-  'highlight-g': #a5eb72, // Highlight Green
-  'highlight-b': #7ebde1, // Highlight Blue
-  'highlight-v': #a67fdb, // Highlight Violet
-  'ui-1': #020518, // Bluish-black
-  'ui-2': #d6d6d9, // Slate Grey
-  'ui-3': #f3f2f2, // Off-white
+  'primary': #241A04, // Dark Brown
+  'secondary': #00723F, // Dark Green
+  'tertiary': #10388E, // Blue
+  'accent-1': #3F3725, // Light Brown
+  'accent-2': #50B848, // Light Green 
+  'ui-1': #161004, // Darkest Brown
+  'ui-2': #F0EBE0, // Light Beige
+  'ui-3': #F3F0E7, // Lighter Beige
   'ui-4': #fff, // White
 ) !default;
 
@@ -229,21 +221,26 @@ $spacings: (
 /// ) !default;
 
 
-// Font Scales =====================================================
-$font-scale-5xl: get-type-size(16) !default; // type-display-2xl
-$font-scale-4xl: get-type-size(14) !default; // type-display-xl
-$font-scale-3xl: get-type-size(12) !default; // type-display-l
-$font-scale-2xl: get-type-size(8) !default; // type-display-m
-$font-scale-xl: get-type-size(7) !default; // type-display-s, type-body-xl
-$font-scale-l: get-type-size(6) !default; // type-body-l, type-heading
-$font-scale-m: get-type-size(4) !default; // type-body, type-subheading
-$font-scale-s: get-type-size(2) !default; // type-body-s
-
-
+//  #1 12px
+//  #2 14px
+//  #3 16px
+//  #4 18px
+//  #5 20px
+//  #6 24px
+//  #7 28px
+//  #8 32px
+//  #9 36px
+//  #10 42px
+//  #11 48px
+//  #12 54px
+//  #13 60px
+//  #14 68px
+//  #15 76px
+//  #16 84px
 // Display Type ====================================================
 $-type-base-display: (
-    color: color(primary),
-    font-family: font-family(sans),
+    color: color(ui-1),
+    font-family: font-family(display),
     font-weight: font-weight(extra-bold),
 ) !default;
 
@@ -253,7 +250,7 @@ $type-display-2xl: map-merge($-type-base-display, (
   line-height: get-line-height(get-type-size(16), 1.15),
   margin-top: 0,
   margin-bottom: spacing(layout-s),
-  letter-spacing: -1px,
+  letter-spacing: -2px,
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(11, 0.5),
@@ -267,7 +264,7 @@ $type-display-xl: map-merge($-type-base-display, (
   line-height: get-line-height(get-type-size(14), 1.2),
   margin-top: 0,
   margin-bottom: spacing(layout-xs),
-  letter-spacing: -1px,
+  letter-spacing: -1.5px,
   breakpoints: (
     oxy-s: (
       font-size: get-type-size(10, 0.5),
@@ -277,8 +274,8 @@ $type-display-xl: map-merge($-type-base-display, (
 )) !default;
 
 $type-display-l: map-merge($-type-base-display, (
-  font-size: get-type-size(12),
-  line-height: get-line-height(get-type-size(12), 1.2),
+  font-size: get-type-size(10),
+  line-height: get-line-height(get-type-size(10), 1.2),
   margin-top: 0,
   margin-bottom: spacing(layout-xs),
   breakpoints: (
@@ -317,26 +314,26 @@ $type-display-s: map-merge($-type-base-display, (
 
 // Headings ========================================================
 $type-heading: (
-  color: color(tertiary),
-  font-family: font-family(sans),
-  font-weight: font-weight(bold),
-  font-size: get-type-size(6),
-  line-height: get-line-height(get-type-size(6), 1.4),
+  color: color(accent-2),
+  font-family: font-family(display),
+  font-weight: font-weight(extra-bold),
+  font-size: get-type-size(3),
+  line-height: get-line-height(get-type-size(3), 1.4),
   text-transform: uppercase,
-  letter-spacing: 0.4px,
+  letter-spacing: 0.6px,
   margin-top: 0,
   margin-bottom: 0,
   breakpoints: (
     oxy-s: (
-      font-size: get-type-size(6, 0.5),
-      line-height: get-line-height(get-type-size(6, 0.5), 1.7)
+      font-size: get-type-size(3, 0.5),
+      line-height: get-line-height(get-type-size(3, 0.5), 1.7)
     ),
   ),
 ) !default;
 
 $type-subheading: (
-  color: color(tertiary),
-  font-family: font-family(sans),
+  color: color(accent-2),
+  font-family: font-family(display),
   font-weight: font-weight(bold),
   font-size: get-type-size(4),
   line-height: get-line-height(get-type-size(4), 1.6),
@@ -353,7 +350,7 @@ $type-subheading: (
 // Body Type =======================================================
 $-type-base-body: (
   color: color(ui-1),
-  font-family: font-family(serif),
+  font-family: font-family(text),
   font-weight: font-weight(regular),
 ) !default;
 
@@ -411,7 +408,7 @@ $type-body-s: map-merge($-type-base-body, (
 $type-badge: map-merge($-type-base-body, (
   font-size: get-type-size(3),
   line-height: get-line-height(get-type-size(3)),
-  font-weight: font-weight(medium),
+  font-weight: font-weight(bold),
 )) !default;
 
 

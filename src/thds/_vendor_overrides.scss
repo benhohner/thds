@@ -2,6 +2,12 @@
 @use 'tokens' as *;
 
 /* Oxygen Builder Overrides ============================== */
+.form-group br{
+  /*Remove automatically created breaks in form filter*/
+  display: none;
+}
+
+/* Oxygen Builder Overrides ============================== */
 .ct-section > .ct-section-inner-wrap,
 .ct-div-block {
   /* Make vertical margins collapse */

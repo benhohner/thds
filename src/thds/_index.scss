@@ -6,7 +6,6 @@
 @use 'reset' as *;
 @use 'vendor_overrides' as *;
 
-
 // BEM Syntax
 // block-name__element-name_modifier-name_sub-modifier-name
 // .button_theme_blast
@@ -32,12 +31,9 @@
 // - State
 //     - .button_disabled
 
-
-
 // Dev Styles ================================
-// @include baseline;
-// @include outline_all;
-
+//@include baseline;
+//@include outline_all;
 
 /* Utility Classes */
 // Fixes lining numbers in Playfair Display or other fonts with lining nums.
@@ -46,7 +42,7 @@
   font-size: 1.333em;
 }
 
-/* Component
+/* Atom
 -- Typography -----------------------------------------------------------------
 Typography classes. Not namespaced.
 
@@ -56,7 +52,7 @@ html {
 }
 
 @each $selector-name, $_ in $tokens {
-  @if slice($selector-name, 1, 1) != '-' {
+  @if slice($selector-name, 1, 1) != "-" {
     .#{$selector-name} {
       @include type-style($selector-name);
     }
@@ -66,7 +62,6 @@ html {
 body {
   @include type-style(type-body);
 }
-
 
 .type-body p,
 .type-body ul,
@@ -80,8 +75,7 @@ ol.type-body {
   margin-bottom: spacing(layout-xs);
 }
 
-
-/* Component
+/* Atom
 -- Container ------------------------------------------------------------------
 A container to wrap all elements. Note: not a semantic "section" use a div for that.
 
@@ -128,7 +122,6 @@ modifiers:
   }
 }
 
-
 .ct-inner-content > .thds-container:first-child {
   /* prevent first container from having top padding */
   margin-top: 0;
@@ -156,7 +149,7 @@ modifiers:
   margin-bottom: 0;
 }
 
-/* Component
+/* Atom
 -- Columns ------------------------------------------------------------------
 This component modifies the existing flexbox grid system from Oxygen Builder.
 Mostly consists of modifiers, since there are already good styles from Oxygen.
@@ -183,7 +176,7 @@ modifiers:
   margin-bottom: 0;
 }
 
-/* Component
+/* Atom
 -- Card ------------------------------------------------------------------
 A raised element to contain semantically related information and set it apart
 from the background.
@@ -202,36 +195,17 @@ modifiers:
   position: relative;
   min-width: spacing(layout-l);
   min-height: spacing(layout-m);
-  box-shadow: inset 0 0 0 1px color(secondary);
   padding: spacing(component-m);
   transition: all 250ms ease-in-out;
+  margin: spacing(component-s) 0 spacing(component-s) 0;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 
   > :last-child {
     margin-bottom: 0;
   }
 
-  &:before {
-    display: block;
-    content: ' ';
-    position: absolute;
-    background-color: color(ui-3);
-    width: 100%;
-    height: 100%;
-    top: spacing(component-3xs);
-    right: spacing(component-3xs);
-    z-index: -1;
-    transition: all 250ms ease-in-out;
-  }
-
   &:hover {
-    border-color: color(secondary);
     transition: all 250ms ease-in-out;
-  }
-
-  &:hover:before {
-    top: 0;
-    right: 0;
-    transition: all 250ms;
   }
 
   &_clickable {
@@ -239,15 +213,21 @@ modifiers:
   }
 
   &_clickable:hover {
-    box-shadow: inset 0 0 0 4px color(secondary);
+    box-shadow: 0 0 0 1px color(accent-2);
   }
 
   &_clickable:active {
-    box-shadow: inset 0 0 0 6px color(secondary);
+    box-shadow: 0 0 0 1px color(secondary);
+  }
+
+  @include respond(below, oxy-s) {
+    &_clickable {
+      box-shadow: 0 0 0 1px color(ui-3);
+    }
   }
 }
 
-/* Component
+/* Atom
 -- Button ---------------------------------------------------------------------
 
 modifiers:
@@ -261,36 +241,16 @@ structure:
   @include type-style(type-heading);
   display: block;
   width: auto;
-  width: max-content;
+  width: fit-content;
   margin: spacing(component-s) 0;
   background-color: color(secondary);
   color: color(ui-4);
   text-decoration: none;
   text-align: center;
-  padding: (spacing(component-xs)) (spacing(component-s)) spacing(component-xs);
+  padding: (spacing(component-xs)) (spacing(component-m)) spacing(component-xs);
   cursor: pointer;
   position: relative;
   transition: all 250ms ease-in-out;
-}
-
-.thds-button:before {
-  content: ' ';
-  display: block;
-  width: spacing(component-2xs);
-  border-radius: 50%;
-  background-color: color(tertiary);
-  height: spacing(component-2xs);
-  position: absolute;
-  bottom: calc(0% - (#{spacing(component-2xs)} / 2));
-  left: calc(50% - (#{spacing(component-2xs)} / 2));
-  transition: all 300ms ease-in-out;
-  transform: rotate(-180deg);
-}
-
-.thds-button:hover:before {
-  transition: all 300ms ease-in-out;
-  border-radius: 0;
-  transform: rotate(45deg);
 }
 
 .thds-button:hover {
@@ -300,21 +260,20 @@ structure:
 }
 
 .thds-button_secondary {
+  background-color: transparent;
   color: color(ui-1);
-  background-color: color(ui-4);
 }
 
 .thds-button_secondary:hover {
+  background-color: color(ui-3);
   color: color(ui-1);
 }
 
-.thds-button_block {
-  display: block;
-  width: auto;
+.thds-button_align_centered {
+  margin: spacing(component-s) auto;
 }
 
-
-/* Component
+/* Atom
 -- List -----------------------------------------------------------------------
 
 structure:
@@ -344,28 +303,8 @@ modifiers:
 .thds-list_bulleted .thds-list__item {
   padding-left: (spacing(component-s));
   position: relative;
+  list-style-type: disc;
 }
-
-.thds-list_bulleted .thds-list__item:before {
-  content: '';
-  display: inline-block;
-  position: absolute;
-  left: 0;
-  top: calc(0.5em + 4px);
-  @include triangle_equilateral(6px, color(tertiary));
-  transform: rotate(-50deg);
-}
-
-.thds-list_bulleted .thds-list__item:after {
-  content: '';
-  display: inline-block;
-  position: absolute;
-  left: 2px;
-  top: calc(0.5em + 1px);
-  @include triangle_equilateral(6px, color(primary));
-  transform: rotate(-50deg);
-}
-
 
 .thds-list_display_inline {
   display: -webkit-box;
@@ -374,7 +313,7 @@ modifiers:
   flex-wrap: wrap;
 }
 
-/* Component
+/* Atom
 -- Embedded SVG ---------------------------------------------------------------
 
 structure:
@@ -398,50 +337,7 @@ modifiers:
   height: spacing(component-l);
 }
 
-.thds-embedded-svg:before {
-  content: ' ';
-  position: absolute;
-  top: calc(60% - #{spacing(component-m) / 2});
-  left: calc(30% - #{spacing(component-m) / 2});
-}
-
-:nth-of-type(3n-2) > .thds-embedded-svg:nth-of-type(3n-2):before {
-   @include shape(parallelogram, spacing(component-m), color(secondary));
-}
-
-:nth-of-type(3n-2) > .thds-embedded-svg:nth-of-type(3n-1):before {
-   @include shape(circle, spacing(component-m), color(tertiary));
-}
-
-:nth-of-type(3n-2) > .thds-embedded-svg:nth-of-type(3n):before {
-   @include shape(triangle, spacing(component-m), color(accent-2));
-}
-
-:nth-of-type(3n-1) > .thds-embedded-svg:nth-of-type(3n-2):before {
-   @include shape(circle, spacing(component-m), color(tertiary));
-}
-
-:nth-of-type(3n-1) > .thds-embedded-svg:nth-of-type(3n-1):before {
-   @include shape(square, spacing(component-m), color(secondary));
-}
-
-:nth-of-type(3n-1) > .thds-embedded-svg:nth-of-type(3n):before {
-   @include shape(parallelogram, spacing(component-m), color(tertiary));
-}
-
-:nth-of-type(3n) > .thds-embedded-svg:nth-of-type(3n-2):before {
-   @include shape(triangle, spacing(component-m), color(accent-3));
-}
-
-:nth-of-type(3n) > .thds-embedded-svg:nth-of-type(3n-1):before {
-   @include shape(parallelogram, spacing(component-m), color(accent-2));
-}
-
-:nth-of-type(3n) > .thds-embedded-svg:nth-of-type(3n):before {
-   @include shape(square, spacing(component-m), color(secondary));
-}
-
-/* Component
+/* Atom
 -- Image ----------------------------------------------------------------------
 
 structure:
@@ -453,8 +349,7 @@ structure:
   margin-bottom: spacing(layout-2xs);
 }
 
-
-/* Component
+/* Atom
 -- Badge ----------------------------------------------------------------------
 
 structure:
@@ -464,7 +359,7 @@ modifiers:
     a.thds-badge_clickable (makes a clickable badge with an a element)
 */
 .thds-badge {
-  @include type-style('type-badge');
+  // @include type-style('type-badge');
   background: color(ui-2);
   padding: spacing(component-3xs) spacing(component-2xs);
   border-radius: spacing(component-3xs);
@@ -472,17 +367,17 @@ modifiers:
 }
 
 .thds-badge_clickable {
-  text-decoration:none;
+  text-decoration: none;
   background: color(secondary);
   color: color(ui-4);
 }
 
 .thds-badge_clickable:hover {
   color: color(ui-4);
-  background: color(accent-3);
+  background: color(accent-2);
 }
 
-/* Component
+/* Atom
 -- Link ----------------------------------------------------------------------
 
 structure:
@@ -491,17 +386,10 @@ structure:
 .thds-link {
   color: color(tertiary);
   text-decoration: none;
-  background-image: linear-gradient(90deg, color(tertiary) 0%, color(tertiary) 100%);
-  background-repeat: no-repeat;
-  background-size: calc(100% - 0px) 0.08em;
-  background-position: 100% 100%;
-  transition: background-size 0.18s ease-in-out, color 0.18s ease-in-out, padding 0.18s ease-in-out, border-radius 0.18s ease-in-out;
 
   &:hover {
-    color: color(ui-4);
-    background-size: 100% 100%;
-    // padding: 0 spacing(component-2xs);
-    // border-radius: spacing(component-3xs);
+    color: color(tertiary);
+    text-decoration: underline;
   }
 
   &_simple {
@@ -516,7 +404,7 @@ structure:
   }
 }
 
-/* Component
+/* Atom
 -- Hero -----------------------------------------------------------------------
 
 vars:
@@ -532,7 +420,7 @@ structure:
 modifiers:
     .thds-hero_content_bottom
 */
-$hero-height: 79vh;
+$hero-height: spacing(layout-3xl);
 $hero-image-height_mobile: 45vh;
 
 .thds-hero {
@@ -544,18 +432,17 @@ $hero-image-height_mobile: 45vh;
 }
 
 .thds-hero__image {
-  width:69.75%;
+  width: 100%;
   height: inherit;
   object-fit: cover;
   display: block;
-  margin: 0 auto 0 0;
+  margin: 0;
 }
 
 .thds-hero__content {
   position: absolute;
   z-index: 1;
-  max-width: ($layout-width-content + (2 * spacing(component-l)));
-  text-align: center;
+  width: ($layout-width-content + (2 * spacing(component-l)));
   background-color: color(ui-4);
   padding: spacing(component-l);
 }
@@ -570,9 +457,16 @@ $hero-image-height_mobile: 45vh;
   margin-bottom: 0;
 }
 
-@include respond(below, ($layout-width-content + (2 * spacing(component-l)) + (2 * spacing(layout-xs)))) {
+@include respond(
+  below,
+  (
+    $layout-width-content + (2 * spacing(component-l)) +
+      (2 * spacing(layout-xs))
+  )
+) {
   /* NOTE: must recalculate if page width changes from 1160px */
   .thds-hero__content {
+    width: auto;
     margin-left: spacing(layout-xs);
     margin-right: spacing(layout-xs);
     padding-bottom: spacing(layout-xs);
@@ -580,21 +474,14 @@ $hero-image-height_mobile: 45vh;
   }
 }
 
-.thds-hero_content_bottom {
-  display: block !important;
-}
-
-
 .thds-hero_content_bottom .thds-hero__content {
-  position: absolute;
-  bottom: 10%;
-  right: spacing(component-xl);
+  position: static;
   text-align: left;
+  margin-top: 0 - spacing(layout-l);
 }
-
 
 @include respond(below, "oxy-s") {
-  .thds-hero{
+  .thds-hero {
     display: block !important;
     height: auto;
   }
@@ -608,7 +495,8 @@ $hero-image-height_mobile: 45vh;
   .thds-hero_content_bottom .thds-hero__content {
     margin-left: 0;
     margin-right: 0;
-    padding: spacing(layout-s) spacing(layout-2xs) spacing(layout-2xs) spacing(layout-2xs);
+    padding: spacing(layout-s) spacing(layout-2xs) spacing(layout-2xs)
+      spacing(layout-2xs);
     position: relative;
     bottom: auto;
     right: auto;
@@ -616,52 +504,14 @@ $hero-image-height_mobile: 45vh;
   }
 }
 
-/* Component
--- Hero -----------------------------------------------------------------------
-
-structure:
-    <any typography or span>.thds-highlight.thds-highlight_color_r
-
-modifiers:
-    .thds-highlight_color_r
-    .thds-highlight_color_o
-    .thds-highlight_color_y
-    .thds-highlight_color_g
-    .thds-highlight_color_b
-    .thds-highlight_color_v
+/* Atom
+-- Map -----------------------------------------------------------------------
 */
-.thds-highlight {
-  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-g) 0.125em, color(highlight-g) 100%);
-  background-repeat: no-repeat;
-  background-size: calc(100%) 1.03em;
-  background-position: 100% 100%;
+.thds-map {
+  margin-bottom: spacing(component-s);
 }
 
-.thds-highlight_color_r {
-  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-r) 0.125em, color(highlight-r) 100%);
-}
-
-.thds-highlight_color_o {
-  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-o) 0.125em, color(highlight-o) 100%);
-}
-
-.thds-highlight_color_y {
-  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-y) 0.125em, color(highlight-y) 100%);
-}
-
-.thds-highlight_color_g {
-  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-g) 0.125em, color(highlight-g) 100%);
-}
-
-.thds-highlight_color_b {
-  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-b) 0.125em, color(highlight-b) 100%);
-}
-
-.thds-highlight_color_v {
-  background-image: linear-gradient(90deg, transparent 0.125em, color(highlight-v) 0.125em, color(highlight-v) 100%);
-}
-
-/* Component
+/* Molecule
 -- Text Block -----------------------------------------------------------------
 Basic building block for most body text.
 
@@ -715,8 +565,7 @@ modifiers:
   @include type-style(type-body-l);
 }
 
-
-/* Component
+/* Molecule
 -- Statistic ------------------------------------------------------------------
 To display numbers, stats, or metrics prominently.
 
@@ -729,12 +578,12 @@ structure:
 */
 .thds-statistic__number {
   @include type-style(-type-base-body);
-  font-size: $font-scale-3xl;
-  line-height: get-line-height($font-scale-3xl);
+  font-size: get-type-size(12);
+  line-height: get-line-height(get-type-size(12));
 }
 
 .thds-statistic__unit {
-  font-size: $font-scale-l;
+  font-size: get-type-size(6);
   font-weight: font-weight(medium);
 }
 
@@ -744,7 +593,35 @@ structure:
   margin-top: 0;
 }
 
-/* Component
+/* Molecule
+-- inline-entry -----------------------------------------------------------------------
+
+structure:
+    span.thds-inline-entry
+      span.thds.inline-entry__date
+      span.thds.inline-entry__title
+
+*/
+
+.thds-inline-entry {
+  display: inline-block;
+  margin-bottom: spacing(component-s);
+}
+
+.thds-inline-entry:last-child {
+  margin-bottom: 0;
+}
+
+.thds-inline-entry__date {
+  @extend .thds-badge;
+  margin-right: spacing(component-2xs);
+}
+
+.thds-inline-entry__title {
+  font-weight: font-weight(bold);
+}
+
+/* Molecule
 -- Portfolio Service Overview -------------------------------------------------
 Convenience component comprised of only utility classes. Used to introduce each
 section of a portfolio item. Could be used for other things.
@@ -768,7 +645,7 @@ structure:
   @include type-style(type-body-l);
 }
 
-/* Component
+/* Molecule
 -- Blockquote -----------------------------------------------------------------
 
 structure:
@@ -791,7 +668,7 @@ structure:
   font-weight: font-weight(regular);
 }
 
-/* Complex Component
+/* Molecule
 == Icon Block ==========================================================
 Building block for text with an inline SVG icon (not added via css,
 meaning the icon has semantic meaning, not just a bullet point.)
@@ -832,227 +709,18 @@ modifiers:
   padding-left: spacing(component-2xl) * 2 - 48px;
 }
 
-/* Complex Component
-== Item Overview ============================================================
-Used for introducing complex items. Used on portfolio pages to introduce
-the piece.
-
-structure:
-    div.thds-item-overview
-        columns.thds-item-overview__intro-row
-            div.thds-item-overview__intro-wrapper
-                rich-text.thds-item-overview__intro-rich-text.type-body
-            div.thds-item-overview__aside-wrapper
-        div.thds-item-overview__subject-image-wrapper
-                    img.thds-image.thds-item-overview__subject-image
-                h2.thds-item-overview__list-heading.type-heading
-                rich-text.thds-item-overview__list-rich-text.type-body
-                    ul.thds-list.thds-item-overview__list
-        columns.thds-item-overview__statistics-row
-            div.thds-item-overview__statistic-wrapper
-                rich-text.thds-statistic.thds-item-overview__statistic-rich-text
-                    [...]
-            div.thds-item-overview__statistic-wrapper
-                rich-text.thds-statistic.thds-item-overview__statistic-rich-text
-                    [...]
-            div.thds-item-overview__statistic-wrapper
-                rich-text.thds-statistic.thds-item-overview__statistic-rich-text
-                    [...]
-
-*/
-.thds-item-overview__subject-image-wrapper {
-  min-height: spacing(component-3xl);
-}
-
-.thds-image.thds-item-overview__subject-image {
-  text-align: left;
-  margin: 0;
-  margin-bottom: spacing(layout-xs);
-}
-
-.thds-item-overview__statistic-wrapper {
-  width: 33.33%;
-}
-
-@include respond(below, oxy-m) {
-  .thds-item-overview__aside-wrapper {
-    margin-top: spacing(layout-xs);
-  }
-
-  .thds-item-overview__aside-wrapper,
-  .thds-item-overview__statistic-rich-text {
-    text-align: center;
-  }
-
-  .thds-item-overview__statistic-wrapper {
-    margin: spacing(layout-xs) auto;
-    width: 100%;
-  }
-
-  .thds-item-overview__statistic-wrapper:last-of-type {
-    margin-bottom: 0;
-  }
-
-  .thds-image.thds-item-overview__subject-image {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-/* Complex Component
+/* Molecule
 == CTA ========================================================================
 
 structure:
     div.thds-cta
-    h_.thds-cta__message
-    a.thds-button.thds-cta__button
 */
 .thds-cta {
-  @include box-raised;
-  max-width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+  box-shadow: 0 0 0 1px color(accent-2);
   text-align: center;
-  padding-top: spacing(component-s);
-  padding-bottom: spacing(component-s);
-  padding-left: spacing(component-l);
-  padding-right: spacing(component-l);
-  overflow: hidden; /* prevent margin collapse */
 }
 
-@include respond(below, oxy-m, 0) {
-  .thds-cta {
-    max-width: 100%;
-  }
-}
-
-.thds-cta__message {
-  @include type-style(type-body-l);
-  margin-bottom: 0;
-}
-
-.thds-cta__button {
-  margin-bottom: spacing(component-2xs);
-}
-
-/* Complex Component TODO
-== Section Header =============================================================
-
-structure:
-    section.thds-section.thds-section-header
-    h2.thds-section-header__title.type-heading
-    p.thds-section-header__tagline.type-display-2xl
-    img.thds-section-header__image
-
-*/
-.thds-section-header {
-  display: block;
-  position: relative;
-}
-
-.thds-section-header__wrapper {
-  overflow: hidden;
-  margin-right: 0;
-}
-
-.thds-section-header__title {
-  @include type-style(type-heading);
-}
-
-.thds-section-header__tagline {
-  @include type-style(type-display-xl);
-  margin-top: spacing(component-2xl);
-  margin-bottom: 0;
-}
-
-.thds-section-header__image {
-  position: absolute;
-  top: 0;
-  left: spacing(layout-2xl);
-  z-index: -1;
-  height: 198px;
-  /*border-bottom: 12px solid $brand-3;*/
-  object-fit: cover;
-  object-position: left;
-}
-
-/* Complex Component TODO
-== Item Breakdown =============================================================
-
-structure:
-    columns.thds-item-breakdown
-        div.thds-item-breakdown__title-wrapper
-            h3.thds-item-breakdown__title
-        div.thds-item-breakdown__sub-item-wrapper
-            ul.thds-item-breakdown__sub-items.thds-list
-            li.thds-item-breakdown__sub-item.thds-list__item.type-body
-        div.thds-item-breakdown__description-wrapper
-            text-block.thds-item-breakdown__description
-*/
-.thds-item-breakdown {
-  margin-bottom: spacing(layout-xs);
-}
-
-.thds-item-breakdown:last-of-type {
-  margin-bottom: 0;
-}
-
-.thds-item-breakdown__title {
-  @include type-style(type-display-l);
-  /* optically align to top of section */
-  margin-top: spacing(component-xs) * -1;
-}
-
-.thds-item-breakdown__sub-item {
-  position: relative;
-  padding-left: 28px;
-}
-
-.thds-item-breakdown__sub-item:before {
-  /* TODO extract to element */
-  content: url('/wp-content/uploads/2h/img/marker-check.svg');
-  position: absolute;
-  top: 1px;
-  left: 0;
-  width: 16px;
-}
-
-@include respond(below, oxy-l, 0) {
-  /* compensate for oxygen off-by-one error,  */
-  .thds-item-breakdown__sub-items {
-    margin-bottom: spacing(component-xs);
-  }
-}
-
-.thds-item-breakdown__description {
-  @include type-style(type-body);
-}
-
-/* Complex Component TODO
-== Feature Detail =============================================================
-
-structure:
-    columns.thds-feature-detail
-        div.thds-feature-detail__column
-            img.thds-feature-detail__image
-        div.thds-feature-detail__column
-            h3.type-display-l.thds-feature-detail__name
-            p.type-body-l.thds-feature-detail__summary
-            ul.thds-feature-list [...]
-
-*/
-.thds-feature-detail__name {
-  margin-top: 0;
-}
-
-.thds-feature-detail__image {
-  display: block;
-  max-width: 66.66%;
-  margin: 0 auto;
-}
-
-/* Complex Component TODO
+/* Molecule
 == Logo Grid ==================================================================
 
 structure:
@@ -1109,7 +777,47 @@ structure:
 //   transition: filter 0.3s;
 // }
 
-/* Component
+/* Molecule
+-- Text Block -----------------------------------------------------------------
+Filter List Item
+
+structure:
+    div.thds-filter
+      label.thds-filter__description
+      input.thds-filter__radio
+      label.thds-filter__radio-label
+*/
+.thds-filter {
+  border-bottom: 1px solid color(ui-3);
+}
+.thds-filter__description {
+  @include type-style(type-heading);
+  color: color(primary);
+  display: inline-block;
+  padding-top: spacing(component-s);
+  padding-bottom: spacing(component-s);
+  padding-left: spacing(component-s);
+  padding-right: spacing(component-s);
+}
+.thds-filter__radio {
+  display: none;
+}
+.thds-filter__radio-label {
+  display: inline-block;
+  padding-top: spacing(component-s);
+  padding-bottom: spacing(component-s);
+  padding-left: spacing(component-s);
+  padding-right: spacing(component-s);
+
+  &:hover {
+    background: color(ui-3);
+  }
+}
+input:checked + .thds-filter__radio-label {
+  background: color(ui-3);
+}
+
+/* Organism
 -- Header ------------------------------------------------------------------
 Override the oxygen default header
 
@@ -1167,7 +875,9 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
 
 .thds-header__nav .menu-item.current-menu-item > a,
 .thds-header__nav .menu-item.current-menu-parent > a {
-  color: color(tertiary) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(
+    tertiary
+  ) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__nav .menu-item a {
@@ -1175,21 +885,28 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
   padding: 0 25px;
 
   transition: all 0.3s;
-  color: color(primary) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(
+    primary
+  ) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__nav .menu-item a:hover {
-  color: color(accent-4) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(
+    accent-1
+  ) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
   transition: all 0.3s;
 }
 
-
 .thds-header__nav .menu-item.thds-header__highlight a {
-  color: color(ui-4) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(
+    ui-4
+  ) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__nav .menu-item.thds-header__highlight a:hover {
-  color: color(accent-4) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
+  color: color(
+    accent-1
+  ) !important; /* override #_nav_menu-19-6.oxy-nav-menu:not(.oxy-nav-menu-open) .sub-menu .menu-item a */
 }
 
 .thds-header__highlight a {
@@ -1200,12 +917,9 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
   background-color: color(primary);
 }
 
-
 .thds-header__nav .oxy-nav-menu-hamburger-line {
   background-color: color(primary);
 }
-
-
 
 .thds-header .oxy-nav-menu-open .sub-menu {
   background-color: color(ui-3);
@@ -1229,7 +943,7 @@ header.oxy-header.oxy-header-wrapper.oxy-sticky-header.oxy-overlay-header.thds-h
   padding: 0;
 }
 
-/* Component
+/* Organism
 -- footer ------------------------------------------------------------------
 Override the oxygen default header
 
@@ -1270,7 +984,7 @@ footer.thds-footer
 }
 
 .thds-footer .thds-link_simple:hover {
- color: color(tertiary);
+  color: color(tertiary);
 }
 
 .thds-footer__row-wrapper:nth-of-type(3) {
@@ -1282,13 +996,9 @@ footer.thds-footer
   color: color(ui-3);
 }
 
-
-
 .thds-footer__copyright :last-child {
   margin-bottom: 0;
 }
-
-
 
 /* ============================================================================
 ====== Custom Theming =========================================================
